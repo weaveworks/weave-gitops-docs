@@ -1,0 +1,10 @@
+
+h2 {
+    color: #556991;
+  }
+
+  :root {
+    --md-primary-fg-color:        #32324b;
+    --md-primary-fg-color--light: #556991;
+    --md-primary-fg-color--dark:  #00d2ff;
+  }

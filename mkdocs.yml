@@ -1,0 +1,53 @@
+site_name: Weave GitOps Docs
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/weaveworks
+    - icon: fontawesome/brands/slack
+      link: https://slack.weave.works/
+    - icon: fontawesome/brands/github
+      link: https://github.com/weaveworks/
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/c/WeaveWorksInc
+
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - attr_list
+  - meta 
+theme: 
+  name: material
+  custom_dir: overrides
+  features:
+    - navigation.tabs
+  font:
+    text: Roboto
+    code: Roboto Mono
+  #favicon: images/favicon.png
+  highlightjs: true
+  language: 'en'
+  logo: 'images/weave-logo.png'
+  palette:
+    accent: deep orange
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Home: index.md
+  - Install: install.md 
+  - Get Started: 
+        - quick-start/overview.md
+        - quick-start/key-concepts.md 
+  - Architecture: architecture.md
+  - About: 
+        - About/about.md
+        - About/editions.md
+
+
+   
+  
+  
