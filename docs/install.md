@@ -1,6 +1,34 @@
 
 # Installing Weave GitOps
 
+## Core vs Team vs Enterprise editions
+
+Icon to distinguish between the editions.  
+
+* :material-vector-circle: - Core edition only
+* :material-microsoft-teams: - Team edition only
+* :fontawesome-solid-globe:  - Enterprise edition only
+
+Differences between editions can be shown in tabs on the feature description: 
+
+=== "Core edition :material-vector-circle:"
+
+    * Sed sagittis eleifend rutrum
+    * Donec vitae suscipit est
+    * Nulla tempor lobortis orci
+
+=== "Team edition :material-microsoft-teams:"
+
+    1. Sed sagittis eleifend rutrum
+    2. Donec vitae suscipit est
+    3. Nulla tempor lobortis orci
+
+=== "Enterprise edition :fontawesome-solid-globe:"
+
+    1. Sed sagittis eleifend rutrum
+    2. Donec vitae suscipit est
+    3. Nulla tempor lobortis orci
+
 ### Simple Note
 
 !!! note "Phasellus posuere in sem ut cursus"
@@ -29,6 +57,8 @@
     Etiam ipsum quam, mattis in purus vitae, lacinia fermentum enim.
 
 ### Code snippets
+
+
 
 
 
