@@ -47,7 +47,7 @@ extra_css:
   - stylesheets/extra.css
 
 repo_url: https://github.com/weaveworks/weave-gitops-docs
-edit_uri: edit/master/docs/
+edit_uri: edit/main/docs/
 
 nav:
   - Home: index.md
