@@ -8,7 +8,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id pellentesque l
 
 <br>
 <br>
-<br>
 
 [Get Started](#){: .md-button .md-button--primary }  [Download](#){: .md-button .md-button--primary }
 

@@ -35,7 +35,7 @@ theme:
     text: Roboto
     code: Roboto Mono
   
-# favicon: images/favicon.png
+#favicon: images/favicon.png
   
     highlightjs: true
   language: 'en'
