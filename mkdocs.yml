@@ -34,13 +34,10 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  
-
-#favicon: images/favicon.png
-  
     highlightjs: true
   language: 'en'
   logo: 'images/weave-logo.png'
+  favicon: 'images/favicon_150px.png'
   palette:
     accent: deep orange
 extra_css:
