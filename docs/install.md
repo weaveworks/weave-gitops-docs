@@ -6,7 +6,7 @@
 Icon to distinguish between the editions.  
 
 * :material-vector-circle: - Core edition only
-* :material-microsoft-teams: - Team edition only
+* :material-account-group: - Team edition only
 * :fontawesome-solid-globe:  - Enterprise edition only
 
 Differences between editions can be shown in tabs on the feature description: 
@@ -17,7 +17,7 @@ Differences between editions can be shown in tabs on the feature description:
     * Donec vitae suscipit est
     * Nulla tempor lobortis orci
 
-=== "Team edition :material-microsoft-teams:"
+=== "Team edition :material-account-group:"
 
     1. Sed sagittis eleifend rutrum
     2. Donec vitae suscipit est
