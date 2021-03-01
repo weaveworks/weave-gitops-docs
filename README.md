@@ -3,11 +3,11 @@ This repo contains the documentation for Weave GitOps.  The docs uses the MKdocs
 
 Workflow for creating docs: 
 
-* Write the docs in markdown
-* Build site and verify changes
-* Push changes to branch and create a PR
-* Verify changes and merge branch
-* GitHub Actions builds and deploys site
+1. Write the docs in markdown
+2. Build site and verify changes
+3. Push changes to branch and create a PR
+4. Verify changes and merge branch
+5. GitHub Actions builds and deploys site
 
 See [Mkdocs-Material theme documentation](https://squidfunk.github.io/mkdocs-material/reference/abbreviations/) for information on markdown formats and other supported styles. 
 
