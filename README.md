@@ -4,7 +4,7 @@ This repo contains the documentation for Weave GitOps.  The docs uses the MKdocs
 Workflow for creating docs: 
 
 * Write the docs in markdown
-* Build site and verify changes on a local build
+* Build site and verify changes
 * Push changes to branch and create a PR
 * Verify changes and merge branch
 * GitHub Actions builds and deploys site
@@ -29,7 +29,7 @@ If already installed, upgrade with:
 
 `pip install --upgrade pip`
 
-If you need to install pip for the first time, download get-pip.py. Then run the following command to install it:
+If you need to install pip for the first time, download [get-pip.py](https://bootstrap.pypa.io/get-pip.py). Then run the following command to install it:
 
 `python get-pip.py`
 
@@ -56,7 +56,7 @@ The theme assumes that you have a mkdocs already installed. Run the following:
 
 For other installation methods, see [MKdocs-Materials installation](https://squidfunk.github.io/mkdocs-material/getting-started/) options. 
 
-**Note:** Weaveworks has sponsored the insider's version of the theme. To use that, you'll need the GH_TOKEN kept in 1Password in the secure notes section.
+**Note:** Weaveworks is a sponsor of the insider's version of the theme. To use that, you'll need the GH_TOKEN kept in 1Password in the secure notes section. 
 
 ## Building the docs
 Clone this repo into a directory, cd into it and run: 
@@ -67,7 +67,7 @@ Open your browser to: http://127.0.0.1:8000
 
 For more options and commands see the [MKdocs](https://www.mkdocs.org/).
 
-##Versioning the docs
+## Versioning the docs
 
 **Coming Soon**
 
