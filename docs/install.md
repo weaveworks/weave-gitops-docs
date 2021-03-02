@@ -6,7 +6,7 @@
 Icon to distinguish between the editions.  
 
 * :material-vector-circle: - Core edition only
-* :material-account-group: - Team edition only
+* :material-account-group: -  Team edition only
 * :fontawesome-solid-globe:  - Enterprise edition only
 
 Differences between editions can be shown in tabs on the feature description: 
