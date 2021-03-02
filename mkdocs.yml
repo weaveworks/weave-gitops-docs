@@ -3,6 +3,8 @@ site_name: Weave GitOps Docs
 extra:
   version:
     provider: mike
+    version_selector: true
+
 
   social:
     - icon: fontawesome/brands/twitter
