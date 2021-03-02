@@ -4,6 +4,8 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 For the material theme docs:[material theme](https://squidfunk.github.io/mkdocs-material/)
 
+check versions
+
 ## Commands
 
 * `mkdocs new [dir-name]` - Create a new project.
