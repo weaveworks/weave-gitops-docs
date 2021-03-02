@@ -73,16 +73,6 @@ Open your browser to: http://127.0.0.1:8000
 For more options and commands see the [MKdocs](https://www.mkdocs.org/).
 
 ## Versioning the docs
-The Mkdocs-Material comes with a utility called 'Mike' that versions the docs. It's a bit rudimentary, but does the job by: 
-
-* adding a drop down to the header
-* sets the default latest version to a specific release
-* copies the latest docs and puts them into a folder on the repo
-
-### Suggested workflow for versioning
-Mike, the versioning tool assumes that you will never go back to a prior version and edit it. If you need to edit something in a prior version, you'll have to delete that version set first and recreate it. 
-
-Each version of the docs therefore should be kept in a separate branch so that Git has a record of it.
 
 **TBD**
 
