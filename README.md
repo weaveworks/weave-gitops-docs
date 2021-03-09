@@ -1,4 +1,27 @@
-# Building the Weave GitOps Docs
+# Weave GitOps Docs
+
+## Table of Contents
+
+<!-- https://marketplace.visualstudio.com/items?itemName=huntertran.auto-markdown-toc -->
+- [Weave GitOps Docs](#weave-gitops-docs)
+  - [Table of Contents](#table-of-contents)
+  - [Building the Weave GitOps Docs](#building-the-weave-gitops-docs)
+    - [Build environment](#build-environment)
+      - [Build environment: tl;dr](#build-environment-tldr)
+      - [pipenv](#pipenv)
+      - [pyenv](#pyenv)
+        - [Installing pyenv](#installing-pyenv)
+        - [Configuring pyenv](#configuring-pyenv)
+        - [Verify your pyenv configuration](#verify-your-pyenv-configuration)
+      - [Install dependencies for this repository](#install-dependencies-for-this-repository)
+        - [Install python and dependency PyPi packages](#install-python-and-dependency-pypi-packages)
+      - [Install pipenv for your pyenv environment](#install-pipenv-for-your-pyenv-environment)
+      - [Check your MKdocs installation](#check-your-mkdocs-installation)
+      - [Upgrade Mkdocs-Material Theme](#upgrade-mkdocs-material-theme)
+    - [Building the docs](#building-the-docs)
+    - [Versioning the docs](#versioning-the-docs)
+
+## Building the Weave GitOps Docs
 
 This repo contains the documentation for Weave GitOps.  The docs uses the MKdocs framework with the MKmaterial theme. Any changes pushed to the main branch in the repo are automatically built to a [GitHub Pages website](https://weaveworks.github.io/weave-gitops-docs/).
 
@@ -12,7 +35,7 @@ Workflow for creating docs:
 
 See [Mkdocs-Material theme documentation](https://squidfunk.github.io/mkdocs-material/reference/abbreviations/) for information on markdown formats and other supported styles.
 
-## Build environment
+### Build environment
 
 MKdocs requires Python 3.8.
 
@@ -23,7 +46,7 @@ You will need either Python 3.8 or `pyenv` and its build dependencies locally in
 An excellent overview of using `pyenv` and `pipenv` together can be found here:
 [Python Environment 101](https://towardsdatascience.com/python-environment-101-1d68bda3094d)
 
-### Build environment: tl;dr
+#### Build environment: tl;dr
 
 - Install and configure `pyenv`
 - Install and configure `pipenv`
@@ -31,25 +54,25 @@ An excellent overview of using `pyenv` and `pipenv` together can be found here:
 - Activate the build virtual environment with `pipenv shell`
 - Build and serve locally with `mkdocs serve`
 
-### pipenv
+#### pipenv
 
 - Linux: Install from your package manager
 - Mac OS: Install from MacPorts or HomeBrew
 - Any supported OS: You can also install using `pip install --user pipenv` (not recommended!)
 
-### pyenv
+#### pyenv
 
-#### Installing pyenv
+##### Installing pyenv
 
 - Linux: Install from your package manager
 - Mac OS: Install from HomeBrew (MacPorts doesn't currently have a port)
 - Any supported OS: You can also install from source
 
-#### Configuring pyenv
+##### Configuring pyenv
 
 Configure your shell following [#Installation](https://github.com/pyenv/pyenv#installation) instructions.
 
-#### Verify your pyenv configuration
+##### Verify your pyenv configuration
 
 After installing and configuring `pyenv` for your shell, check your system `python` and `pip` versions; they may well be different from those required by this repository:
 
@@ -60,9 +83,9 @@ Python 3.9.2
 pip 20.3.1 from /usr/lib/python3.9/site-packages/pip (python 3.9)
 ```
 
-### Install dependencies for this repository
+#### Install dependencies for this repository
 
-#### Install python and dependency PyPi packages
+##### Install python and dependency PyPi packages
 
 Change into this directory and run `pipenv --no-site-packages sync`, approving the Python installation if required. Depending on your internet connection, this may take several minutes:
 
@@ -115,7 +138,7 @@ pip 20.2.3 from $HOME/.pyenv/versions/3.8.7/lib/python3.8/site-packages/pip (pyt
 
 `$HOME` should be your home directory.
 
-### Install pipenv for your pyenv environment
+#### Install pipenv for your pyenv environment
 
 ```shell
 ➜ pip install pipenv
@@ -133,8 +156,8 @@ Ensure you are using the `pyenv`s version of `pipenv`:
 
 ```shell
 ➜ pyenv init
-# Load pyenv automatically by appending
-# the following to ~/.zshrc:
+## Load pyenv automatically by appending
+## the following to ~/.zshrc:
 
 eval "$(pyenv init -)"
 ➜ which pipenv
@@ -144,7 +167,7 @@ $HOME/.pyenv/shims/pipenv
 pipenv, version 2020.11.15
 ```
 
-### Check your MKdocs installation
+#### Check your MKdocs installation
 
 Activate the `pipenv` environment with `pipenv shell`:
 
@@ -165,13 +188,13 @@ mkdocs, version 1.1.2 from $HOME/.local/share/virtualenvs/weave-gitops-docs-2-f3
 
 For other installation methods, see [MKdocs-Materials installation](https://squidfunk.github.io/mkdocs-material/getting-started/) options. These are unsupported and not recommended, but may be useful in e.g. a container build environment.
 
-### Upgrade Mkdocs-Material Theme
+#### Upgrade Mkdocs-Material Theme
 
 To upgrade the theme with new features run:
 
 `pipenv install mkdocs-material==$NEW_VERSION`
 
-## Building the docs
+### Building the docs
 
 - Clone this repo into a directory;
 - Change directory into it;
@@ -206,6 +229,6 @@ If you used `pipenv shell`, you can leave the virtual environment with `Ctrl+D`.
 
 For more options and commands see the [MKdocs](https://www.mkdocs.org/).
 
-## Versioning the docs
+### Versioning the docs
 
 TBD
