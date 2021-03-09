@@ -23,6 +23,14 @@ You will need either Python 3.8 or `pyenv` and its build dependencies locally in
 An excellent overview of using `pyenv` and `pipenv` together can be found here:
 [Python Environment 101](https://towardsdatascience.com/python-environment-101-1d68bda3094d)
 
+### Build environment: tl;dr
+
+- Install and configure `pyenv`
+- Install and configure `pipenv`
+- Install build dependencies with `pipenv --no-site-packages sync`
+- Activate the build virtual environment with `pipenv shell`
+- Build and serve locally with `mkdocs serve`
+
 ### pipenv
 
 - Linux: Install from your package manager
