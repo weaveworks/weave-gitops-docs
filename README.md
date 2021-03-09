@@ -23,7 +23,7 @@ $ pip --version
 pip 20.0.2 from /usr/local/lib/python3.8/site-packages/pip (python 3.8)
 ```
 
-If you already have Python installed, it's recommended that you use [Pyenv](https://github.com/pyenv/pyenv-installer) to manage Python versions on your machine.
+It's recommended that you use [Pyenv](https://github.com/pyenv/pyenv) to manage Python versions on your machine.
 
 MkDocs supports Python versions 3.5, 3.6, 3.7, 3.8, and pypy3.
 
