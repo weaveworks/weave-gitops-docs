@@ -12,40 +12,100 @@ Workflow for creating docs:
 
 See [Mkdocs-Material theme documentation](https://squidfunk.github.io/mkdocs-material/reference/abbreviations/) for information on markdown formats and other supported styles.
 
-## Install Python, MKdocs and MKdocs-Material Theme
+## Build environment
 
-You'll need Python 3.8 installed for MKdocs. Check if you already have python and a package manger with:
+### pyenv
+
+You may already have a local Python installation. MKdocs requires Python 3.8.
+
+It's recommended that you use [pyenv](https://github.com/pyenv/pyenv) to manage Python versions on your machine.
+
+#### Installing pyenv
+
+- Linux: Install from your package manager or source
+- Mac OS: Install from HomeBrew or source (MacPorts doesn't currently have a port)
+
+#### Configuring pyenv
+
+Configure your shell following [#Installation](https://github.com/pyenv/pyenv#installation) instructions.
+
+#### Verify your pyenv configuration
+
+After installing and configuring `pyenv` for your shell, check your system `python`, `pip`, and `pipenv` versions; they may well be different from those required by this repository:
 
 ```shell
-$ python --version
-Python 3.8.2
-$ pip --version
-pip 20.0.2 from /usr/local/lib/python3.8/site-packages/pip (python 3.8)
+➜ python --version
+Python 3.9.2
+➜ pip --version
+pip 20.3.1 from /usr/lib/python3.9/site-packages/pip (python 3.9)
+➜ pipenv --version
+pipenv, version 2020.11.15
 ```
 
-It's recommended that you use [Pyenv](https://github.com/pyenv/pyenv) to manage Python versions on your machine.
+### Install python and pip versions for this repository
 
-MkDocs supports Python versions 3.5, 3.6, 3.7, 3.8, and pypy3.
+Change into this directory and run `pyenv install`. Depending on your internet connection, this may take several minutes:
 
-## Install Pip
+```shell
+➜ cd weave-gitops-docs
+➜ pyenv install
+Downloading Python-3.8.7.tar.xz...
+-> https://www.python.org/ftp/python/3.8.7/Python-3.8.7.tar.xz
+Installing Python-3.8.7...
+Installed Python-3.8.7 to /home/ciaran/.pyenv/versions/3.8.7
 
-If already installed, upgrade with:
+➜
+```
 
-`pip install --upgrade pip`
+Check you are running the correct versions:
 
-If you need to install pip for the first time, download [get-pip.py](https://bootstrap.pypa.io/get-pip.py). Then run the following command to install it:
+```shell
+➜ which python
+$HOME/.pyenv/shims/python
+➜ which pip
+$HOME/.pyenv/shims/pip
+➜ python --version
+Python 3.8.7
+➜ pip --version
+pip 20.2.3 from $HOME/.pyenv/versions/3.8.7/lib/python3.8/site-packages/pip (python 3.8)
+```
 
-`python get-pip.py`
+`$HOME` should be your home directory.
 
-## Install Python
+### Install pipenv for your pyenv environment
 
-Install Python by downloading an installer appropriate for your system from [python.org](https://www.python.org) and running it.
+```shell
+➜ pip install pipenv
+Collecting pipenv
+  Using cached pipenv-2020.11.15-py2.py3-none-any.whl (3.9 MB)
+```
 
-## Install MkDocs
+If a newer release of `pip` is available, you may get a warning:
 
-Install the mkdocs package using pip:
+```text
+WARNING: You are using pip version 20.2.3; however, version 21.0.1 is available.
+```
 
-`pip install mkdocs`
+Ensure you are using the `pyenv`s version of `pipenv`:
+
+```shell
+➜ pyenv init
+# Load pyenv automatically by appending
+# the following to ~/.zshrc:
+
+eval "$(pyenv init -)"
+➜ which pipenv
+$HOME/.pyenv/shims/pipenv
+
+➜ pipenv --version
+pipenv, version 2020.11.15
+```
+
+### Install MkDocs and Mkdocs-Material Theme
+
+Install the mkdocs package using pipenv install:
+
+`pipenv install`
 
 You should now have the mkdocs command installed on your system. Run `mkdocs
 --version` to check that everything worked okay.
@@ -55,21 +115,13 @@ $ mkdocs --version
 mkdocs, version 0.15.3
 ```
 
-## Install the Mkdocs-Material Theme
-
-The theme assumes that you have a mkdocs already installed. Run the following:
-
-`pip install mkdocs-material`
-
 For other installation methods, see [MKdocs-Materials installation](https://squidfunk.github.io/mkdocs-material/getting-started/) options.
 
-**Note:** Weaveworks is a sponsor of the insider's version of the theme. To use that, you'll need the GH_TOKEN kept in 1Password in the secure notes section.
-
-## Upgrade Mkdocs-Material Theme
+### Upgrade Mkdocs-Material Theme
 
 To upgrade the theme with new features run:
 
-`pip install mkdocs-material -U`
+`pipenv install mkdocs-material==$NEW_VERSION`
 
 ## Building the docs
 
