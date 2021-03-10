@@ -1,26 +1,5 @@
 # Weave GitOps Docs
 
-## Table of Contents
-
-<!-- https://marketplace.visualstudio.com/items?itemName=huntertran.auto-markdown-toc -->
-- [Weave GitOps Docs](#weave-gitops-docs)
-  - [Table of Contents](#table-of-contents)
-  - [Building the Weave GitOps Docs](#building-the-weave-gitops-docs)
-    - [Build environment](#build-environment)
-      - [Build environment: tl;dr](#build-environment-tldr)
-      - [pipenv](#pipenv)
-      - [pyenv](#pyenv)
-        - [Installing pyenv](#installing-pyenv)
-        - [Configuring pyenv](#configuring-pyenv)
-        - [Verify your pyenv configuration](#verify-your-pyenv-configuration)
-      - [Install dependencies for this repository](#install-dependencies-for-this-repository)
-        - [Install python and dependency PyPi packages](#install-python-and-dependency-pypi-packages)
-      - [Install pipenv for your pyenv environment](#install-pipenv-for-your-pyenv-environment)
-      - [Check your MKdocs installation](#check-your-mkdocs-installation)
-      - [Upgrade Mkdocs-Material Theme](#upgrade-mkdocs-material-theme)
-    - [Building the docs](#building-the-docs)
-    - [Versioning the docs](#versioning-the-docs)
-
 ## Building the Weave GitOps Docs
 
 This repo contains the documentation for Weave GitOps.  The docs uses the MKdocs framework with the MKmaterial theme. Any changes pushed to the main branch in the repo are automatically built to a [GitHub Pages website](https://weaveworks.github.io/weave-gitops-docs/).
