@@ -1,0 +1,2 @@
+#Tell GitHub to not show changes to `Pipfile.lock` in diffs
+Pipfile.lock linguist-generated
