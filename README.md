@@ -1,4 +1,5 @@
 # Building the Weave GitOps Docs
+
 This repo contains the documentation for Weave GitOps.  The docs uses the MKdocs framework with the MKmaterial theme. Any changes pushed to the main branch in the repo are automatically built to a [GitHub Pages website](https://weaveworks.github.io/weave-gitops-docs/). 
 
 Workflow for creating docs: 
