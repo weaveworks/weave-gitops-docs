@@ -21,7 +21,7 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Getting Started',
+          label: 'Introduction',
         },
         {
           href: 'https://github.com/facebook/docusaurus',

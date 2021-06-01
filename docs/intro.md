@@ -2,34 +2,19 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Introduction
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Weave GitOps is a continuous delivery runtime that enables GitOps. Based on the popular [CNCF Flux](https://fluxcd.io) project, Weave GitOps is 
+a highly effective way to enable GitOps pipelines and automation for continuous delivery of Kubernetes and Cloud Native applications.
 
 ## Getting Started
 
-Get started by **creating a new site**.
+See [Getting Started](/docs/getting-started)
 
-Or **try Docusaurus immediately** with **[new.docusaurus.io](https://new.docusaurus.io)**.
+## Features
 
-## Generate a new site
+* Continuous Delivery based on Git - every change in your cluster is based on a PR and Commit. The result is auditable, effective delivery with instant rollbacks
+* Designed for Kubernetes - Weave GitOps works seamlessly with Kubernetes clusters
+* Declarative automation - by using declarative automation, Weave GitOps can ensure that your cluster state is continuously reconciled to the required configuration
+* Works with your existing tools - effective built in integrations with Helm, Kustomize, Github and Github Actions, Gitlab, and others
 
-Generate a new Docusaurus site using the **classic template**:
-
-```shell
-npx @docusaurus/init@latest init my-website classic
-```
-
-## Start your site
-
-Run the development server:
-
-```shell
-cd my-website
-
-npx docusaurus start
-```
-
-Your site starts at `http://localhost:3000`.
-
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
