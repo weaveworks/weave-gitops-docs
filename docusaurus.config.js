@@ -2,8 +2,8 @@
 module.exports = {
   title: 'Weave Gitops Docs',
   tagline: 'Weave Gitops Platform',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/weave-gitops-docs/',
+  url: 'https://docs.gitops.weave.works/',
+  baseUrl: '',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon_150px.png',
