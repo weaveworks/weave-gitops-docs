@@ -1,9 +1,9 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Weave Gitops Docs',
-  tagline: 'Weave Gitops Platform',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/weave-gitops-docs/',
+  tagline: 'Weave Gitops',
+  url: 'https://docs.gitops.weave.works',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon_150px.png',
@@ -21,7 +21,7 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Getting Started',
+          label: 'Introduction',
         },
         {
           href: 'https://github.com/facebook/docusaurus',
