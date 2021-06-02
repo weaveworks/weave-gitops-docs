@@ -3,7 +3,7 @@ module.exports = {
   title: 'Weave Gitops Docs',
   tagline: 'Weave Gitops Platform',
   url: 'https://docs.gitops.weave.works/',
-  baseUrl: '',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon_150px.png',
