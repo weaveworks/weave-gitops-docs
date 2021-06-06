@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Getting Started
 
-Let's get an app deployed with **Weave Gitops** in less than 5 minutes.
+Let's get an app deployed with **Weave Gitops**.
 
 **This is Work In Progress**
 
@@ -15,7 +15,7 @@ via GitOps. Further guides will then show how to move that workload into staging
 
 ## Pre-requisites
 
-At the moment, Weave GitOps supports Github. Gitlab and other Git providers are coming soon.
+At the moment, Weave GitOps supports [Github](https://github.com). [Gitlab](https://gitlab.com) and other Git providers are coming soon.
 
 To get this working you need:
 1. A Github account 
@@ -35,7 +35,7 @@ Make sure that the token is in your environment as `GITHUB_TOKEN`
 
 Please follow the instructions in the  [CLI installation page](/docs/installation) to install the command-line tool.
 
-## Steps
+## Getting Started Steps
 
 1. If necessary create a kind cluster:
 ```console
