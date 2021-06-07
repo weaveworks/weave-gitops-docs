@@ -80,7 +80,7 @@ Use "wego app [command] --help" for more information about a command.
 point to a repository that you want GitOps'ed into the cluster and use `wego app add .`
 
 ```console
-Associates an additional git repository with a wego cluster so that its contents may be managed via GitOps
+Associates an additional application in a git repository with a wego cluster so that its contents may be managed via GitOps
 
 Usage:
   wego app add [--name <name>] [--url <url>] [--branch <branch>] [--path <path within repository>] [--private-key <keyfile>] <repository directory> [flags]
@@ -89,6 +89,7 @@ Examples:
 wego add .
 
 Flags:
+      --app-config-url string    URL of external repository (if any) which will hold automation manifests; NONE to store only in the cluster
       --branch string            Branch to watch within git repository (default "main")
       --deployment-type string   deployment type [kustomize, helm] (default "kustomize")
       --dry-run                  If set, 'wego add' will not make any changes to the system; it will just display the actions that would have been taken
@@ -96,7 +97,6 @@ Flags:
       --name string              Name of remote git repository
       --owner string             Owner of remote git repository
       --path string              Path of files within git repository (default "./")
-      --private                  Set access control on the repo (default true)
       --private-key string       Private key that provides access to git repository (default "/Users/paul/.ssh/id_rsa")
       --url string               URL of remote git repository
 
