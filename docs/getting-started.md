@@ -202,7 +202,7 @@ Commiting and pushing wego resources for application...
 Pushing app manifests to repository
 ```
 
-8. This will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](/docs/goat))
+8. This will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](/docs/gitops-automation))
 
 This directory contains the GitOps Automation configuration. 
 
@@ -220,7 +220,7 @@ If you do a tree inside this directory you should see something like:
 5 directories, 2 files
 ```
 
-You can find out more about these YAMLs [here](/docs/goat).
+You can find out more about these YAMLs [here](/docs/gitops-automation).
 
 8. Wait for the workload to show up in the cluster:
 ```console
