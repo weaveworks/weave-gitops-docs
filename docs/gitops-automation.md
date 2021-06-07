@@ -54,7 +54,7 @@ It defines the name of the application and the git url location of the repositor
 
 ### `app-gitops-runtime.yaml`
 This file defines the flux runtime flow to deploy the application into a specific target. 
-For example, by default this uses the [flux kustomize](https://docs.fluxcd.io/projects/helm-operator/en/stable/get-started/using-kustomize/) support
+For example, by default this uses the [flux kustomize](https://fluxcd.io/docs/components/kustomize/kustomization/) support
 to deploy your application manifests into the cluster. Other options include [managing helm charts](/docs/examples/helm).
 ```yaml
 ---
