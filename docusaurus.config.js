@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Weave Gitops Docs',
-  tagline: 'Weave Gitops Platform',
+  title: 'Weave Gitops',
+  tagline: 'Weave Gitops Documentation',
   url: 'https://docs.gitops.weave.works/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -24,7 +24,19 @@ module.exports = {
           label: 'Introduction',
         },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          type: 'doc',
+          docId: 'installation',
+          position: 'left',
+          label: 'Installation',
+        },
+        {
+          type: 'doc',
+          docId: 'getting-started',
+          position: 'left',
+          label: 'Getting Started',
+        },
+        {
+          href: 'https://github.com/weaveworks/weave-gitops-docs',
           label: 'GitHub',
           position: 'right',
         },
