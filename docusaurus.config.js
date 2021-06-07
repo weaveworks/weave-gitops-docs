@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Weave Gitops',
-  tagline: 'Weave Gitops Documentation',
+  title: 'Weave GitOps',
+  tagline: 'Weave GitOps Documentation',
   url: 'https://docs.gitops.weave.works/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -11,9 +11,9 @@ module.exports = {
   projectName: 'weave-gitops-docs', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'Weave Gitops',
+      title: 'Weave GitOps',
       logo: {
-        alt: 'Weave Gitops Logo',
+        alt: 'Weave GitOps Logo',
         src: 'img/weave-logo.png',
       },
       items: [
