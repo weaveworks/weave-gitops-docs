@@ -15,7 +15,9 @@ via GitOps. Further guides will then show how to move that workload into staging
 
 ## Pre-requisites
 
-At the moment, Weave GitOps supports [Github](https://github.com). [Gitlab](https://gitlab.com) and other Git providers are coming soon.
+At the moment, Weave GitOps supports [Github](https://github.com). 
+
+*[Gitlab](https://gitlab.com) and other Git providers are coming soon.*
 
 To get this working you need:
 1. A Github account 
@@ -26,6 +28,7 @@ To get this working you need:
 ### Github setup
 
 Weave GitOps works in a "pull" mode, which means that the GitOps runtime pulls the cluster configuration from Git. To do this, it needs an SSH key with access to your Github account. This key will be stored in the cluster as a secret, so it is recommended to create a new key for this.
+
 Please follow the [Github SSH key setup guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
 
 You also need a Github Token with `repo` access. Please follow the [Github guide](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
@@ -36,7 +39,7 @@ Make sure that the token is in your environment as `GITHUB_TOKEN`
 
 Please follow the instructions in the  [CLI installation page](/docs/installation) to install the command-line tool.
 
-## Getting Started Steps
+## Getting Started with a Kind cluster and Podinfo workload
 
 1. If necessary create a kind cluster:
 ```console
@@ -67,49 +70,38 @@ wego install
 
 You should see:
 ```
-namespace/flux-system created
-namespace/wego-system created
-customresourcedefinition.apiextensions.k8s.io/alerts.notification.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/buckets.source.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/gitrepositories.source.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/helmcharts.source.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/helmreleases.helm.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/helmrepositories.source.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/kustomizations.kustomize.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/providers.notification.toolkit.fluxcd.io created
-customresourcedefinition.apiextensions.k8s.io/receivers.notification.toolkit.fluxcd.io created
-serviceaccount/helm-controller created
-serviceaccount/kustomize-controller created
-serviceaccount/notification-controller created
-serviceaccount/source-controller created
-clusterrole.rbac.authorization.k8s.io/crd-controller-wego-system created
-clusterrolebinding.rbac.authorization.k8s.io/cluster-reconciler-wego-system created
-clusterrolebinding.rbac.authorization.k8s.io/crd-controller-wego-system created
-service/notification-controller created
-service/source-controller created
-service/webhook-receiver created
-deployment.apps/helm-controller created
-deployment.apps/kustomize-controller created
-deployment.apps/notification-controller created
-deployment.apps/source-controller created
-networkpolicy.networking.k8s.io/allow-egress created
-networkpolicy.networking.k8s.io/allow-scraping created
-networkpolicy.networking.k8s.io/allow-webhooks created
-customresourcedefinition.apiextensions.k8s.io/apps.wego.weave.works created
+✚ generating manifests
+✔ manifests build completed
+► installing components in wego-system namespace
+◎ verifying installation
 ```
 
-4. Wait for Weave GitOps controllers to come online:
+The install will pause while the containers are loaded into the cluster. Once the system is verified you will see:
+
+```
+✔ notification-controller: deployment ready
+✔ image-reflector-controller: deployment ready
+✔ image-automation-controller: deployment ready
+✔ source-controller: deployment ready
+✔ kustomize-controller: deployment ready
+✔ helm-controller: deployment ready
+✔ install finished
+```
+
+4. You can see what has been installed:
 
 ```console
 kubectl get all --namespace wego-system
 ```
-You need to wait until all the controllers are running, e.g.:
+
 ```
-NAME                                       READY   STATUS    RESTARTS   AGE
-helm-controller-69667f94bc-dhhtg           1/1     Running   0          52s
-kustomize-controller-6977b8cdd4-874n9      1/1     Running   0          52s
-notification-controller-5c4d48f476-zf7kj   1/1     Running   0          52s
-source-controller-b4b88948f-lk8rd          1/1     Running   0          52s
+NAME                                           READY   STATUS    RESTARTS   AGE
+helm-controller-69667f94bc-52p8f               0/1     Running   0          110s
+image-automation-controller-6cd8b8fb95-4ft79   1/1     Running   0          110s
+image-reflector-controller-55fb577bf9-r2c98    1/1     Running   0          110s
+kustomize-controller-6977b8cdd4-4m9wr          1/1     Running   0          110s
+notification-controller-5c4d48f476-5cv64       1/1     Running   0          110s
+source-controller-b4b88948f-47b5r              1/1     Running   0          110s
 ```
 
 5. Fork the podinfo repository:
@@ -133,7 +125,7 @@ We want to use the YAMLs in `deploy/webapp`.
 We need to configure Weave GitOps to deploy the application from `deploy/webapp` on branch `master` of the repository at `.` using your private key
 
 ```console
-wego add . --path=deploy/webapp --branch=master  --private-key=<created private key file>
+wego app add . --path=deploy/webapp --branch=master  --private-key=<created private key file>
 ```
 
 
@@ -145,7 +137,7 @@ done
 
 Checking cluster status... FluxInstalled
 
-✚ deploy key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK9/sPRvz8t5sExOC/PAdiVKIX3g3rwh0q5f24djQ2T0
+✚ deploy key: ssh-ed25519 xxxx/yyyy
 
 ► secret 'podinfo' created in 'wego-system' namespace
 ---
@@ -166,10 +158,10 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: podinfo-dotwego-targets-kind-kind
+  name: kind-kind-podinfo
   namespace: wego-system
 spec:
-  interval: 5m0s
+  interval: 1m0s
   path: ./wego/targets/kind-kind
   prune: true
   sourceRef:
@@ -181,10 +173,10 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: podinfo-dotwego-apps-podinfo-deploy-webapp
+  name: podinfo-deploy-webapp
   namespace: wego-system
 spec:
-  interval: 5m0s
+  interval: 1m0s
   path: ./wego/apps/podinfo-deploy-webapp
   prune: true
   sourceRef:
@@ -199,7 +191,7 @@ metadata:
   name: podinfo-deploy-webapp
   namespace: wego-system
 spec:
-  interval: 5m0s
+  interval: 1m0s
   path: ./deploy/webapp
   prune: true
   sourceRef:
@@ -217,7 +209,8 @@ This directory contains the GitOps Automation configuration.
 
 If you do a tree inside this directory you should see something like:
 ```
-.
+$ tree .wego/
+.wego/
 ├── apps
 │   └── podinfo-deploy-webapp
 │       └── app.yaml
@@ -226,19 +219,20 @@ If you do a tree inside this directory you should see something like:
         └── podinfo-deploy-webapp
             └── podinfo-deploy-webapp-gitops-runtime.yaml
 
+5 directories, 2 files
 ```
-Notice that wego has automatically named the app `podinfo-deploy-webapp`. You can change this with the `--name` option.
+Notice that wego has automatically named the app `podinfo-deploy-webapp`. You can change this with the `--name` option on the `wego app add` command.
 
-You can find out more about these YAMLs [here](/docs/gitops-automation).
+You can find out more about these YAMLs and the `.wego` directory [here](/docs/gitops-automation).
 
 8. Wait for the workload to show up in the cluster:
 ```console
 kubectl get pods --namespace webapp
 ```
 ```
-NAME                        READY   STATUS    RESTARTS   AGE
-backend-5cd878f8dd-rl64h    1/1     Running   0          10m
-frontend-86d5db4677-9twpt   1/1     Running   0          9m32s
+NAME                       READY   STATUS    RESTARTS   AGE
+backend-5cd878f8dd-6dhsg   1/1     Running   0          2m32s
+frontend-ff74574fc-4jfpt   1/1     Running   0          2m32s
 ```
 
 9. You can use the `wego app status` command to see the reconciliation:
