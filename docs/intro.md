@@ -9,7 +9,7 @@ a highly effective way to enable GitOps pipelines and automation for continuous 
 
 ## Getting Started
 
-See [Getting Started](/docs/getting-started)
+See [Installation](/docs/installation) and [Getting Started](/docs/getting-started)
 
 ## Features
 
