@@ -15,25 +15,89 @@ via GitOps. Further guides will then show how to move that workload into staging
 
 ## Pre-requisites
 
+This guide is for Mac and Linux only (so far!).
 At the moment, Weave GitOps supports [Github](https://github.com). 
 
 *[Gitlab](https://gitlab.com) and other Git providers are coming soon.*
 
 To get this working you need:
 1. A Github account 
-2. A Github token and SSH key
-3. kubectl installed 
-4. A development Kubernetes cluster (e.g. kind)
+2. A Github token
+3. SSH installed
+4. kubectl installed 
+5. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
 
 ### Github setup
 
-Weave GitOps works in a "pull" mode, which means that the GitOps runtime pulls the cluster configuration from Git. To do this, it needs an SSH key with access to your Github account. This key will be stored in the cluster as a secret, so it is recommended to create a new key for this.
-
-Please follow the [Github SSH key setup guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh).
-
-You also need a Github Token with `repo` access. Please follow the [Github guide](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+#### Github Token
+You need a Github Token with `repo` access. Please follow the [Github guide](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
 Make sure that the token is in your environment as `GITHUB_TOKEN`
+
+#### Deploy Key
+
+Weave GitOps works in a "pull" mode, which means that the GitOps runtime pulls the cluster configuration from Git. To do this, it needs an SSH "deploy key" with access to the git repository that you are working with. This key will be stored in the cluster as a secret, so it is recommended to create a new key for this.
+
+1. First, let's create the key. Substitute your email address
+```console
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+You should see
+```console
+> Generating public/private ed25519 key pair.
+```
+2. When prompted to enter a location to save the file **do not hit enter**:
+```console
+> Enter a file in which to save the key (/Users/you/.ssh/id_ed25519): [Press enter]
+```
+For **Mac** use: 
+```
+/Users/<you>/.ssh/wego-deploy
+```
+(replacing `<you>`)
+
+
+For **Linux** use: 
+```
+/home/<you>/.ssh/wego-deploy
+```
+(replacing `<you>`)
+
+3. This will generate two files: `~/.ssh/wego-deploy` (the private key) and `~/.ssh/wego-deploy.pub` (the public key)
+
+#### Fork and clone the Podinfo repository
+
+We are going to use the [podinfo](https://github.com/stefanprodan/podinfo) sample Kubernetes app as the workload to test.
+
+1. Fork the following repository on Github:
+```
+https://github.com/stefanprodan/podinfo
+```
+
+2. Clone the fork using SSH (replacing `<yr-org-goes-here>`)
+```
+git clone git@github.com:<yr-org-goes-here>/podinfo.git
+cd podinfo
+```
+
+#### Add the deploy key to the forked repository
+
+1. Go to the forked repository on Github:
+![fork](/img/podinfo-fork.png)
+
+2. From your repository, click Settings.
+
+3. In the sidebar, click Deploy Keys, then click Add deploy key.
+![deploy-key](/img/podinfo-deploy-keys.png)
+
+4. Provide a title (e.g. `wego-deploy`), paste in your public key.
+
+5. Click "Allow write access"
+
+![add-deploy-key](/img/podinfo-add-deploy-key.png)
+
+6. Click `Add Key`
+
 
 ### Install the CLI
 
@@ -41,7 +105,9 @@ Please follow the instructions in the  [CLI installation page](/docs/installatio
 
 ## Getting Started with a Kind cluster and Podinfo workload
 
-1. If necessary create a kind cluster:
+### Create the cluster
+
+1. Create a fresh `kind` cluster:
 ```console
 kind create cluster
 ```
@@ -63,7 +129,9 @@ Have a nice day! 👋
 
 You now will have the right `kubeconfig` for the kind cluster.
 
-2. Install Weave GitOps into the currently active Kubernetes cluster:
+### Install Weave GitOps onto the cluster
+
+1. Install Weave GitOps into the currently active Kubernetes cluster:
 ```console
 wego install 
 ```
@@ -88,7 +156,7 @@ The install will pause while the containers are loaded into the cluster. Once th
 ✔ install finished
 ```
 
-4. You can see what has been installed:
+2. You can see what has been installed:
 
 ```console
 kubectl get all --namespace wego-system
@@ -104,30 +172,22 @@ notification-controller-5c4d48f476-5cv64       1/1     Running   0          110s
 source-controller-b4b88948f-47b5r              1/1     Running   0          110s
 ```
 
-5. Fork the podinfo repository:
-Fork the following repository on Github:
-```
-https://github.com/stefanprodan/podinfo
+### Configure Weave GitOps to reconcile the workload automatically
+
+1. Change directory into the path where you cloned your fork of podinfo. e.g.:
+```console
+cd <yrdirectory>/podinfo
 ```
 
-6. Clone the fork using SSH:
-```
-git clone git@github.com:<yr-org-goes-here>/podinfo.git
-cd podinfo
-```
-(replace the `<yr-org-goes-here>` with your own userid or organization)
+2. Take a quick look at the podinfo repository layout. There are multiple different directories with k8s deployment YAMLs. 
 
-Take a quick look at the podinfo layout. There are multiple different directories with k8s deployment YAMLs. 
-We want to use the YAMLs in `deploy/webapp`.
+3. We will to use the YAMLs in `deploy/webapp`. Notice that the podinfo branch is still called `master` not `main` (because there are many things that will break if it is changed!).
 
-7. Configure Weave GitOps to deploy the repository
-
-We need to configure Weave GitOps to deploy the application from `deploy/webapp` on branch `master` of the repository at `.` using your private key
+We will configure Weave GitOps to deploy the application from the path `deploy/webapp` using branch `master` of the repository at `.` using your private key
 
 ```console
-wego app add . --path=deploy/webapp --branch=master  --private-key=<created private key file>
+wego app add . --path=deploy/webapp --branch=master  --private-key=~/.ssh/wego-deploy
 ```
-
 
 You should see something like:
 ```console
@@ -203,7 +263,7 @@ Commiting and pushing wego resources for application...
 Pushing app manifests to repository
 ```
 
-8. This will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](/docs/gitops-automation))
+4. This will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](/docs/gitops-automation))
 
 This directory contains the GitOps Automation configuration. 
 
@@ -225,7 +285,9 @@ Notice that wego has automatically named the app `podinfo-deploy-webapp`. You ca
 
 You can find out more about these YAMLs and the `.wego` directory [here](/docs/gitops-automation).
 
-8. Wait for the workload to show up in the cluster:
+Notice that `wego` has checked in this YAML into your fork (*This may change in the future to create a PR instead*).
+
+5. Wait for the workload to show up in the cluster:
 ```console
 kubectl get pods --namespace webapp
 ```
@@ -235,9 +297,10 @@ backend-5cd878f8dd-6dhsg   1/1     Running   0          2m32s
 frontend-ff74574fc-4jfpt   1/1     Running   0          2m32s
 ```
 
-9. You can use the `wego app status` command to see the reconciliation:
+6. You can use the `wego app status` command to see the reconciliation:
 ```console
 wego app status podinfo-deploy-webapp
+```
 ```
 Latest successful deployment time: 2021-06-07T18:46:49Z
 NAMESPACE  	NAME                               	READY	MESSAGE                                                          	REVISION                                       	SUSPENDED
@@ -248,7 +311,7 @@ This shows you when the last deployment was as well as the specific SHA from Git
 
 You have successfully deployed the app!
 
-10. To access the `podinfo` UI you can set up a port forward into the pod.
+7. To access the `podinfo` UI you can set up a port forward into the pod.
 ```console
 kubectl port-forward service/frontend 8000:80 --namespace webapp
 ```
@@ -259,7 +322,9 @@ Forwarding from [::1]:8000 -> 9898
 
 Now you can browse [`http://localhost:8000'](http://localhost:8000)
 
-11. The real aim of GitOps is not just to deploy once, but to reconcile as well. Let's test that out. 
+### See GitOps reconcialiation 
+
+1. The real aim of GitOps is not just to deploy once, but to reconcile as well. Let's test that out. 
 Edit `deploy/webapp/frontend/deployment.yaml`
 
 Change the `PODINFO_UI_COLOR` to grey:
@@ -269,7 +334,7 @@ Change the `PODINFO_UI_COLOR` to grey:
           value: "#888888"
 ```
 
-12. Commit the change to your forked repository.
+2. Commit the change to your forked repository.
 ```
 git add .
 git commit -m "change color"
@@ -277,7 +342,7 @@ git push
 ```
 
 
-13. Wait for the reconciliation to take place
+3. Wait for the reconciliation to take place
 
 ```console
 wego app status podinfo-deploy-webapp
@@ -288,7 +353,7 @@ NAMESPACE  	NAME                               	READY	MESSAGE                   
 wego-system	kustomization/podinfo-deploy-webapp	True 	Applied revision: master/21e671e1b8794741ec3773e8a4e7ec4abb1e8ff5	master/21e671e1b8794741ec3773e8a4e7ec4abb1e8ff5	False
 ```
 
-14. You should see the pods recycle 
+4. You should see the pods recycle 
 ```console
 kubectl get pods --namespace webapp
 ```
@@ -307,10 +372,10 @@ frontend-ff74574fc-7ntw4   1/1     Running       0          19s
 ```
 Notice that the backend has not changed and so the backend pod is not affected.
 
-Restart the port forward and you will see the color has changed.
+Restart the `kubectl port-forward` and you will see the color has changed (*If you use a real ingress then you wouldn't need to do this*).
 
-12. Congratulations 
+5. **Congratulations**
 
 You have successfully demonstrated GitOps using Weave GitOps! Well done.
 
-13. Next you might like to try using [GitOps with Helm](/docs/examples/helm)
+6. Next you might like to try using [GitOps with Helm](/docs/examples/helm)
