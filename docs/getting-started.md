@@ -237,7 +237,7 @@ Forwarding from [::1]:9898 -> 9898
 
 Now you can browse [http://localhost:9898](http://localhost:9898)
 
-### See GitOps reconcialiation 
+### See GitOps reconciliation 
 
 10. The real aim of GitOps is not just to deploy once, but to reconcile as well. Let's test that out. 
 Edit `frontend/deployment.yaml`
