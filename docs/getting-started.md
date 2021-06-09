@@ -25,6 +25,7 @@ To get this working you need:
 2. A Github token
 3. kubectl installed 
 4. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
+5. Kind uses Docker [Get Docker](https://docs.docker.com/get-docker/)
 
 ### Github Token
 
@@ -234,8 +235,11 @@ kubectl port-forward service/frontend 9898:9898 --namespace test
 Forwarding from 127.0.0.1:9898 -> 9898
 Forwarding from [::1]:9898 -> 9898
 ```
+NB: This command does not return.
 
 Now you can browse [http://localhost:9898](http://localhost:9898)
+
+Use CTRL+C to cancel the `kubectl port-forward` command to continue with your command prompt.
 
 ### See GitOps reconciliation 
 
