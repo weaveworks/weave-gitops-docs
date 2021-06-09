@@ -36,7 +36,7 @@ module.exports = {
           label: 'Getting Started',
         },
         {
-          href: 'https://github.com/weaveworks/weave-gitops-docs',
+          href: 'https://github.com/weaveworks/weave-gitops',
           label: 'GitHub',
           position: 'right',
         },
