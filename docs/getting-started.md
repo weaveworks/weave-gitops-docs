@@ -125,7 +125,7 @@ We are going to use a deployment of the [podinfo](https://github.com/stefanproda
 
 5. Clone the fork **using SSH** (replacing `<yr-org-goes-here>`)
 ```
-git clone git@github.com:<yr-org-goes-here>/podinfo.git
+git clone git@github.com:<yr-org-goes-here>/podinfo-deploy.git
 ```
 
 (*Note Weave GitOps doesn't support repositories that are cloned via HTTPS*)
@@ -165,64 +165,8 @@ done
 Checking cluster status... FluxInstalled
 
 Uploading deploy key
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
-metadata:
-  name: podinfo-deploy
-  namespace: wego-system
-spec:
-  interval: 30s
-  ref:
-    branch: main
-  secretRef:
-    name: podinfo-deploy
-  url: ssh://git@github.com/pzfreo/podinfo-deploy.git
 
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: kind-kind-podinfo-deploy
-  namespace: wego-system
-spec:
-  interval: 1m0s
-  path: ./wego/targets/kind-kind
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: podinfo-deploy
-  validation: client
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: podinfo-deploy
-  namespace: wego-system
-spec:
-  interval: 1m0s
-  path: ./wego/apps/podinfo-deploy
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: podinfo-deploy
-  validation: client
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: podinfo-deploy
-  namespace: wego-system
-spec:
-  interval: 1m0s
-  path: ./
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: podinfo-deploy
-  validation: client
+...
 
 Commiting and pushing wego resources for application...
 Pushing app manifests to repository
@@ -320,13 +264,13 @@ git push
 wego app status podinfo-deploy
 ```
 ```
-Latest successful deployment time: 2021-06-09T10:23:16Z
+Latest successful deployment time: 2021-06-09T10:36:26Z
 NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
 wego-system	gitrepository/podinfo-deploy	True 	Fetched revision: main/0927f4649817186103f14612bd3a0426d21de601	main/0927f4649817186103f14612bd3a0426d21de601	False
 
 NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
 wego-system	kustomization/podinfo-deploy	True 	Applied revision: main/0927f4649817186103f14612bd3a0426d21de601	main/0927f4649817186103f14612bd3a0426d21de601	False
-```
+  ```
 
 13. You should see the pods recycle 
 ```console
