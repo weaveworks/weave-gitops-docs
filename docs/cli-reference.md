@@ -15,7 +15,7 @@ Usage:
   wego [command]
 
 Available Commands:
-  app
+  app         Use app commands
   flux        Use flux commands
   help        Help about any command
   install     Install or upgrade Wego
@@ -127,7 +127,7 @@ Global Flags:
 ## `wego flux`
 
 This command enables access to and control of the underlying Flux runtime.
-  
+
 Please see [flux documentation](https://fluxcd.io/docs/cmd/flux/)
 
 ## `wego version`
