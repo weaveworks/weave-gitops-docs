@@ -23,7 +23,7 @@ At the moment, Weave GitOps supports [Github](https://github.com).
 To get this working you need:
 1. A Github account 
 2. A Github token
-3. kubectl installed 
+3. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
 4. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
 5. Kind requires [Docker](https://docs.docker.com/get-docker/)
 
@@ -63,7 +63,9 @@ kubectl cluster-info --context kind-kind
 Have a nice day! 👋
 ```
 
-You now will have the right `kubeconfig` for the kind cluster.
+You now will have the right `kubeconfig` for the kind cluster. 
+
+Run `kubectl cluster-info --context kind-kind`
 
 ### Install Weave GitOps onto the cluster
 
