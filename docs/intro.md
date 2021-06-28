@@ -5,7 +5,7 @@ sidebar_position: 0
 # Introduction
 
 Weave GitOps is a continuous delivery runtime that enables GitOps. Based on the popular [CNCF Flux](https://fluxcd.io) project, Weave GitOps is 
-a highly effective way to enable GitOps pipelines and automation for continuous delivery of Kubernetes and Cloud Native applications.
+a highly effective way to enable GitOps automation for continuous delivery of Kubernetes and Cloud Native applications.
 
 ## Getting Started
 
