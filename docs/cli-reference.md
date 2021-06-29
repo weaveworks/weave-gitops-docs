@@ -15,10 +15,10 @@ Usage:
   wego [command]
 
 Available Commands:
-  app         Use app commands
+  app
   flux        Use flux commands
+  gitops      Manages your wego installation
   help        Help about any command
-  install     Install or upgrade Wego
   version     Display wego version
 
 Flags:
@@ -29,7 +29,11 @@ Flags:
 Use "wego [command] --help" for more information about a command.
 ```
 
-## `wego install`
+## `wego gitops`
+
+The gitops sub-command manages the installation and uninstallation of the Weave GitOps system into clusters.
+
+### `wego gitops install`
 
 `wego install` will install Weave GitOps into the current Kubernetes cluster. By default it will use the `wego-system` namespace, but you can change this.
 
@@ -38,20 +42,43 @@ The install command deploys Wego in the specified namespace.
 If a previous version is installed, then an in-place upgrade will be performed.
 
 Usage:
-  wego install [flags]
+  wego gitops install [flags]
 
 Examples:
   # Install wego in the wego-system namespace
-  wego install
+  wego gitops install
 
 Flags:
   -h, --help   help for install
 
 Global Flags:
-      --namespace string   gitops runtime namespace (default "wego-system")
+      --dry-run            outputs all the manifests that would be installed
+  -n, --namespace string   the namespace scope for this operation (default "wego-system")
   -v, --verbose            Enable verbose output
 ```
 
+### `wego gitops uninstall`
+
+`wego gitops uninstall` removes the Weave GitOps controllers from the current Kubernetes cluster.
+
+```console
+The uninstall command removes Wego components from the cluster.
+
+Usage:
+  wego gitops uninstall [flags]
+
+Examples:
+  # Uninstall wego in the wego-system namespace
+  wego uninstall
+
+Flags:
+  -h, --help   help for uninstall
+
+Global Flags:
+      --dry-run            outputs all the manifests that would be installed
+  -n, --namespace string   the namespace scope for this operation (default "wego-system")
+  -v, --verbose            Enable verbose output
+```
 ## `wego app`
 
 Weave GitOps enables continuous deployment of workloads to Kubernetes targets. An "app" is a workload that can be deployed.
@@ -86,19 +113,19 @@ Usage:
   wego app add [--name <name>] [--url <url>] [--branch <branch>] [--path <path within repository>] [--private-key <keyfile>] <repository directory> [flags]
 
 Examples:
-wego add .
+wego app add .
 
 Flags:
       --app-config-url string    URL of external repository (if any) which will hold automation manifests; NONE to store only in the cluster
       --branch string            Branch to watch within git repository (default "main")
+      --chart string             Specify chart for helm source
       --deployment-type string   deployment type [kustomize, helm] (default "kustomize")
       --dry-run                  If set, 'wego add' will not make any changes to the system; it will just display the actions that would have been taken
   -h, --help                     help for add
       --name string              Name of remote git repository
-      --owner string             Owner of remote git repository
       --path string              Path of files within git repository (default "./")
-      --private-key string       Private key that provides access to git repository (default "/Users/paul/.ssh/id_rsa")
-      --url string               URL of remote git repository
+      --private-key string       Private key to access git repository over ssh
+      --url string               URL of remote repository
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
