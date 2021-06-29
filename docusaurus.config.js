@@ -1,3 +1,4 @@
+const versions = require('./versions.json');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Weave GitOps',
@@ -36,6 +37,11 @@ module.exports = {
           label: 'Getting Started',
         },
         {
+          type: 'docsVersionDropdown',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
+        },
+        {
           href: 'https://github.com/weaveworks/weave-gitops',
           label: 'GitHub',
           position: 'right',
@@ -65,8 +71,13 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/weaveworks/weave-gitops-docs/edit/main/',
+          editUrl: 'https://github.com/weaveworks/weave-gitops-docs/edit/main/',
+          lastVersion: versions[0],
+          versions: {
+            current: {
+              label: 'main',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
