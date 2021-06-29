@@ -37,7 +37,7 @@ Make sure that the token is in your environment as `GITHUB_TOKEN`
 
 ## Install the CLI
 
-Please follow the instructions in the  [CLI installation page](/docs/installation) to install the command-line tool.
+Please follow the instructions in the  [CLI installation page](installation.md  ) to install the command-line tool.
 
 ## Getting Started with a Kind cluster and Podinfo workload
 
@@ -200,19 +200,19 @@ frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
 wego app status podinfo-deploy
 ```
 ```
-Latest successful deployment time: 2021-06-09T10:14:09Z
+Latest successful deployment time: 2021-06-29T14:41:14Z
 NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
-wego-system	gitrepository/podinfo-deploy	True 	Fetched revision: main/3c5c12f48f2bc1fdd09e0e199687f1d76e6a8b5f	main/3c5c12f48f2bc1fdd09e0e199687f1d76e6a8b5f	False
+wego-system	gitrepository/podinfo-deploy	True 	Fetched revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733	main/cb6fc97b304740347e1d98195bc3d972ee07d733	False
 
 NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
-wego-system	kustomization/podinfo-deploy	True 	Applied revision: main/3c5c12f48f2bc1fdd09e0e199687f1d76e6a8b5f	main/3c5c12f48f2bc1fdd09e0e199687f1d76e6a8b5f	False
+wego-system	kustomization/podinfo-deploy	True 	Applied revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733	main/cb6fc97b304740347e1d98195bc3d972ee07d733	False
 ```
 
 This shows you when the last deployment was as well as the specific SHA from Git that has been deployed.
 
 You have successfully deployed the app!
 
-10. `wego app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](/docs/gitops-automation))
+10. `wego app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
 
 This directory contains the GitOps Automation configuration.
 
@@ -231,7 +231,7 @@ $ tree .wego/
 5 directories, 2 files
 ```
 
-You can find out more about these YAMLs and the `.wego` directory [here](/docs/gitops-automation).
+You can find out more about these YAMLs and the `.wego` directory [here](gitops-automation.md).
 
 Notice that `wego` has checked in this YAML into your fork (*This will change in a future release to create a PR against your repository instead*).
 
