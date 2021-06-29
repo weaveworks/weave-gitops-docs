@@ -71,7 +71,7 @@ Run `kubectl cluster-info --context kind-kind`
 
 2. Install Weave GitOps into the currently active Kubernetes cluster:
 ```console
-wego install
+wego gitops install
 ```
 
 You should see:
@@ -80,6 +80,7 @@ You should see:
 ✔ manifests build completed
 ► installing components in wego-system namespace
 ◎ verifying installation
+
 ```
 
 The install will pause while the containers are loaded into the cluster. (*roughly 1 to 2 minutes depending on your system*)
@@ -87,12 +88,12 @@ The install will pause while the containers are loaded into the cluster. (*rough
 Once the system is verified you will see:
 
 ```
-✔ notification-controller: deployment ready
 ✔ image-reflector-controller: deployment ready
 ✔ image-automation-controller: deployment ready
 ✔ source-controller: deployment ready
 ✔ kustomize-controller: deployment ready
 ✔ helm-controller: deployment ready
+✔ notification-controller: deployment ready
 ✔ install finished
 ```
 
@@ -104,12 +105,12 @@ kubectl get pods --namespace wego-system
 
 ```
 NAME                                           READY   STATUS    RESTARTS   AGE
-helm-controller-69667f94bc-ptpp7               1/1     Running   0          5m
-image-automation-controller-6cd8b8fb95-4wzbh   1/1     Running   0          5m
-image-reflector-controller-55fb577bf9-4ccds    1/1     Running   0          5m
-kustomize-controller-6977b8cdd4-rlt75          1/1     Running   0          5m
-notification-controller-5c4d48f476-smb7r       1/1     Running   0          5m
-source-controller-b4b88948f-jwkf4              1/1     Running   0          5m
+helm-controller-69667f94bc-ngpwv               1/1     Running   0          113s
+image-automation-controller-6cd8b8fb95-ktgz7   1/1     Running   0          113s
+image-reflector-controller-55fb577bf9-bhs2b    1/1     Running   0          113s
+kustomize-controller-6977b8cdd4-6p762          1/1     Running   0          113s
+notification-controller-5c4d48f476-nwrkx       1/1     Running   0          112s
+source-controller-b4b88948f-kz2lr              1/1     Running   0          112s
 ```
 
 ### Configure Weave GitOps to reconcile the workload automatically
@@ -119,6 +120,8 @@ First we will fork a basic workload repository, then we will add the `wego` GitO
 #### Fork and clone the Podinfo repository
 
 We are going to use a deployment of the [podinfo](https://github.com/stefanprodan/podinfo) sample Kubernetes app as the workload to test.
+
+*Please note that these instructions do not use the base podinfo repository, but a specific repository containing only the deployment YAML*
 
 4. Fork the following repository on Github:
 
@@ -165,14 +168,17 @@ Updating parameters from environment... using URL: 'ssh://git@github.com/pzfreo/
 
 done
 
-Checking cluster status... FluxInstalled
+Checking cluster status... WeGOInstalled
 
-Uploading deploy key
-
-...
-
+Generating deploy key for repo ssh://git@github.com/pzfreo/podinfo-deploy.git ...
+uploading deploy key
+Generating Source manifest...
+Generating GitOps automation manifests...
+Generating Application spec manifest...
+Applying manifests to the cluster...
+Writing manifests to disk...
 Commiting and pushing wego resources for application...
-Pushing app manifests to repository
+Pushing app manifests to repository...
 ```
 
 (*If the final lines are different, then most likely you have a problem with the SSH key used to deploy.*)
@@ -227,7 +233,7 @@ $ tree .wego/
 
 You can find out more about these YAMLs and the `.wego` directory [here](/docs/gitops-automation).
 
-Notice that `wego` has checked in this YAML into your fork (*This may change in the future to create a PR instead*).
+Notice that `wego` has checked in this YAML into your fork (*This will change in a future release to create a PR against your repository instead*).
 
 11. To access the `podinfo` UI you can set up a port forward into the pod.
 ```console
@@ -240,6 +246,10 @@ Forwarding from [::1]:9898 -> 9898
 NB: This command does not return
 
 Now you can browse [http://localhost:9898](http://localhost:9898)
+
+You should see something like:
+
+![Podinfo](/img/podinfo-web.png)
 
 Use CTRL+C to cancel the `kubectl port-forward` command to continue with your command prompt.
 
