@@ -63,6 +63,11 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Weaveworks`,
     },
+    googleAnalytics: {
+      trackingID: process.env.GA_KEY,
+      // Optional fields.
+      anonymizeIP: true, // Should IPs be anonymized?
+    }
   },
   presets: [
     [
