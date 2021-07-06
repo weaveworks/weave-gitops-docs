@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: '12.x'
       - name: Test Build
+        env:
+          GA_KEY: ${{ secrets.GA_KEY }}
         run: |
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
@@ -40,7 +42,7 @@ jobs:
         env:
           USE_SSH: true
           GIT_USER: git
-          GA_KEY: ${{ secrets.GA_KEY }} 
+          GA_KEY: ${{ secrets.GA_KEY }}
         run: |
           git config --global user.email "corporate-it+weaveworks-docs-bot@weave.works"
           git config --global user.name "weaveworks-docs-bot"
