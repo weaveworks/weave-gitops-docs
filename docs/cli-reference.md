@@ -104,7 +104,7 @@ Use "wego app [command] --help" for more information about a command.
 ### `wego app add`
 
 `wego app add` adds an application workload to the GitOps workflow. The simplest way to use this is to set the current directory to
-point to a repository that you want GitOps'ed into the cluster and use `wego app add .`
+point to a repository that you want GitOps'ed into the cluster and use `wego app add .`. By default, this will create a pull request for the repository containing the requisite GitOps machinery to manage your application. Once the pull request is approved and merged, your application will be managed by GitOps. Alternatively, if --auto-merge=true is specified, the GitOps support will be directly added to the Git repository, skipping the pull request.
 
 ```console
 Associates an additional application in a git repository with a wego cluster so that its contents may be managed via GitOps
@@ -126,6 +126,7 @@ Flags:
       --path string              Path of files within git repository (default "./")
       --private-key string       Private key to access git repository over ssh
       --url string               URL of remote repository
+      --auto-merge               If set, 'wego add' will merge automatically into the set --branch (default false)
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
