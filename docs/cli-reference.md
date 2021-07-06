@@ -126,7 +126,7 @@ Flags:
       --path string              Path of files within git repository (default "./")
       --private-key string       Private key to access git repository over ssh
       --url string               URL of remote repository
-      --auto-merge               If set, 'wego add' will merge automatically into the set --branch (default false)
+      --auto-merge               If set, 'wego add' will merge automatically into the specified --branch (default false)
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")

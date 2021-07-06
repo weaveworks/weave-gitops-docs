@@ -182,7 +182,7 @@ Commiting and pushing wego resources for application...
 
 (*If the final lines are different, then most likely you have a problem with the SSH key used to deploy.*)
 
-8. A Pull Request has been created that has been set to merge into the branch set by --branch (default main). Set flag --auto-merge=true to skip this step.
+8. A Pull Request has been created against the specified branch. (default main). Set flag --auto-merge=true to skip this step.
 
 9. Once the PR is merged wait for the workload to show up in the cluster:
 ```console
