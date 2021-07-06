@@ -178,12 +178,13 @@ Generating Application spec manifest...
 Applying manifests to the cluster...
 Writing manifests to disk...
 Commiting and pushing wego resources for application...
-Pushing app manifests to repository...
 ```
 
 (*If the final lines are different, then most likely you have a problem with the SSH key used to deploy.*)
 
-8. Wait for the workload to show up in the cluster:
+8. A Pull Request has been created that has been set to merge into the branch set by --branch (default main). Set flag --auto-merge=true to skip this step.
+
+9. Once the PR is merged wait for the workload to show up in the cluster:
 ```console
 kubectl get pods --namespace test
 ```
@@ -193,7 +194,7 @@ backend-66b5655895-ms79n    1/1     Running   0          42s
 frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
 ```
 
-9. You can use the `wego app status` command to see the reconciliation.
+10. You can use the `wego app status` command to see the reconciliation.
 
 
 ```console
@@ -212,7 +213,7 @@ This shows you when the last deployment was as well as the specific SHA from Git
 
 You have successfully deployed the app!
 
-10. `wego app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
+11. `wego app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
 
 This directory contains the GitOps Automation configuration.
 
@@ -235,7 +236,7 @@ You can find out more about these YAMLs and the `.wego` directory [here](gitops-
 
 Notice that `wego` has checked in this YAML into your fork (*This will change in a future release to create a PR against your repository instead*).
 
-11. To access the `podinfo` UI you can set up a port forward into the pod.
+12. To access the `podinfo` UI you can set up a port forward into the pod.
 ```console
 kubectl port-forward service/frontend 9898:9898 --namespace test
 ```
@@ -255,7 +256,7 @@ Use CTRL+C to cancel the `kubectl port-forward` command to continue with your co
 
 ### See GitOps reconciliation
 
-12. The real aim of GitOps is not just to deploy once, but to reconcile as well. Let's test that out.
+13. The real aim of GitOps is not just to deploy once, but to reconcile as well. Let's test that out.
 Edit `frontend/deployment.yaml`
 
 Change the `PODINFO_UI_COLOR` to grey:
@@ -265,7 +266,7 @@ Change the `PODINFO_UI_COLOR` to grey:
           value: "#888888"
 ```
 
-13. Commit the change to your forked repository.
+14. Commit the change to your forked repository.
 ```
 git add .
 git commit -m "change color"
@@ -274,7 +275,7 @@ git push
 
 (*If you want an even better experience, create a PR and then merge!*)
 
-14. Wait for the reconciliation to take place
+15. Wait for the reconciliation to take place
 
 ```console
 wego app status podinfo-deploy
@@ -288,7 +289,7 @@ NAMESPACE  	NAME                        	READY	MESSAGE                          
 wego-system	kustomization/podinfo-deploy	True 	Applied revision: main/0927f4649817186103f14612bd3a0426d21de601	main/0927f4649817186103f14612bd3a0426d21de601	False
   ```
 
-15. You should see the pods recycle
+16. You should see the pods recycle
 ```console
 kubectl get pods --namespace test
 ```
@@ -311,6 +312,6 @@ Restart the `kubectl port-forward` and you will see the color has changed.
 
 (*If you use a real ingress then you wouldn't need to do this*).
 
-16. **Congratulations**
+17. **Congratulations**
 
 You have successfully demonstrated GitOps using Weave GitOps! Well done.
