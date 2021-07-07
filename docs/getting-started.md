@@ -63,7 +63,7 @@ kubectl cluster-info --context kind-kind
 Have a nice day! 👋
 ```
 
-You now will have the right `kubeconfig` for the kind cluster. 
+You now will have the right `kubeconfig` for the kind cluster.
 
 Run `kubectl cluster-info --context kind-kind`
 
@@ -182,7 +182,7 @@ Commiting and pushing wego resources for application...
 
 (*If the final lines are different, then most likely you have a problem with the SSH key used to deploy.*)
 
-8. A Pull Request has been created that has been set to merge into the branch set by --branch (default main). Set flag --auto-merge=true to skip this step.
+8. A Pull Request has been created against the branch specified by --branch (default main). Set flag `--auto-merge=true` to skip this step.
 
 9. Once the PR is merged wait for the workload to show up in the cluster:
 ```console
@@ -202,11 +202,11 @@ wego app status podinfo-deploy
 ```
 ```
 Latest successful deployment time: 2021-06-29T14:41:14Z
-NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
-wego-system	gitrepository/podinfo-deploy	True 	Fetched revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733	main/cb6fc97b304740347e1d98195bc3d972ee07d733	False
+NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
+wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
 
-NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
-wego-system	kustomization/podinfo-deploy	True 	Applied revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733	main/cb6fc97b304740347e1d98195bc3d972ee07d733	False
+NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
+wego-system kustomization/podinfo-deploy    True    Applied revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
 ```
 
 This shows you when the last deployment was as well as the specific SHA from Git that has been deployed.
@@ -282,11 +282,11 @@ wego app status podinfo-deploy
 ```
 ```
 Latest successful deployment time: 2021-06-09T10:36:26Z
-NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
-wego-system	gitrepository/podinfo-deploy	True 	Fetched revision: main/0927f4649817186103f14612bd3a0426d21de601	main/0927f4649817186103f14612bd3a0426d21de601	False
+NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
+wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
 
-NAMESPACE  	NAME                        	READY	MESSAGE                                                        	REVISION                                     	SUSPENDED
-wego-system	kustomization/podinfo-deploy	True 	Applied revision: main/0927f4649817186103f14612bd3a0426d21de601	main/0927f4649817186103f14612bd3a0426d21de601	False
+NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
+wego-system kustomization/podinfo-deploy    True    Applied revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
   ```
 
 16. You should see the pods recycle

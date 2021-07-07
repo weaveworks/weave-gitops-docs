@@ -89,6 +89,7 @@ Usage:
 
 Available Commands:
   add         Add a workload repository to a wego cluster
+  list        List applications
   status      Get status of an app
 
 Flags:
@@ -146,6 +147,25 @@ wego app status podinfo
 
 Flags:
   -h, --help   help for status
+
+Global Flags:
+      --namespace string   gitops runtime namespace (default "wego-system")
+  -v, --verbose            Enable verbose output
+```
+
+### `wego app list`
+
+List the weave-gitops apps currently deployed in the cluster
+
+```console
+Usage:
+  wego app list [flags]
+
+Examples:
+wego app list
+
+Flags:
+  -h, --help   help for list
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
