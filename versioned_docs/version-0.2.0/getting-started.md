@@ -88,12 +88,12 @@ The install will pause while the containers are loaded into the cluster. (*rough
 Once the system is verified you will see:
 
 ```
+✔ notification-controller: deployment ready
 ✔ image-reflector-controller: deployment ready
 ✔ image-automation-controller: deployment ready
 ✔ source-controller: deployment ready
 ✔ kustomize-controller: deployment ready
 ✔ helm-controller: deployment ready
-✔ notification-controller: deployment ready
 ✔ install finished
 ```
 
@@ -176,13 +176,21 @@ Generating Source manifest...
 Generating GitOps automation manifests...
 Generating Application spec manifest...
 Applying manifests to the cluster...
-Writing manifests to disk...
 Commiting and pushing wego resources for application...
 ```
 
 (*If the final lines are different, then most likely you have a problem with the SSH key used to deploy.*)
 
-8. A Pull Request has been created against the branch specified by --branch (default main). Set flag `--auto-merge=true` to skip this step.
+8. A Pull Request has been created against the git branch.
+
+![PR](/img/podinfo-pr.png)
+
+Go to your Github fork and merge the Pull Request.
+
+![Merge](/img/podinfo-pr-merge.png)
+
+Once you have merged the PR it should look like this:
+![Merge Complete](/img/podinfo-pr-merge-complete.png)
 
 9. Once the PR is merged wait for the workload to show up in the cluster:
 ```console
