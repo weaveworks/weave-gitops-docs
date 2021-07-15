@@ -180,9 +180,18 @@ Writing manifests to disk...
 Pull Request created: <link to PR>
 ```
 
-(*If the final lines are different, then most likely you have a problem with the SSH key used to deploy.*)
+(*PLEASE NOTE: the 0.2.0 version does not print the link to the PR. However, it is creating the PR. *)
 
-8. A Pull Request has been created against the specified branch. (default main). Set flag --auto-merge=true to skip this step.
+8. A Pull Request has been created against the git branch.
+
+![PR](/img/podinfo-pr.png)
+
+Go to your Github fork and merge the Pull Request.
+
+![Merge](/img/podinfo-pr-merge.png)
+
+Once you have merged the PR it should look like this:
+![Merge Complete](/img/podinfo-pr-merge-complete.png)
 
 9. Once the PR is merged wait for the workload to show up in the cluster:
 ```console
