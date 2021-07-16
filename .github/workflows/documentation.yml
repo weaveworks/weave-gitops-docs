@@ -17,7 +17,7 @@ jobs:
           node-version: '12.x'
       - name: Test Build
         env:
-          GA_KEY: ${{ secrets.GA_KEY }}
+          GA_KEY: "dummy"
         run: |
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
