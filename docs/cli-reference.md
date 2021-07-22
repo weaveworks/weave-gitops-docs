@@ -107,9 +107,9 @@ Examples:
 Available Commands:
   add         Add a workload repository to a wego cluster
   list        List applications under wego control
-  pause       pause an app
+  pause       Pause an application
   status      Get status of a workload under wego control
-  unpause     unpause an app
+  unpause     Unpause an application
 
 Flags:
   -h, --help   help for app
@@ -193,7 +193,7 @@ Global Flags:
 
 ### `wego app pause`
 
-pause an app
+Pause an application
 
 ```console
 Usage:
@@ -212,7 +212,7 @@ Global Flags:
 
 ### `wego app unpause`
 
-unpause an app
+Unpause an application
 
 ```console
 Usage:
