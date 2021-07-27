@@ -87,10 +87,29 @@ Weave GitOps enables continuous deployment of workloads to Kubernetes targets. A
 Usage:
   wego app [command]
 
+Examples:
+
+  # Add an application to wego from local git repository
+  wego app add . --name <app-name>
+
+  # Status an application under wego control
+  wego app status <app-name>
+
+  # List applications under wego control
+  wego app list
+
+  # Pause gitops automation
+  wego app pause <app-name>
+
+  # Unpause gitops automation
+  wego app unpause <app-name>
+
 Available Commands:
   add         Add a workload repository to a wego cluster
-  list        List applications
-  status      Get status of an app
+  list        List applications under wego control
+  pause       Pause an application
+  status      Get status of a workload under wego control
+  unpause     Unpause an application
 
 Flags:
   -h, --help   help for app
@@ -166,6 +185,44 @@ wego app list
 
 Flags:
   -h, --help   help for list
+
+Global Flags:
+      --namespace string   gitops runtime namespace (default "wego-system")
+  -v, --verbose            Enable verbose output
+```
+
+### `wego app pause`
+
+Pause an application
+
+```console
+Usage:
+  wego app pause <app-name> [flags]
+
+Examples:
+wego app pause podinfo
+
+Flags:
+  -h, --help   help for pause
+
+Global Flags:
+      --namespace string   gitops runtime namespace (default "wego-system")
+  -v, --verbose            Enable verbose output
+```
+
+### `wego app unpause`
+
+Unpause an application
+
+```console
+Usage:
+  wego app unpause <app-name> [flags]
+
+Examples:
+wego app unpause podinfo
+
+Flags:
+  -h, --help   help for unpause
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
