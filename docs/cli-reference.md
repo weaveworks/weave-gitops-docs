@@ -89,6 +89,9 @@ Usage:
 
 Examples:
 
+  # Get last 10 commits for an application
+  wego app <app-name> get commits
+
   # Add an application to wego from local git repository
   wego app add . --name <app-name>
 
@@ -104,16 +107,12 @@ Examples:
   # Unpause gitops automation
   wego app unpause <app-name>
 
-  # Get last 10 commits for an applications git repo
-  wego app get-commits <app-name>
-
 Available Commands:
   add         Add a workload repository to a wego cluster
   list        List applications under wego control
   pause       Pause an application
   status      Get status of a workload under wego control
   unpause     Unpause an application
-  get-commits Get the last 10 commits for an applications git repo
 
 Flags:
   -h, --help   help for app
@@ -227,25 +226,6 @@ wego app unpause podinfo
 
 Flags:
   -h, --help   help for unpause
-
-Global Flags:
-      --namespace string   gitops runtime namespace (default "wego-system")
-  -v, --verbose            Enable verbose output
-```
-
-### `wego app get-commits`
-
-Get the last 10 commits for an applications git repo
-
-```console
-Usage:
-  wego app get-commits <app-name> [flags]
-
-Examples:
-wego app get-commits podinfo
-
-Flags:
-  -h, --help   help for get-commits
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
