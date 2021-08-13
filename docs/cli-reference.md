@@ -89,6 +89,9 @@ Usage:
 
 Examples:
 
+  # Get last 10 commits for an application
+  wego app <app-name> get commits
+
   # Add an application to wego from local git repository
   wego app add . --name <app-name>
 
