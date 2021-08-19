@@ -123,6 +123,8 @@ We are going to use a deployment of the [podinfo](https://github.com/stefanproda
 
 *Please note that these instructions do not use the base podinfo repository, but a specific repository containing only the deployment YAML*
 
+**IMPORTANT! BOTH Fork AND Clone (using SSH) or you'll get errors!** :)
+
 4. Fork the following repository on Github:
 
 [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy)
