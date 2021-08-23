@@ -114,7 +114,7 @@ Available Commands:
   add         Add a workload repository to a wego cluster
   list        List applications under wego control
   pause       Pause an application
-  remove      Add a workload repository to a wego cluster
+  remove      Remove an app from a wego cluster
   status      Get status of a workload under wego control
   unpause     Unpause an application
 
