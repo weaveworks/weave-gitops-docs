@@ -95,6 +95,9 @@ Examples:
   # Add an application to wego from local git repository
   wego app add . --name <app-name>
 
+  # Remove an application from wego
+  wego app remove <app-name>
+
   # Status an application under wego control
   wego app status <app-name>
 
@@ -111,6 +114,7 @@ Available Commands:
   add         Add a workload repository to a wego cluster
   list        List applications under wego control
   pause       Pause an application
+  remove      Add a workload repository to a wego cluster
   status      Get status of a workload under wego control
   unpause     Unpause an application
 
@@ -226,6 +230,31 @@ wego app unpause podinfo
 
 Flags:
   -h, --help   help for unpause
+
+Global Flags:
+      --namespace string   gitops runtime namespace (default "wego-system")
+  -v, --verbose            Enable verbose output
+```
+
+### `wego app remove`
+```console
+wego app remove --help
+Removes an application in a git repository from a wego cluster so it will no longer be managed via GitOps
+
+Usage:
+  wego app remove [--private-key <keyfile>] <app name> [flags]
+
+Examples:
+
+  # Remove application from wego control via immediate commit
+  wego app remove podinfo
+
+
+Flags:
+      --dry-run              If set, 'wego remove' will not make any changes to the system; it will just display the actions that would have been taken
+  -h, --help                 help for remove
+      --name string          Name of application
+      --private-key string   Private key to access git repository over ssh
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
