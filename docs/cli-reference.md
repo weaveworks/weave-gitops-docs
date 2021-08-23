@@ -237,10 +237,10 @@ Global Flags:
 ```
 
 ### `wego app remove`
-```console
-wego app remove --help
-Removes an application in a git repository from a wego cluster so it will no longer be managed via GitOps
 
+Remove an application from a wego cluster so it will no longer be managed via GitOps
+
+```console
 Usage:
   wego app remove [--private-key <keyfile>] <app name> [flags]
 
