@@ -18,8 +18,8 @@ You should see:
 
 ```console
 Current Version: 0.2.4
-GitCommit: a7e1de1f63230843d606c1b746a786d43aee792d
-BuildTime: 2021-08-24T17:35:04Z
+GitCommit: 466001a7fec68e05c7d4474536aadc91af0dee20
+BuildTime: 2021-07-28T21:31:11Z
 Branch: HEAD
 Flux Version: v0.16.0
 ```
