@@ -137,7 +137,7 @@ point to a repository that you want GitOps'ed into the cluster and use `wego app
 Associates an additional application in a git repository with a wego cluster so that its contents may be managed via GitOps
 
 Usage:
-  wego app add [--name <name>] [--url <url>] [--branch <branch>] [--path <path within repository>] [--private-key <keyfile>] <repository directory> [flags]
+  wego app add [--name <name>] [--url <url>] [--branch <branch>] [--path <path within repository>] <repository directory> [flags]
 
 Examples:
 wego app add .
@@ -151,7 +151,6 @@ Flags:
   -h, --help                     help for add
       --name string              Name of remote git repository
       --path string              Path of files within git repository (default "./")
-      --private-key string       Private key to access git repository over ssh
       --url string               URL of remote repository
       --auto-merge               If set, 'wego add' will merge automatically into the specified --branch (default false)
 
@@ -242,7 +241,7 @@ Remove an application from a wego cluster so it will no longer be managed via Gi
 
 ```console
 Usage:
-  wego app remove [--private-key <keyfile>] <app name> [flags]
+  wego app remove <app name> [flags]
 
 Examples:
 
@@ -254,7 +253,6 @@ Flags:
       --dry-run              If set, 'wego remove' will not make any changes to the system; it will just display the actions that would have been taken
   -h, --help                 help for remove
       --name string          Name of application
-      --private-key string   Private key to access git repository over ssh
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
