@@ -8,6 +8,8 @@ const containerStyle = {
   fontVariant: "all-small-caps",
 };
 
+// This determines the current version of the docs you're looking at
+// E.g. /docs/next or /docs/0.2.5
 const getCurrentVersionPath = () => {
   const { "docusaurus-plugin-content-docs": data } = useGlobalData();
   const currentVersion = data?.default?.versions?.find(
