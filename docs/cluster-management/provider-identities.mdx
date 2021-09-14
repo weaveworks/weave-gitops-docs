@@ -1,10 +1,18 @@
 ---
 title: CAPI Provider Identities
+hide_title: true
+sidebar_position: 4
 ---
+
+import TierLabel from "../_components/TierLabel";
+
+<h1>
+  {frontMatter.title} <TierLabel tiers="enterprise" />
+</h1>
 
 ## Multi-tenancy
 
-Some Cluster API providers allow you to choose the account or identity that the new cluster will be created with. This is often referred to as _Multi-tenancy_ in the CAPI world. MCCP currently supports:
+Some Cluster API providers allow you to choose the account or identity that the new cluster will be created with. This is often referred to as _Multi-tenancy_ in the CAPI world. Weave GitOps currently supports:
 
 - [**AWS** multi-tenancy](https://cluster-api-aws.sigs.k8s.io/topics/multitenancy.html)
 - [**Azure** multi-tenancy](https://capz.sigs.k8s.io/topics/multitenancy.html)
@@ -24,9 +32,9 @@ spec:
     - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
       kind: AWSCluster
       metadata:
-        name: '${CLUSTER_NAME}'
+        name: "${CLUSTER_NAME}"
       spec:
-        region: '${AWS_REGION}'
+        region: "${AWS_REGION}"
 ```
 
 and the identity
@@ -35,7 +43,7 @@ and the identity
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: AWSClusterStaticIdentity
 metadata:
-  name: 'test-account'
+  name: "test-account"
 spec:
   secretRef:
     name: test-account-creds
@@ -43,10 +51,10 @@ spec:
   allowedNamespaces:
     selector:
       matchLabels:
-        cluster.x-k8s.io/ns: 'testlabel'
+        cluster.x-k8s.io/ns: "testlabel"
 ```
 
-We can select ask the MCCP to use the `test-account` when creating the cluster by using the _Infrastructure provider credentials_ dropdown on the _Create new cluster with template_ page:
+We can select ask Weave Gitops to use the `test-account` when creating the cluster by using the _Infrastructure provider credentials_ dropdown on the _Create new cluster with template_ page:
 
 ![Identity Selection](./img/identity-selection.png)
 
@@ -68,7 +76,7 @@ spec:
 
 The supported providers implement multi-tenancy by setting an `identityRef` on the the provider cluster object, e.g. `AWSCluster`, `AzureCluster` or `VSphereCluster`.
 
-The MCCP will search _all namespaces_ in the cluster for potential identities that can be used to create a cluster. The following identity `kind`s are currently supported and their corresponding Cluster kinds:
+Weave GitOps will search _all namespaces_ in the cluster for potential identities that can be used to create a cluster. The following identity `kind`s are currently supported and their corresponding Cluster kinds:
 
 - `AWSClusterStaticIdentity`: `AWSCluster`
 - `AWSClusterRoleIdentity`: `AWSCluster`
