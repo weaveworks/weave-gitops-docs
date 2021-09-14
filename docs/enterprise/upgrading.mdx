@@ -159,10 +159,12 @@ Finally install the Helm chart to the target namespace by executing the followin
 $ helm install mccp wkpv3/mccp \
     --version <chart-version> \
     --namespace wego-system \
+    --set "imagePullSecrets[0].name=<secret-containing-docker-config>" \
     --set "dbConfig.databaseType=sqlite" \
     --set "sqliteConfig.persistentVolumeClaim=true" \
     --set "agentTemplate.natsURL=<nats-address>:<exposed-port-for-nats>" \
     --set "nats.client.service.nodePort=<exposed-port-for-nats>" \
+    --set "wkp-ui.image.pullSecrets[0]=<secret-containing-docker-config>" \
     --set "config.capi.repositoryURL=https://github.com/example/management-repo" \
     --set "config.capi.baseBranch=main"
 ```
@@ -174,11 +176,13 @@ $ helm install mccp wkpv3/mccp \
 $ helm install mccp wkpv3/mccp \
     --version <chart-version> \
     --namespace wego-system \
+    --set "imagePullSecrets[0].name=<secret-containing-docker-config>" \
     --set "dbConfig.databaseType=postgres" \
     --set "dbConfig.databaseURI=<database-server-hostname>" \
     --set "postgresConfig.databaseName=<database-name>" \
     --set "agentTemplate.natsURL=<nats-address>:<exposed-port-for-nats>" \
     --set "nats.client.service.nodePort=<exposed-port-for-nats>" \
+    --set "wkp-ui.image.pullSecrets[0]=<secret-containing-docker-config>" \
     --set "config.capi.repositoryURL=https://github.com/example/management-repo" \
     --set "config.capi.baseBranch=main"
 ```
