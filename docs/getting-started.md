@@ -20,17 +20,36 @@ via GitOps. Further guides will then show how to move that workload into staging
 ## Pre-requisites
 
 This guide is for Mac and Linux only (so far!).
-At the moment, Weave GitOps supports [GitHub](https://github.com).
+At the moment, Weave GitOps supports [Github](https://github.com) and [gitlab](https://gitlab.com).
 
-*[Gitlab](https://gitlab.com) and other Git providers are coming soon.*
-
-To follow along with this guide you will need:
-1. A GitHub account
-2. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
-3. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
-4. Kind requires [Docker](https://docs.docker.com/get-docker/)
+*other Git providers are coming soon.*
 
 ## Install the Weave GitOps CLI
+
+To get this working you need:
+1. A Github/Gitlab account
+2. A Github/Gitlab token
+3. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
+4. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
+5. Kind requires [Docker](https://docs.docker.com/get-docker/)
+
+### Github Token
+
+You need a Github Token with `repo` access.
+
+If you don't already have one, please follow the [Github guide](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+
+Make sure that the token is in your environment as `GITHUB_TOKEN`
+
+### Gitlab Token
+
+You need a Gitlab Token with `repo` access.
+
+If you don't already have one, please follow the [Gitlab guide](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)
+
+Make sure that the token is in your environment as `GITLAB_TOKEN`
+
+## Install the CLI
 
 Please follow the instructions in the  [CLI installation page](installation.md  ) to install the command-line tool.
 
