@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Getting Started
+# Getting Started 1
 
 Let's get an app deployed with **Weave GitOps**.
 
@@ -20,26 +20,17 @@ via GitOps. Further guides will then show how to move that workload into staging
 ## Pre-requisites
 
 This guide is for Mac and Linux only (so far!).
-At the moment, Weave GitOps supports [Github](https://github.com).
+At the moment, Weave GitOps supports [GitHub](https://github.com).
 
 *[Gitlab](https://gitlab.com) and other Git providers are coming soon.*
 
-To get this working you need:
-1. A Github account
-2. A Github token
-3. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
-4. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
-5. Kind requires [Docker](https://docs.docker.com/get-docker/)
+To follow along with this guide you will need:
+1. A GitHub account
+2. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
+3. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
+4. Kind requires [Docker](https://docs.docker.com/get-docker/)
 
-### Github Token
-
-You need a Github Token with `repo` access.
-
-If you don't already have one, please follow the [Github guide](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-
-Make sure that the token is in your environment as `GITHUB_TOKEN`
-
-## Install the CLI
+## Install the Weave GitOps CLI
 
 Please follow the instructions in the  [CLI installation page](installation.md  ) to install the command-line tool.
 
@@ -127,7 +118,7 @@ We are going to use a deployment of the [podinfo](https://github.com/stefanproda
 
 *Please note that these instructions do not use the base podinfo repository, but a specific repository containing only the deployment YAML*
 
-4. Fork the following repository on Github:
+4. Fork the following repository on GitHub:
 
 [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy)
 
@@ -168,29 +159,58 @@ wego app add .
 
 You should see something like:
 ```console
-Updating parameters from environment... using URL: 'ssh://git@github.com/pzfreo/podinfo-deploy.git' of origin from git config...
+◎ Checking cluster status
+✔ Wego installed
 
-done
+Visit this URL to authenticate with Github:
 
-Checking cluster status... WeGOInstalled
+https://github.com/login/device
 
-Generating deploy key for repo ssh://git@github.com/pzfreo/podinfo-deploy.git ...
-uploading deploy key
-Generating Source manifest...
-Generating GitOps automation manifests...
-Generating Application spec manifest...
-Applying manifests to the cluster...
-Writing manifests to disk...
-Pull Request created: <link to PR>
+Type the following code into the page at the URL above: ABCD-1234
+
+Waiting for authentication flow completion...
+
 ```
 
-(*PLEASE NOTE: the 0.2.0 version does not print the link to the PR. However, it is creating the PR. *)
+Copy the code and visit the URL shown to grant temporary `repo` access for Weave GitOps. 
+
+![device flow activation](/img/github-device-flow-start.png)
+
+You should then see this confirmation:
+
+![device flow complete](/img/github-device-flow-complete.png)
+
+Once complete, the process will continue and you will see something like:
+
+```
+Authentication successful!
+
+Adding application:
+
+Name: podinfo-deploy
+URL: ssh://git@github.com/pzfreo/podinfo-deploy.git
+Path: ./
+Branch: main
+Type: kustomize
+
+◎ Checking cluster status
+✔ Wego installed
+✚ Generating Source manifest
+✚ Generating GitOps automation manifests
+✚ Generating Application spec manifest
+► Cloning ssh://git@github.com/pzfreo/podinfo-deploy.git
+Pull Request created: https://github.com/pzfreo/podinfo-deploy/pull/1
+
+► Applying manifests to the cluster
+► Committing and pushing wego updates for application
+✔ App is up to date
+```
 
 8. A Pull Request has been created against the git branch.
 
 ![PR](/img/podinfo-pr.png)
 
-Go to your Github fork and merge the Pull Request.
+Go to your GitHub fork and merge the Pull Request.
 
 ![Merge](/img/podinfo-pr-merge.png)
 
