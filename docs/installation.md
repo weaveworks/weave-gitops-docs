@@ -4,14 +4,14 @@ sidebar_position: 1
 
 # Installing the CLI
 
-The `wego` command-line interface is currently supported on Mac (x86 and Arm), and Linux.
-To install the `wego` CLI, please follow the following steps:
+The `gitops` command-line interface is currently supported on Mac (x86 and Arm), and Linux.
+To install the `gitops` CLI, please follow the following steps:
 
 ```console
-curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.2.5/wego-$(uname)-$(uname -m)" -o wego
-chmod +x wego
-sudo mv ./wego /usr/local/bin/wego
-wego version
+curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.3.0/gitops-$(uname)-$(uname -m)" -o gitops
+chmod +x gitops
+sudo mv ./gitops /usr/local/bin/gitops
+gitops version
 ```
 
 You should see:
