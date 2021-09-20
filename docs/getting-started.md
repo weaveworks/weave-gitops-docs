@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Getting Started 1
+# Getting Started
 
 Let's get an app deployed with **Weave GitOps**.
 
