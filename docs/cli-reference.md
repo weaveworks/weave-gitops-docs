@@ -145,13 +145,13 @@ Flags:
       --branch string            Branch to watch within git repository (default "main")
       --chart string             Specify chart for helm source
       --deployment-type string   deployment type [kustomize, helm] (default "kustomize")
-      --dry-run                  If set, 'gitops add' will not make any changes to the system; it will just display the actions that would have been taken
+      --dry-run                  If set, 'gitops app add' will not make any changes to the system; it will just display the actions that would have been taken
   -h, --help                     help for add
       --name string              Name of remote git repository
       --path string              Path of files within git repository (default "./")
       --private-key string       Private key to access git repository over ssh
       --url string               URL of remote repository
-      --auto-merge               If set, 'gitops add' will merge automatically into the specified --branch (default false)
+      --auto-merge               If set, 'gitops app add' will merge automatically into the specified --branch (default false)
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
@@ -249,7 +249,7 @@ Examples:
 
 
 Flags:
-      --dry-run              If set, 'gitops remove' will not make any changes to the system; it will just display the actions that would have been taken
+      --dry-run              If set, 'gitops app remove' will not make any changes to the system; it will just display the actions that would have been taken
   -h, --help                 help for remove
       --name string          Name of application
       --private-key string   Private key to access git repository over ssh
