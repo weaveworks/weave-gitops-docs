@@ -195,7 +195,7 @@ Deploy key generated and uploaded to git provider
 Adding application:
 
 Name: microservices-demo
-URL: ssh://git@github.com/jrryjcksn/microservices-demo.git
+URL: ssh://git@github.com/example/microservices-demo.git
 Path: ./deploy/kubernetes/manifests
 Branch: master
 Type: kustomize
