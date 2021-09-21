@@ -4,21 +4,22 @@ sidebar_position: 3
 
 # CLI Reference
 
-## `wego`
+## `gitops`
 
-`wego` is the command-line interface for installing and controlling the Weave GitOps infrastructure
+`gitops` is the command-line interface for installing and controlling the Weave GitOps infrastructure
 
 ```console
 Weave GitOps
 
 Usage:
-  wego [command]
+  gitops [command]
 
 Available Commands:
   app
   flux        Use flux commands
-  gitops      Manages your wego installation
   help        Help about any command
+  install     Install or upgrade GitOps
+  uninstall   Uninstall GitOps
   version     Display wego version
 
 Flags:
@@ -26,95 +27,92 @@ Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
   -v, --verbose            Enable verbose output
 
-Use "wego [command] --help" for more information about a command.
+Use "gitops [command] --help" for more information about a command.
 ```
 
-## `wego gitops`
+### `gitops install`
 
-The gitops sub-command manages the installation and uninstallation of the Weave GitOps system into clusters.
-
-### `wego gitops install`
-
-`wego install` will install Weave GitOps into the current Kubernetes cluster. By default it will use the `wego-system` namespace, but you can change this.
+`gitops install` will install Weave GitOps into the current Kubernetes cluster. By default it will use the `wego-system` namespace, but you can change this.
 
 ```console
-The install command deploys Wego in the specified namespace.
+The install command deploys GitOps in the specified namespace.
 If a previous version is installed, then an in-place upgrade will be performed.
 
 Usage:
-  wego gitops install [flags]
+  gitops install [flags]
 
 Examples:
-  # Install wego in the wego-system namespace
-  wego gitops install
+  # Install GitOps in the wego-system namespace
+  gitops install
 
 Flags:
-  -h, --help   help for install
+      --dry-run   outputs all the manifests that would be installed
+  -h, --help      help for install
 
 Global Flags:
-      --dry-run            outputs all the manifests that would be installed
-  -n, --namespace string   the namespace scope for this operation (default "wego-system")
+      --namespace string   gitops runtime namespace (default "wego-system")
   -v, --verbose            Enable verbose output
 ```
 
-### `wego gitops uninstall`
+### `gitops uninstall`
 
-`wego gitops uninstall` removes the Weave GitOps controllers from the current Kubernetes cluster.
+`gitops uninstall` removes the Weave GitOps controllers from the current Kubernetes cluster.
 
 ```console
-The uninstall command removes Wego components from the cluster.
+The uninstall command removes GitOps components from the cluster.
 
 Usage:
-  wego gitops uninstall [flags]
+  gitops uninstall [flags]
 
 Examples:
-  # Uninstall wego in the wego-system namespace
-  wego uninstall
+  # Uninstall GitOps from the wego-system namespace
+  gitops uninstall
 
 Flags:
-  -h, --help   help for uninstall
+      --dry-run   outputs all the manifests that would be uninstalled
+  -h, --help      help for uninstall
 
 Global Flags:
-      --dry-run            outputs all the manifests that would be installed
-  -n, --namespace string   the namespace scope for this operation (default "wego-system")
+      --namespace string   gitops runtime namespace (default "wego-system")
   -v, --verbose            Enable verbose output
 ```
-## `wego app`
+## `gitops app`
 
 Weave GitOps enables continuous deployment of workloads to Kubernetes targets. An "app" is a workload that can be deployed.
 
 ```console
 Usage:
-  wego app [command]
+  gitops app [flags]
+  gitops app [command]
 
 Examples:
 
   # Get last 10 commits for an application
-  wego app <app-name> get commits
+  gitops app <app-name> get commits
 
-  # Add an application to wego from local git repository
-  wego app add . --name <app-name>
+  # Add an application to gitops from local git repository
+  gitops app add . --name <app-name>
 
-  # Remove an application from wego
-  wego app remove <app-name>
+  # Remove an application from gitops
+  gitops app remove <app-name>
 
-  # Status an application under wego control
-  wego app status <app-name>
+  # Status an application under gitops control
+  gitops app status <app-name>
 
-  # List applications under wego control
-  wego app list
+  # List applications under gitops control
+  gitops app list
 
   # Pause gitops automation
-  wego app pause <app-name>
+  gitops app pause <app-name>
 
   # Unpause gitops automation
-  wego app unpause <app-name>
+  gitops app unpause <app-name>
 
 Available Commands:
-  add         Add a workload repository to a wego cluster
+  add         Add a workload repository to a gitops cluster
   list        List applications under wego control
   pause       Pause an application
-  remove      Remove an app from a wego cluster
+  remove      Remove an app from a gitops cluster
   status      Get status of a workload under wego control
   unpause     Unpause an application
 
@@ -125,51 +123,51 @@ Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
   -v, --verbose            Enable verbose output
 
-Use "wego app [command] --help" for more information about a command.
+Use "gitops app [command] --help" for more information about a command.
 ```
 
-### `wego app add`
+### `gitops app add`
 
-`wego app add` adds an application workload to the GitOps workflow. The simplest way to use this is to set the current directory to
-point to a repository that you want GitOps'ed into the cluster and use `wego app add .`. By default, this will create a pull request for the repository containing the requisite GitOps machinery to manage your application. Once the pull request is approved and merged, your application will be managed by GitOps. Alternatively, if --auto-merge=true is specified, the GitOps support will be directly added to the Git repository, skipping the pull request.
+`gitops app add` adds an application workload to the GitOps workflow. The simplest way to use this is to set the current directory to
+point to a repository that you want GitOps'ed into the cluster and use `gitops app add .`. By default, this will create a pull request for the repository containing the requisite GitOps machinery to manage your application. Once the pull request is approved and merged, your application will be managed by GitOps. Alternatively, if --auto-merge=true is specified, the GitOps support will be directly added to the Git repository, skipping the pull request.
 
 ```console
-Associates an additional application in a git repository with a wego cluster so that its contents may be managed via GitOps
+Associates an additional application in a git repository with a cluster so that its contents may be managed via GitOps
 
 Usage:
-  wego app add [--name <name>] [--url <url>] [--branch <branch>] [--path <path within repository>] [--private-key <keyfile>] <repository directory> [flags]
+  gitops app add [--name <name>] [--url <url>] [--branch <branch>] [--path <path within repository>] [--private-key <keyfile>] <repository directory> [flags]
 
 Examples:
-wego app add .
+gitops app add .
 
 Flags:
       --app-config-url string    URL of external repository (if any) which will hold automation manifests; NONE to store only in the cluster
       --branch string            Branch to watch within git repository (default "main")
       --chart string             Specify chart for helm source
       --deployment-type string   deployment type [kustomize, helm] (default "kustomize")
-      --dry-run                  If set, 'wego add' will not make any changes to the system; it will just display the actions that would have been taken
+      --dry-run                  If set, 'gitops app add' will not make any changes to the system; it will just display the actions that would have been taken
   -h, --help                     help for add
       --name string              Name of remote git repository
       --path string              Path of files within git repository (default "./")
       --private-key string       Private key to access git repository over ssh
       --url string               URL of remote repository
-      --auto-merge               If set, 'wego add' will merge automatically into the specified --branch (default false)
+      --auto-merge               If set, 'gitops app add' will merge automatically into the specified --branch (default false)
 
 Global Flags:
       --namespace string   gitops runtime namespace (default "wego-system")
   -v, --verbose            Enable verbose output
   ```
 
-### `wego app status`
+### `gitops app status`
 
 Get the status of a GitOps'ed app
 
 ```console
 Usage:
-  wego app status <app-name> [flags]
+  gitops app status <app-name> [flags]
 
 Examples:
-wego app status podinfo
+gitops app status podinfo
 
 Flags:
   -h, --help   help for status
@@ -179,16 +177,16 @@ Global Flags:
   -v, --verbose            Enable verbose output
 ```
 
-### `wego app list`
+### `gitops app list`
 
 List the weave-gitops apps currently deployed in the cluster
 
 ```console
 Usage:
-  wego app list [flags]
+  gitops app list [flags]
 
 Examples:
-wego app list
+gitops app list
 
 Flags:
   -h, --help   help for list
@@ -198,16 +196,16 @@ Global Flags:
   -v, --verbose            Enable verbose output
 ```
 
-### `wego app pause`
+### `gitops app pause`
 
 Pause an application
 
 ```console
 Usage:
-  wego app pause <app-name> [flags]
+  gitops app pause <app-name> [flags]
 
 Examples:
-wego app pause podinfo
+gitops app pause podinfo
 
 Flags:
   -h, --help   help for pause
@@ -217,16 +215,16 @@ Global Flags:
   -v, --verbose            Enable verbose output
 ```
 
-### `wego app unpause`
+### `gitops app unpause`
 
 Unpause an application
 
 ```console
 Usage:
-  wego app unpause <app-name> [flags]
+  gitops app unpause <app-name> [flags]
 
 Examples:
-wego app unpause podinfo
+gitops app unpause podinfo
 
 Flags:
   -h, --help   help for unpause
@@ -236,22 +234,22 @@ Global Flags:
   -v, --verbose            Enable verbose output
 ```
 
-### `wego app remove`
+### `gitops app remove`
 
-Remove an application from a wego cluster so it will no longer be managed via GitOps
+Remove an application from a gitops cluster so it will no longer be managed via GitOps
 
 ```console
 Usage:
-  wego app remove [--private-key <keyfile>] <app name> [flags]
+  gitops app remove [--private-key <keyfile>] <app name> [flags]
 
 Examples:
 
-  # Remove application from wego control via immediate commit
-  wego app remove podinfo
+  # Remove application from gitops control via immediate commit
+  gitops app remove podinfo
 
 
 Flags:
-      --dry-run              If set, 'wego remove' will not make any changes to the system; it will just display the actions that would have been taken
+      --dry-run              If set, 'gitops app remove' will not make any changes to the system; it will just display the actions that would have been taken
   -h, --help                 help for remove
       --name string          Name of application
       --private-key string   Private key to access git repository over ssh
@@ -261,19 +259,19 @@ Global Flags:
   -v, --verbose            Enable verbose output
 ```
 
-## `wego flux`
+## `gitops flux`
 
 This command enables access to and control of the underlying Flux runtime.
 
 Please see [flux documentation](https://fluxcd.io/docs/cmd/flux/)
 
-## `wego version`
+## `gitops version`
 
 ```console
-Display wego version
+Display gitops version
 
 Usage:
-  wego version [flags]
+  gitops version [flags]
 
 Flags:
   -h, --help   help for version

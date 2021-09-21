@@ -66,7 +66,7 @@ Run `kubectl cluster-info --context kind-kind`
 
 2. Install Weave GitOps into the currently active Kubernetes cluster:
 ```console
-wego gitops install
+gitops install
 ```
 
 You should see:
@@ -110,7 +110,7 @@ source-controller-b4b88948f-kz2lr              1/1     Running   0          112s
 
 ### Configure Weave GitOps to reconcile the workload automatically
 
-First we will fork a basic workload repository, then we will add the `wego` GitOps automation to deploy into the cluster
+First we will fork a basic workload repository, then we will add the GitOps automation to deploy into the cluster
 
 #### Fork and clone the Podinfo repository
 
@@ -154,13 +154,13 @@ This repository only contains Kubernetes YAMLs (and a README):
 
 7. Let's enable GitOps for this workload
 ```console
-wego app add .
+gitops app add .
 ```
 
 You should see something like:
 ```console
 ◎ Checking cluster status
-✔ Wego installed
+✔ GitOps installed
 
 Visit this URL to authenticate with Github:
 
@@ -172,7 +172,7 @@ Waiting for authentication flow completion...
 
 ```
 
-Copy the code and visit the URL shown to grant temporary `repo` access for Weave GitOps. 
+Copy the code and visit the URL shown to grant temporary `repo` access for Weave GitOps.
 
 ![device flow activation](/img/github-device-flow-start.png)
 
@@ -182,27 +182,27 @@ You should then see this confirmation:
 
 Once complete, the process will continue and you will see something like:
 
-```
+```console
 Authentication successful!
 
+uploading deploy key
+Deploy key generated and uploaded to git provider
 Adding application:
 
-Name: podinfo-deploy
+Name: nginx
 URL: ssh://git@github.com/pzfreo/podinfo-deploy.git
 Path: ./
 Branch: main
 Type: kustomize
 
-◎ Checking cluster status
-✔ Wego installed
 ✚ Generating Source manifest
 ✚ Generating GitOps automation manifests
 ✚ Generating Application spec manifest
 ► Cloning ssh://git@github.com/pzfreo/podinfo-deploy.git
-Pull Request created: https://github.com/pzfreo/podinfo-deploy/pull/1
+Pull Request created: <link to PR>
 
 ► Applying manifests to the cluster
-► Committing and pushing wego updates for application
+► Committing and pushing gitops updates for application
 ✔ App is up to date
 ```
 
@@ -227,11 +227,11 @@ backend-66b5655895-ms79n    1/1     Running   0          42s
 frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
 ```
 
-10. You can use the `wego app status` command to see the reconciliation.
+10. You can use the `gitops app status` command to see the reconciliation.
 
 
 ```console
-wego app status podinfo-deploy
+gitops app status podinfo-deploy
 ```
 ```
 Latest successful deployment time: 2021-06-29T14:41:14Z
@@ -246,7 +246,7 @@ This shows you when the last deployment was as well as the specific SHA from Git
 
 You have successfully deployed the app!
 
-11. `wego app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
+11. `gitops app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
 
 This directory contains the GitOps Automation configuration.
 
@@ -267,7 +267,7 @@ $ tree .wego/
 
 You can find out more about these YAMLs and the `.wego` directory [here](gitops-automation.md).
 
-Notice that `wego` has checked in this YAML into your fork (*This will change in a future release to create a PR against your repository instead*).
+Notice that `gitops` has checked in this YAML into your fork (*This will change in a future release to create a PR against your repository instead*).
 
 12. To access the `podinfo` UI you can set up a port forward into the pod.
 ```console
@@ -311,7 +311,7 @@ git push
 15. Wait for the reconciliation to take place
 
 ```console
-wego app status podinfo-deploy
+gitops app status podinfo-deploy
 ```
 ```
 Latest successful deployment time: 2021-06-09T10:36:26Z
