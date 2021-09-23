@@ -9,7 +9,7 @@ const containerStyle = {
 };
 
 // This determines the current version of the docs you're looking at
-// E.g. /docs/next or /docs/0.2.5
+// E.g. /docs/next or /docs/0.3.0
 const getCurrentVersionPath = () => {
   const { "docusaurus-plugin-content-docs": data } = useGlobalData();
   const currentVersion = data?.default?.versions?.find(
