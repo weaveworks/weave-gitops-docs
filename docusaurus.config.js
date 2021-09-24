@@ -63,6 +63,19 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Weaveworks`,
     },
+    algolia: {
+      
+      apiKey: process.env.ALGOLIA_API_KEY,
+      indexName: 'weave',
+      // Needed to handle the different versions of docs
+      contextualSearch: true,
+
+      // Optional: Algolia search parameters
+      // searchParameters: {
+      //   facetFilters: ['type:content']
+      // },
+      
+    },
     googleAnalytics: {
       trackingID: process.env.GA_KEY,
       // Optional fields.
