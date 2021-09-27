@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # AWS Marketplace
 
-Weave GitOps is also available via AWS Marketplace. 
+Weave GitOps is also available via the AWS Marketplace. 
 
 # Deploy Weave GitOps Core on an EKS Cluster via Helm
 
@@ -30,7 +30,7 @@ If you do not have a cluster on EKS, you can use [`eksctl`](https://github.com/w
 Copy the contents of the sample file below into `cluster-config.yaml` and replace the placeholder values with your settings.
 See the [`eksctl` documentation](https://eksctl.io/) for more configuration options.
 
-```
+```yaml
 ---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -83,7 +83,7 @@ Use this `eksctl` configuration below (replacing the placeholder values) to:
 - Create the required service account ARN
 
 Save the example below as `oidc-config.yaml`
-```
+```yaml
 ---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -131,14 +131,14 @@ template which created it._
 
 ## Step 5: Install Weave GitOps
 
-Copy the Chart URL from your subscription page.
+Copy the Chart URL from Usage Instructions, or download the file from the Deployment template to your workstation.
 
 ```bash
-helm install wego <URL> \
+helm install wego <URL/PATH> \
   --set serviceAccountRole="$SA_ARN"
 
 # if you changed the name of the service account
-helm install wego <URL> \
+helm install wego <URL/PATH> \
   --set serviceAccountName='<name>' \
   --set serviceAccountRole="$SA_ARN"
 ```
