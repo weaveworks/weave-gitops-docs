@@ -53,7 +53,9 @@ Creating cluster "kind" ...
 Set kubectl context to "kind-kind"
 You can now use your cluster with:
 kubectl cluster-info --context kind-kind
+
 Have a nice day! 👋
+
 ```
 
 You now will have the right `kubeconfig` for the kind cluster.
@@ -73,6 +75,7 @@ You should see:
 ✔ manifests build completed
 ► installing components in wego-system namespace
 ◎ verifying installation
+
 ```
 
 The install will pause while the containers are loaded into the cluster. (*roughly 1 to 2 minutes depending on your system*)
@@ -233,6 +236,7 @@ gitops app status podinfo-deploy
 Latest successful deployment time: 2021-06-29T14:41:14Z
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
+
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system kustomization/podinfo-deploy    True    Applied revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
 ```
@@ -256,6 +260,7 @@ $ tree .wego/
     └── kind-kind
         └── podinfo-deploy
             └── podinfo-deploy-gitops-runtime.yaml
+
 5 directories, 2 files
 ```
 
@@ -311,6 +316,7 @@ gitops app status podinfo-deploy
 Latest successful deployment time: 2021-06-09T10:36:26Z
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
+
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system kustomization/podinfo-deploy    True    Applied revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
   ```
