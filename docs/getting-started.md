@@ -20,36 +20,17 @@ via GitOps. Further guides will then show how to move that workload into staging
 ## Pre-requisites
 
 This guide is for Mac and Linux only (so far!).
-At the moment, Weave GitOps supports [Github](https://github.com) and [gitlab](https://gitlab.com).
+At the moment, Weave GitOps supports [GitHub](https://github.com) and [Gitlab](https://gitlab.com).
 
-*other Git providers are coming soon.*
+*Other Git providers are coming soon.*
+
+To follow along with this guide you will need:
+1. A GitHub account
+2. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
+3. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
+4. Kind requires [Docker](https://docs.docker.com/get-docker/)
 
 ## Install the Weave GitOps CLI
-
-To get this working you need:
-1. A Github/Gitlab account
-2. A Github/Gitlab token
-3. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
-4. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
-5. Kind requires [Docker](https://docs.docker.com/get-docker/)
-
-### Github Token
-
-You need a Github Token with `repo` access.
-
-If you don't already have one, please follow the [Github guide](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-
-Make sure that the token is in your environment as `GITHUB_TOKEN`
-
-### Gitlab Token
-
-You need a Gitlab Token with `repo` access.
-
-If you don't already have one, please follow the [Gitlab guide](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)
-
-Make sure that the token is in your environment as `GITLAB_TOKEN`
-
-## Install the CLI
 
 Please follow the instructions in the  [CLI installation page](installation.md  ) to install the command-line tool.
 
@@ -71,9 +52,7 @@ Creating cluster "kind" ...
  ✓ Installing StorageClass 💾
 Set kubectl context to "kind-kind"
 You can now use your cluster with:
-
 kubectl cluster-info --context kind-kind
-
 Have a nice day! 👋
 ```
 
@@ -94,7 +73,6 @@ You should see:
 ✔ manifests build completed
 ► installing components in wego-system namespace
 ◎ verifying installation
-
 ```
 
 The install will pause while the containers are loaded into the cluster. (*roughly 1 to 2 minutes depending on your system*)
@@ -160,14 +138,13 @@ This repository only contains Kubernetes YAMLs (and a README):
 .
 ├── README.md
 ├── backend
-│   ├── deployment.yaml
-│   ├── hpa.yaml
-│   └── service.yaml
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   └── service.yaml
 ├── frontend
-│   ├── deployment.yaml
-│   └── service.yaml
+│   ├── deployment.yaml
+│   └── service.yaml
 └── namespace.yaml
-
 2 directories, 7 files
 ```
 
@@ -256,7 +233,6 @@ gitops app status podinfo-deploy
 Latest successful deployment time: 2021-06-29T14:41:14Z
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
-
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system kustomization/podinfo-deploy    True    Applied revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
 ```
@@ -274,13 +250,12 @@ If you do a tree inside this directory you should see something like:
 $ tree .wego/
 .wego/
 ├── apps
-│   └── podinfo-deploy
-│       └── app.yaml
+│   └── podinfo-deploy
+│       └── app.yaml
 └── targets
     └── kind-kind
         └── podinfo-deploy
             └── podinfo-deploy-gitops-runtime.yaml
-
 5 directories, 2 files
 ```
 
@@ -336,7 +311,6 @@ gitops app status podinfo-deploy
 Latest successful deployment time: 2021-06-09T10:36:26Z
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
-
 NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
 wego-system kustomization/podinfo-deploy    True    Applied revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
   ```
