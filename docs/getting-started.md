@@ -20,9 +20,9 @@ via GitOps. Further guides will then show how to move that workload into staging
 ## Pre-requisites
 
 This guide is for Mac and Linux only (so far!).
-At the moment, Weave GitOps supports [GitHub](https://github.com).
+At the moment, Weave GitOps supports [GitHub](https://github.com) and [Gitlab](https://gitlab.com).
 
-*[Gitlab](https://gitlab.com) and other Git providers are coming soon.*
+*Other Git providers are coming soon.*
 
 To follow along with this guide you will need:
 1. A GitHub account
@@ -52,10 +52,10 @@ Creating cluster "kind" ...
  ✓ Installing StorageClass 💾
 Set kubectl context to "kind-kind"
 You can now use your cluster with:
-
 kubectl cluster-info --context kind-kind
 
 Have a nice day! 👋
+
 ```
 
 You now will have the right `kubeconfig` for the kind cluster.
@@ -141,14 +141,13 @@ This repository only contains Kubernetes YAMLs (and a README):
 .
 ├── README.md
 ├── backend
-│   ├── deployment.yaml
-│   ├── hpa.yaml
-│   └── service.yaml
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   └── service.yaml
 ├── frontend
-│   ├── deployment.yaml
-│   └── service.yaml
+│   ├── deployment.yaml
+│   └── service.yaml
 └── namespace.yaml
-
 2 directories, 7 files
 ```
 
@@ -255,8 +254,8 @@ If you do a tree inside this directory you should see something like:
 $ tree .wego/
 .wego/
 ├── apps
-│   └── podinfo-deploy
-│       └── app.yaml
+│   └── podinfo-deploy
+│       └── app.yaml
 └── targets
     └── kind-kind
         └── podinfo-deploy
