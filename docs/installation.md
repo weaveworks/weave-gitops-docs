@@ -8,7 +8,7 @@ The `gitops` command-line interface is currently supported on Mac (x86 and Arm),
 To install the `gitops` CLI, please follow the following steps:
 
 ```console
-curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.3.0/gitops-$(uname)-$(uname -m)" -o gitops
+curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.3.1-rc.11/gitops-$(uname)-$(uname -m)" -o gitops
 chmod +x gitops
 sudo mv ./gitops /usr/local/bin/gitops
 gitops version
@@ -17,9 +17,9 @@ gitops version
 You should see:
 
 ```console
-Current Version: 0.2.5
-GitCommit: 00a5e5bb3307a1e8f01cc66b6c514850f2a10e9a
-BuildTime: 2021-09-08T23:56:57Z
+Current Version: v0.0.0
+GitCommit: b4f875e
+BuildTime: 2021-10-07_21:53:03
 Branch: HEAD
-Flux Version: v0.16.0
+Flux Version: v0.17.2
 ```
