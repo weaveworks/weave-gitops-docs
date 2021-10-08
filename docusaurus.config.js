@@ -37,6 +37,12 @@ module.exports = {
           label: 'Getting Started',
         },
         {
+            type: 'doc',
+            docId: 'aws-marketplace',
+            position: 'left',
+            label: 'AWS Marketplace',
+        },
+        {
           type: 'docsVersionDropdown',
           position: 'right',
           dropdownActiveClassDisabled: true,
