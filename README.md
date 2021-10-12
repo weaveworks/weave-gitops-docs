@@ -10,6 +10,12 @@ yarn install
 
 ## Local Development
 
+Set a fake Algolia API key to pass validation errors:
+
+```shell
+export ALGOLIA_API_KEY=fakekey
+```
+
 ```console
 yarn start
 ```
