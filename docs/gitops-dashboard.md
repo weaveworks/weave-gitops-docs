@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Browser Dashboard
+# GitOps Dashboard
 
 The `gitops` binary contains an HTTP server that can be used to start a browser interface. The Weave GitOps Dashboard show information about your Applications and allows you to do common operations via a Browser UI.
 
