@@ -109,7 +109,7 @@ iam:
 ```
 
 ```bash
-eksctl utils associate-iam-oidc-provider -f oidc-config.yaml
+eksctl utils associate-iam-oidc-provider -f oidc-config.yaml --approve
 eksctl create iamserviceaccount -f oidc-config.yaml --approve
 ```
 
