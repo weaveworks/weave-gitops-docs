@@ -97,6 +97,7 @@ iam:
   serviceAccounts:
   - metadata:
       name: wego-service-account # Altering this will require a corresponding change in a later command
+      namespace: wego-system
     roleOnly: true
     attachPolicy:
       Version: "2012-10-17"
