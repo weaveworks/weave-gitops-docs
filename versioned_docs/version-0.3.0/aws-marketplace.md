@@ -97,6 +97,7 @@ iam:
   serviceAccounts:
   - metadata:
       name: wego-service-account # Altering this will require a corresponding change in a later command
+      namespace: wego-system
     roleOnly: true
     attachPolicy:
       Version: "2012-10-17"
@@ -109,7 +110,7 @@ iam:
 ```
 
 ```bash
-eksctl utils associate-iam-oidc-provider -f oidc-config.yaml
+eksctl utils associate-iam-oidc-provider -f oidc-config.yaml --approve
 eksctl create iamserviceaccount -f oidc-config.yaml --approve
 ```
 
