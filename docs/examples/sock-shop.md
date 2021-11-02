@@ -10,7 +10,7 @@ In this example, we'll show how easy it is to deploy a real world application us
 
 # Prerequisites
 
-In order to deploy the *Sock Shop*, you need to first deploy Weave GitOps to a Kubernetes cluster. If you'd like to test this out locally, you can set up a [kind](https://kind.sigs.k8s.io/) cluster by following the instructions at the link. Regardless of which cluster you'd like to use, you can install Weave Gitops by first making sure your default kubeconfig points to the chosen cluster and then running `gitops install`.
+In order to deploy the *Sock Shop*, you need to first deploy Weave GitOps to a Kubernetes cluster. If you'd like to test this out locally, you can set up a [kind](https://kind.sigs.k8s.io/) cluster by following the instructions at the link. Regardless of which cluster you'd like to use, you can install Weave GitOps by first making sure your default kubeconfig points to the chosen cluster and then running `gitops install`.
 
 ```console
 > gitops install
@@ -33,7 +33,7 @@ Once you see `install finished`, your cluster is ready to go with Weave GitOps.
 ## Simple Deployment
 Once you have a cluster running Weave GitOps, it's simple to deploy an application like [*Sock Shop*](https://github.com/microservices-demo/microservices-demo).
 
-To deploy the *Sock Shop*, we need to use `gitops app add`. `gitops app add` comes in three flavors depending on how you'd like your GitOps support to be managed. Just as GitOps in general lets you synchronize your application definitions with their in-cluster versions via `git` operations and pull requests, Weave GitOps lets you manage the resources that _do_ the synchronization in the same way. That might sound a bit "meta" but it allows you to update the management resources themselves via pull requests. You can change things like synchronization intervals or even upgrade the resources via git. Why _wouldn't_ you want to be able to do those things?
+To deploy the *Sock Shop*, we need to use `gitops add app`. `gitops add app` comes in three flavors depending on how you'd like your GitOps support to be managed. Just as GitOps in general lets you synchronize your application definitions with their in-cluster versions via `git` operations and pull requests, Weave GitOps lets you manage the resources that _do_ the synchronization in the same way. That might sound a bit "meta" but it allows you to update the management resources themselves via pull requests. You can change things like synchronization intervals or even upgrade the resources via git. Why _wouldn't_ you want to be able to do those things?
 
 The three storage options for the management resources provided by Weave GitOps are:
 - in a `.wego` subdirectory of the same repository as your application (for a simple all-in-one configuration)
@@ -45,7 +45,7 @@ First, let's fork the *Sock Shop* repository. You can simply go to the [reposito
 Now, if we just want to get the *Sock Shop* running in the simplest way possible, without modifying anything, we can run a single command:
 
 ```console
-> gitops app add --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url NONE
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url NONE
 ◎ Checking cluster status
 ✔ GitOps installed
 uploading deploy key
@@ -117,7 +117,7 @@ and if we visit `http://localhost:8080`, we'l see:
 Pretty simple! Now, let's go back and look at that command in more detail:
 
 ```console
-gitops app add \                                                   # (1)
+gitops add app \                                                   # (1)
    --url ssh://git@github.com/example/microservices-demo.git \   # (2)
    --path ./deploy/kubernetes/manifests \                        # (3)
    --app-config-url NONE                                         # (4)`
@@ -130,7 +130,7 @@ gitops app add \                                                   # (1)
 
 For a quick turnaround (during development or for testing) `NONE` does the trick. The application is being managed via GitOps, so any changes made in the application repository will be applied to the cluster when they are merged.
 
-The application can also be deployed via a helm chart. Applications defined in helm charts can be deployed from either helm repositories or git repositories. In the case of the *Sock Shop* application, a helm chart is included in the `GitHub` repository. We only need to make minor changes to the command we used above to switch to a helm chart, but using a helm chart for *Sock Shop* requires the target namespace to exist before deploying. By default, the chart would be deployed into the `wego-system` namespace (since we know it exists), but we'd like to put it in the `sock-shop` namespace. So, before we run `gitops app add`, we'll run:
+The application can also be deployed via a helm chart. Applications defined in helm charts can be deployed from either helm repositories or git repositories. In the case of the *Sock Shop* application, a helm chart is included in the `GitHub` repository. We only need to make minor changes to the command we used above to switch to a helm chart, but using a helm chart for *Sock Shop* requires the target namespace to exist before deploying. By default, the chart would be deployed into the `wego-system` namespace (since we know it exists), but we'd like to put it in the `sock-shop` namespace. So, before we run `gitops add app`, we'll run:
 
 ```console
 kubectl create namespace sock-shop
@@ -141,7 +141,7 @@ namespace/sock-shop created
 Then, we can run:
 
 ```console
-> gitops app add --url ssh://git@github.com/example/microservices-demo.git --deployment-type helm --path ./deploy/kubernetes/helm-chart --helm-release-target-namespace sock-shop --app-config-url NONE
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --deployment-type helm --path ./deploy/kubernetes/helm-chart --helm-release-target-namespace sock-shop --app-config-url NONE
 ◎ Checking cluster status
 ✔ GitOps installed
 uploading deploy key
@@ -164,7 +164,7 @@ Type: helm
 Examining this command, we see two new arguments:
 
 ```console
-gitops app add \
+gitops add app \
 --url ssh://git@github.com/example/microservices-demo.git \
 --path ./deploy/kubernetes/helm-chart \
 --app-config-url NONE \
@@ -180,14 +180,14 @@ gitops app add \
 As mentioned above, Weave GitOps allows you to also manage your GitOps resources via GitOps. This has several advantages:
 1. Increased control - you can alter parameters such as synchronization interval via updates to git
 2. Upgradability - when the Weave GitOps upgrades can be managed via git updates
-3. Reviewability and Auditability - Changes performed via git can be tracked; additionally, the default behavior of `gitops app add` is to create pull requests for upstream repositories which makes reviewing and auditing straightforward using the same tools used during development
+3. Reviewability and Auditability - Changes performed via git can be tracked; additionally, the default behavior of `gitops add app` is to create pull requests for upstream repositories which makes reviewing and auditing straightforward using the same tools used during development
 4. Recoverability - if the cluster is restored after failure, the management resources can be restored from git
 
 To run with managed GitOps resources, we need to tell Weave GitOps where to put them. The default behavior of putting them in a private directory within the application repository works fine for repositories under our control (but doesn't work if we want to use either a helm repository or an open source git repository). To use the default, we simply leave off the `--app-config-url NONE` parameter (or, equivalently, use `--app-config-url ''`). This will store the manifests for our GitOps resources in the `.wego` directory within our application repository.
 
 ### Deployment with GitOps Resources in Application Repository
 ```console
-> gitops app add --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --auto-merge
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --auto-merge
 ◎ Checking cluster status
 ✔ GitOps installed
 uploading deploy key
@@ -288,7 +288,7 @@ spec:
 If you'd like to manage GitOps resources for a helm repository or a git repository not under your control, or you'd like to manage all of your GitOps resources together, you can store them in a separate configuration repository by passing a URL to `--app-config-url`:
 
 ```console
-> gitops app add --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url ssh://git@github.com/example/external.git --auto-merge
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url ssh://git@github.com/example/external.git --auto-merge
 ◎ Checking cluster status
 ✔ GitOps installed
 uploading deploy key
@@ -337,7 +337,7 @@ We've reached the all-singing, all-dancing case now. This is the way most people
 In order to use pull requests for your GitOps resources, you simply need to leave off the `--auto-merge` flag we've been passing since we started storing our GitOps resources (In other words, using pull requests is the default). For example, if we run the previous command without `--auto-merge`, we see different output:
 
 ```console
-> gitops app add --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url ssh://git@github.com/example/external.git
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url ssh://git@github.com/example/external.git
 ◎ Checking cluster status
 ✔ GitOps installed
 uploading deploy key
