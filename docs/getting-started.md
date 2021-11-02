@@ -153,7 +153,7 @@ This repository only contains Kubernetes YAMLs (and a README):
 
 7. Let's enable GitOps for this workload
 ```console
-gitops app add .
+gitops add app .
 ```
 
 You should see something like:
@@ -226,11 +226,11 @@ backend-66b5655895-ms79n    1/1     Running   0          42s
 frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
 ```
 
-10. You can use the `gitops app status` command to see the reconciliation.
+10. You can use the `gitops get app` command to see the reconciliation.
 
 
 ```console
-gitops app status podinfo-deploy
+gitops get app podinfo-deploy
 ```
 ```
 Latest successful deployment time: 2021-06-29T14:41:14Z
@@ -245,7 +245,7 @@ This shows you when the last deployment was as well as the specific SHA from Git
 
 You have successfully deployed the app!
 
-11. `gitops app add` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
+11. `gitops add app` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
 
 This directory contains the GitOps Automation configuration.
 
@@ -310,7 +310,7 @@ git push
 15. Wait for the reconciliation to take place
 
 ```console
-gitops app status podinfo-deploy
+gitops get app podinfo-deploy
 ```
 ```
 Latest successful deployment time: 2021-06-09T10:36:26Z
