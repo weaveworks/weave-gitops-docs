@@ -10,7 +10,6 @@ module.exports = {
   favicon: "img/favicon_150px.png",
   organizationName: "weaveworks", // Usually your GitHub org/user name.
   projectName: "weave-gitops-docs", // Usually your repo name.
-  plugins: ["@docusaurus/plugin-google-gtag"],
   themeConfig: {
     navbar: {
       title: "Weave GitOps",
