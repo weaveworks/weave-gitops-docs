@@ -1,15 +1,7 @@
 const versions = require('./versions.json');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Weave GitOps',
-  tagline: 'Weave GitOps Documentation',
-  url: 'https://docs.gitops.weave.works/',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon_150px.png',
-  organizationName: 'weaveworks', // Usually your GitHub org/user name.
-  projectName: 'weave-gitops-docs', // Usually your repo name.
+  plugins: ["@docusaurus/plugin-google-gtag"],
   themeConfig: {
     navbar: {
       title: 'Weave GitOps',
@@ -82,11 +74,12 @@ module.exports = {
       // },
       
     },
-    googleAnalytics: {
+    gtag: {
+      // You can also use your "G-" Measurement ID here.
       trackingID: process.env.GA_KEY,
       // Optional fields.
       anonymizeIP: true, // Should IPs be anonymized?
-    }
+    },
   },
   presets: [
     [
