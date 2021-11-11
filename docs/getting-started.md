@@ -16,7 +16,6 @@ To follow along with this guide you will need:
 1. A GitHub account
 2. kubectl installed - [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
 3. For our Kubernetes cluster we use [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) which requires [Docker](https://docs.docker.com/get-docker/).
----
 
 ## Install the Weave GitOps CLI
 
@@ -28,8 +27,6 @@ gitops version
 ```
 
 For complete installation instructions and general pre-requisites, see the  [Installation page](installation.md).
-
----
 
 ## Prepare your cluster
 
@@ -76,8 +73,6 @@ Once complete, you will see:
 ✔ notification-controller: deployment ready
 ✔ install finished
 ```
----
-
 ## Configure Weave GitOps to deploy your application
 
 ### 3 - Fork the Podinfo repository
@@ -149,8 +144,6 @@ Merge the Pull Request to start the deployment.
 
 ![Merge](/img/podinfo-pr-merge.png)
 
----
-
 ## View the running application
 
 ### 6 - Check the deployment status
@@ -202,8 +195,6 @@ You should see something like:
 ![Podinfo](/img/podinfo-web.png)
 
 Use CTRL+C to cancel the `kubectl port-forward` command to continue with your command prompt.
-
----
 
 ## GitOps reconciliation in action
 
@@ -281,8 +272,6 @@ frontend-ff74574fc-7ntw4   1/1     Running       0          19s
 Notice that the backend has not changed and so the backend pod is not affected.
 
 Restart `kubectl port-forward service/frontend 9898:9898 --namespace test` and you will see the color has changed. NB: If you use a real ingress then you wouldn't need to do this.
-
----
 
 ## Complete!
 

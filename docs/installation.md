@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# Installation of Weave GitOps
+# Installation
 
 ## Pre-requisites
 
