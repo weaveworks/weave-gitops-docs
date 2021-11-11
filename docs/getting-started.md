@@ -106,7 +106,7 @@ Next fill out the form with the required values:
 - Name: **podinfo-deploy**
 - Kubernetes Namespace: **wego-system**  
   -  **Leave as default**, this is where the automation objects for the application will be created.
-- Source Repo URL: **\<your-forked-podinfo-repo>**  
+- Source Repo URL: (**your-forked-podinfo-repo**)
   - For example: `https://github.com/sympatheticmoose/podinfo-deploy` or `git@github.com:sympatheticmoose/podinfo-deploy`
 - Config Repo URL: (**leave blank**)  
   - It is **recommended** to use a separate repository as your config repo when deploying multiple applications, potentially to multiple clusters, however, for simplicity - you can also use the same repo as the `Source Repo URL` )
