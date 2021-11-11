@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Getting Started
 
-Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a KinD cluster, then make a change to the application in Git, and see it automatically update on the cluster.
+Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a kind cluster, then make a change to the application in Git, and see it automatically update on the cluster.
 
 You can also join our regular workshops where we go through these steps and help you along the way:
 - Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/
@@ -77,11 +77,12 @@ Once complete, you will see:
 ✔ install finished
 ```
 ---
+
 ## Configure Weave GitOps to deploy your application
 
 ### 3 - Fork the Podinfo repository
 
-For Weave GitOps to set up automation to reconicile the workload, we will need write access to the repository, so we will first fork the podinfo sample repository.
+For Weave GitOps to set up automation to reconcile the workload, we will need write access to the repository, so we will first fork the podinfo sample repository.
 
 Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy).
 
@@ -118,7 +119,7 @@ Next fill out the form with the required values:
   - This allows you to specify a particular folder with a repository, should the repo contain more than a single applications deployment manifests.
 - Branch: (**should not require changing**)
 
-Click **Submit** in the bottom right of the form. This will result in an error as we have not recently authenicated with GitHub, and we are not yet authorized to raise a pull request against your repository.
+Click **Submit** in the bottom right of the form. This will result in an error as we have not recently authenticated with GitHub, so we are not yet authorized to raise a pull request against your repository.
 
 Click **Authenticate with GitHub** within the error message as shown below:
 
@@ -139,14 +140,20 @@ The screen should update with a message that the Pull Request has been created, 
 
 ![Pull request raised](/img/dashboard-add-application-PR-raised.png)
 
-The Pull Request adds three files. An **Application custom resource** with details about the deployment, a **GitRepository** and a **Kustomization** Merge the Pull Request.
+The Pull Request adds three files which will be deployed to your cluster:
+- An **Application custom resource** with details about the deployment.
+- A [**GitRepository**](https://fluxcd.io/docs/concepts/#sources) source which "defines the origin of a repository containing the desired state of the system and the requirements to obtain it". This includes the `interval` which is how frequently to check for available new versions.
+- A [**Kustomization**](https://fluxcd.io/docs/concepts/#kustomization) which "represents a local set of Kubernetes resources (e.g. kustomize overlay) that Flux is supposed to reconcile in the cluster". This deploys the resources found under the specified path, reconciling between the cluster and the declared state in Git. Where "if you make any changes to the cluster using kubectl edit/patch/delete, they will be promptly reverted." based on the `interval` value. Note you can pause this reconciliation process using `gitops suspend <app-name>`.
+
+Merge the Pull Request to start the deployment.
 
 ![Merge](/img/podinfo-pr-merge.png)
 
-Once you have merged the PR it should look like this:
-![Merge Complete](/img/podinfo-pr-merge-complete.png)
+---
 
-### 6 - View the running application
+## View the running application
+
+### 6 - Check the deployment status
 
 Once the PR is merged wait for the workload to show up in the cluster:
 ```console
@@ -158,7 +165,7 @@ backend-66b5655895-ms79n    1/1     Running   0          42s
 frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
 ```
 
-You can use the `gitops get app` command to see the reconciliation.
+You can use the `gitops get app` command to see the reconciliation status.
 
 
 ```console
@@ -177,7 +184,9 @@ This shows you when the last deployment was as well as the specific SHA from Git
 
 You have successfully deployed the app!
 
-12. To access the `podinfo` UI you can set up a port forward into the pod.
+### 7 - Access the running application
+
+To access the `podinfo` UI you can set up a port forward into the pod.
 ```console
 kubectl port-forward service/frontend 9898:9898 --namespace test
 ```
@@ -185,7 +194,6 @@ kubectl port-forward service/frontend 9898:9898 --namespace test
 Forwarding from 127.0.0.1:9898 -> 9898
 Forwarding from [::1]:9898 -> 9898
 ```
-NB: This command does not return
 
 Now you can browse [http://localhost:9898](http://localhost:9898)
 
@@ -195,9 +203,43 @@ You should see something like:
 
 Use CTRL+C to cancel the `kubectl port-forward` command to continue with your command prompt.
 
-### See GitOps reconciliation
+---
 
-13. The real aim of GitOps is not just to deploy once, but to reconcile as well. Let's test that out.
+## GitOps reconciliation in action
+
+The real aim of GitOps is not just to deploy once, but to continuously reconcile desired state in Git with live state in Kubernetes. So we will now show a change.
+
+### 8 - Bad actor time, delete your application.
+
+Let's try deleting the `frontend` deployment and seeing what happens. 
+
+First set up a watch on the pods
+```
+kubectl get pods -n test --watch
+```
+
+Now delete the deployment for `frontend`
+```
+kubectl delete deployment/frontend -n test
+```
+You will see the pod terminate, but after a short while, a new deployment will be created and a new pod created as drift was detected between our desired state and live state.
+
+```
+NAME                        READY   STATUS    RESTARTS   AGE
+backend-6b944d8b-hrg7f      1/1     Running   0          2m34s
+frontend-64769bf658-b5nv6   1/1     Running   0          34s
+frontend-64769bf658-b5nv6   1/1     Terminating   0          68s
+frontend-64769bf658-b5nv6   0/1     Terminating   0          72s
+frontend-64769bf658-b5nv6   0/1     Terminating   0          72s
+frontend-64769bf658-b5nv6   0/1     Terminating   0          72s
+frontend-64769bf658-mjjcs   0/1     Pending       0          0s
+frontend-64769bf658-mjjcs   0/1     Pending       0          0s
+frontend-64769bf658-mjjcs   0/1     ContainerCreating   0          0s
+frontend-64769bf658-mjjcs   0/1     Running             0          2s
+frontend-64769bf658-mjjcs   1/1     Running             0          11s
+```
+
+### 9 - Make a (desired) change to your application
 Edit `frontend/deployment.yaml`
 
 Change the `PODINFO_UI_COLOR` to grey:
@@ -207,30 +249,19 @@ Change the `PODINFO_UI_COLOR` to grey:
           value: "#888888"
 ```
 
-14. Commit the change to your forked repository.
+You can do this through the GitHub web interface (including via pull request ♥) or clone the repo locally and make the change as shown below:
+
 ```
+git clone git@github:<username>/podinfo-deploy
+
+# make changes in /frontend/deployment.yaml
+
 git add .
 git commit -m "change color"
 git push
 ```
 
-(*If you want an even better experience, create a PR and then merge!*)
-
-15. Wait for the reconciliation to take place
-
-```console
-gitops get app podinfo-deploy
-```
-```
-Latest successful deployment time: 2021-06-09T10:36:26Z
-NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
-wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
-
-NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
-wego-system kustomization/podinfo-deploy    True    Applied revision: main/0927f4649817186103f14612bd3a0426d21de601 main/0927f4649817186103f14612bd3a0426d21de601   False
-  ```
-
-16. You should see the pods recycle
+Now wait for the reconciliation to take place and you should see the pods recycle
 ```console
 kubectl get pods --namespace test
 ```
@@ -249,10 +280,10 @@ frontend-ff74574fc-7ntw4   1/1     Running       0          19s
 ```
 Notice that the backend has not changed and so the backend pod is not affected.
 
-Restart the `kubectl port-forward` and you will see the color has changed.
+Restart `kubectl port-forward service/frontend 9898:9898 --namespace test` and you will see the color has changed. NB: If you use a real ingress then you wouldn't need to do this.
 
-(*If you use a real ingress then you wouldn't need to do this*).
+---
 
-17. **Congratulations**
+## Complete!
 
-You have successfully demonstrated GitOps using Weave GitOps! Well done.
+**Congratulations!** You have achieved a GitOps deployment using Weave GitOps. We hope you continue to be successful and are available for any questions or feedback in our [Slack](https://weave-community.slack.com/archives/C0248LVC719).
