@@ -27,7 +27,7 @@ sudo mv ./gitops /usr/local/bin/gitops
 gitops version
 ```
 
-For complete instructions see the  [CLI installation page](installation.md).
+For complete installation instructions and general pre-requisites, see the  [Installation page](installation.md).
 
 ---
 
