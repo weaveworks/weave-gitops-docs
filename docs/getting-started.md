@@ -109,7 +109,7 @@ Next fill out the form with the required values:
 - Source Repo URL: (**your-forked-podinfo-repo**)
   - For example: `https://github.com/sympatheticmoose/podinfo-deploy` or `git@github.com:sympatheticmoose/podinfo-deploy`
 - Config Repo URL: (**leave blank**)  
-  - It is **recommended** to use a separate repository as your config repo when deploying multiple applications, potentially to multiple clusters, however, for simplicity - you can also use the same repo as the `Source Repo URL` )
+  - It is **recommended** to use a separate repository as your config repo when deploying multiple applications, potentially to multiple clusters, however, for simplicity - you can also use the same repo as the `Source Repo URL`.
 - Path: **./**  
   - This allows you to specify a particular folder with a repository, should the repo contain more than a single applications deployment manifests.
 - Branch: (**should not require changing**)
