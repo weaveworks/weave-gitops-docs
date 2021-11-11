@@ -4,47 +4,46 @@ sidebar_position: 2
 
 # Getting Started
 
-Let's get an app deployed with **Weave GitOps**.
+Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a KinD cluster, then make a change to the application in Git, and see it automatically update on the cluster.
 
-*This is Work In Progress*
-
-Follow our workshops where we go through these steps!
-- [Upcoming LIVE Workshop: 18 Nov 2021](https://www.meetup.com/Weave-User-Group/events/281653627/)
-- [Last Recorded Workshop: 21 Oct 2021](https://youtu.be/Vf7dI_y_brY)
-
-## Overview
-
-In this short guide, we will see how to get a simple workload running in a cluster using GitOps, and then make a change to that deployment and see it updated automatically
-via GitOps. Further guides will then show how to move that workload into staging and/or production.
+You can also join our regular workshops where we go through these steps and help you along the way:
+- Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/
+---
 
 ## Pre-requisites
 
-This guide is for Mac and Linux only (so far!).
-At the moment, Weave GitOps supports [GitHub](https://github.com) and [Gitlab](https://gitlab.com).
-
-*Other Git providers are coming soon.*
-
 To follow along with this guide you will need:
 1. A GitHub account
-2. kubectl installed [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
-3. A development Kubernetes cluster (this guide uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/))
-4. Kind requires [Docker](https://docs.docker.com/get-docker/)
+2. kubectl installed - [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
+3. For our Kubernetes cluster we use [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) which requires [Docker](https://docs.docker.com/get-docker/).
+---
 
 ## Install the Weave GitOps CLI
 
-Please follow the instructions in the  [CLI installation page](installation.md  ) to install the command-line tool.
+```console
+curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.4.1/gitops-$(uname)-$(uname -m)" -o gitops
+chmod +x gitops
+sudo mv ./gitops /usr/local/bin/gitops
+gitops version
+```
 
-## Getting Started with a Kind cluster and Podinfo workload
+For complete instructions see the  [CLI installation page](installation.md).
 
-### Create the cluster
+---
 
-1. Create a fresh `kind` cluster:
+## Prepare your cluster
+
+### 1) Create the cluster
+
+Open a terminal and enter the following:
+
 ```console
 kind create cluster
 ```
+You should see output similar to:
 ```
 Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.20.2) 🖼
+ ✓ Ensuring node image (kindest/node:v1.21.1) 🖼
  ✓ Preparing nodes 📦
  ✓ Writing configuration 📜
  ✓ Starting control-plane 🕹️
@@ -58,29 +57,15 @@ Have a nice day! 👋
 
 ```
 
-You now will have the right `kubeconfig` for the kind cluster.
+### 2 - Install Weave GitOps onto the cluster
 
-Run `kubectl cluster-info --context kind-kind`
-
-### Install Weave GitOps onto the cluster
-
-2. Install Weave GitOps into the currently active Kubernetes cluster:
 ```console
 gitops install
 ```
 
-You should see:
-```
-✚ generating manifests
-✔ manifests build completed
-► installing components in wego-system namespace
-◎ verifying installation
+The install will take roughly 1-2 minutes depending on your system. 
 
-```
-
-The install will pause while the containers are loaded into the cluster. (*roughly 1 to 2 minutes depending on your system*)
-
-Once the system is verified you will see:
+Once complete, you will see:
 
 ```
 ✔ image-reflector-controller: deployment ready
@@ -91,132 +76,79 @@ Once the system is verified you will see:
 ✔ notification-controller: deployment ready
 ✔ install finished
 ```
+---
+## Configure Weave GitOps to deploy your application
 
-3. You can see what has been installed:
+### 3 - Fork the Podinfo repository
 
-```console
-kubectl get pods --namespace wego-system
-```
+For Weave GitOps to set up automation to reconicile the workload, we will need write access to the repository, so we will first fork the podinfo sample repository.
 
-```
-NAME                                           READY   STATUS    RESTARTS   AGE
-helm-controller-69667f94bc-ngpwv               1/1     Running   0          113s
-image-automation-controller-6cd8b8fb95-ktgz7   1/1     Running   0          113s
-image-reflector-controller-55fb577bf9-bhs2b    1/1     Running   0          113s
-kustomize-controller-6977b8cdd4-6p762          1/1     Running   0          113s
-notification-controller-5c4d48f476-nwrkx       1/1     Running   0          112s
-source-controller-b4b88948f-kz2lr              1/1     Running   0          112s
-```
-
-### Configure Weave GitOps to reconcile the workload automatically
-
-First we will fork a basic workload repository, then we will add the GitOps automation to deploy into the cluster
-
-#### Fork and clone the Podinfo repository
-
-We are going to use a deployment of the [podinfo](https://github.com/stefanprodan/podinfo) sample Kubernetes app as the workload to test.
-
-*Please note that these instructions do not use the base podinfo repository, but a specific repository containing only the deployment YAML*
-
-4. Fork the following repository on GitHub:
-
-[https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy)
+Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy).
 
 ![fork](/img/github-fork.png)
 
-5. Clone the fork **using SSH** (replacing `<yr-org-goes-here>`)
-```
-git clone git@github.com:<yr-org-goes-here>/podinfo-deploy.git
-```
-
-(*Note Weave GitOps doesn't support repositories that are cloned via HTTPS*)
-
-6. Change directory into the path where you cloned your fork of `podinfo-deploy` - for example:
-```console
-cd podinfo-deploy
-```
-
-This repository only contains Kubernetes YAMLs (and a README):
-```
-.
-├── README.md
-├── backend
-│   ├── deployment.yaml
-│   ├── hpa.yaml
-│   └── service.yaml
-├── frontend
-│   ├── deployment.yaml
-│   └── service.yaml
-└── namespace.yaml
-2 directories, 7 files
-```
-
-7. Let's enable GitOps for this workload
-```console
-gitops add app .
-```
-
-You should see something like:
-```console
-◎ Checking cluster status
-✔ GitOps installed
-
-Visit this URL to authenticate with Github:
-
-https://github.com/login/device
-
-Type the following code into the page at the URL above: ABCD-1234
-
-Waiting for authentication flow completion...
+### 4 - Start the GitOps Dashboard web UI
 
 ```
+gitops ui run
+```
 
-Copy the code and visit the URL shown to grant temporary `repo` access for Weave GitOps.
+This will open the dashboard in your browser at [http://0.0.0.0:9001/](http://0.0.0.0:9001/).
 
+You will see an empty Applications view as shown in the image below.
+
+![GitOps Dashboard web UI - empty applications view](/img/dashboard-applications-empty.png)
+
+### 5 - Add the podinfo application
+
+Click **add application** in the top right of the screen to bring up the following form:
+
+![GitOps Dashboard web UI - add applications form](/img/dashboard-add-application.png)
+
+Next fill out the form with the required values:
+
+- Name: **podinfo-deploy**
+- Kubernetes Namespace: **wego-system**  
+  -  **Leave as default**, this is where the automation objects for the application will be created.
+- Source Repo URL: **\<your-forked-podinfo-repo\>**  
+  - For example: `https://github.com/sympatheticmoose/podinfo-deploy` or `git@github.com:sympatheticmoose/podinfo-deploy`
+- Config Repo URL: (**leave blank**)  
+  - It is **recommended** to use a separate repository as your config repo when deploying multiple applications, potentially to multiple clusters, however, for simplicity - you can also use the same repo as the `Source Repo URL` )
+- Path: **./**  
+  - This allows you to specify a particular folder with a repository, should the repo contain more than a single applications deployment manifests.
+- Branch: (**should not require changing**)
+
+Click **Submit** in the bottom right of the form. This will result in an error as we have not recently authenicated with GitHub, and we are not yet authorized to raise a pull request against your repository.
+
+Click **Authenticate with GitHub** within the error message as shown below:
+
+![Not authenticated error](/img/dashboard-add-application-auth-error.png)
+
+You will be prompted with a screen to copy a code from, before visiting GitHub to authorize Weave GitOps to write to your repositories. Copy the code to your clipboard and click **AUTHORIZE GITHUB ACCESS**.
+
+Paste the code into the screen as shown below:
 ![device flow activation](/img/github-device-flow-start.png)
 
 You should then see this confirmation:
 
 ![device flow complete](/img/github-device-flow-complete.png)
 
-Once complete, the process will continue and you will see something like:
+Once authorization has completed, navigate back to the GitOps Dashboard.
 
-```console
-Authentication successful!
+The screen should update with a message that the Pull Request has been created, click **Open Pull Requests** to review the PR in GitHub.
 
-uploading deploy key
-Deploy key generated and uploaded to git provider
-Adding application:
+![Pull request raised](/img/dashboard-add-application-PR-raised.png)
 
-Name: nginx
-URL: ssh://git@github.com/pzfreo/podinfo-deploy.git
-Path: ./
-Branch: main
-Type: kustomize
-
-✚ Generating Source manifest
-✚ Generating GitOps automation manifests
-✚ Generating Application spec manifest
-► Cloning ssh://git@github.com/pzfreo/podinfo-deploy.git
-Pull Request created: <link to PR>
-
-► Applying manifests to the cluster
-► Committing and pushing gitops updates for application
-✔ App is up to date
-```
-
-8. A Pull Request has been created against the git branch.
-
-![PR](/img/podinfo-pr.png)
-
-Go to your GitHub fork and merge the Pull Request.
+The Pull Request adds three files. An **Application custom resource** with details about the deployment, a **GitRepository** and a **Kustomization** Merge the Pull Request.
 
 ![Merge](/img/podinfo-pr-merge.png)
 
 Once you have merged the PR it should look like this:
 ![Merge Complete](/img/podinfo-pr-merge-complete.png)
 
-9. Once the PR is merged wait for the workload to show up in the cluster:
+### 6 - View the running application
+
+Once the PR is merged wait for the workload to show up in the cluster:
 ```console
 kubectl get pods --namespace test
 ```
@@ -226,7 +158,7 @@ backend-66b5655895-ms79n    1/1     Running   0          42s
 frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
 ```
 
-10. You can use the `gitops get app` command to see the reconciliation.
+You can use the `gitops get app` command to see the reconciliation.
 
 
 ```console
@@ -244,29 +176,6 @@ wego-system kustomization/podinfo-deploy    True    Applied revision: main/cb6fc
 This shows you when the last deployment was as well as the specific SHA from Git that has been deployed.
 
 You have successfully deployed the app!
-
-11. `gitops add app` will have created a `.wego` directory in your repository (you can configure where this goes - see [GitOps Automation configuration](gitops-automation.md))
-
-This directory contains the GitOps Automation configuration.
-
-If you do a tree inside this directory you should see something like:
-```
-$ tree .wego/
-.wego/
-├── apps
-│   └── podinfo-deploy
-│       └── app.yaml
-└── targets
-    └── kind-kind
-        └── podinfo-deploy
-            └── podinfo-deploy-gitops-runtime.yaml
-
-5 directories, 2 files
-```
-
-You can find out more about these YAMLs and the `.wego` directory [here](gitops-automation.md).
-
-Notice that `gitops` has checked in this YAML into your fork (*This will change in a future release to create a PR against your repository instead*).
 
 12. To access the `podinfo` UI you can set up a port forward into the pod.
 ```console
