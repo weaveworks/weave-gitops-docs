@@ -146,36 +146,19 @@ Merge the Pull Request to start the deployment.
 
 ## View the running application
 
-### 6 - Check the deployment status
+### 6 - See application details
 
-Once the PR is merged wait for the workload to show up in the cluster:
-```console
-kubectl get pods --namespace test
-```
-```
-NAME                        READY   STATUS    RESTARTS   AGE
-backend-66b5655895-ms79n    1/1     Running   0          42s
-frontend-7fb9f4bf99-qmkqh   1/1     Running   0          42s
-```
+As the workloads begin to be deployed, you can view the progress and check for key reconiliation status updates in the Application details page.
 
-You can use the `gitops get app` command to see the reconciliation status.
+Navigate to the Applications view by clicking in the left menu bar, you should now see the `podinfo-deploy` application listed. Click the name of the Application to view the details page. You may need to refresh the page to view up to date status.
 
+![Weave GitOps UI](/img/wego_ui.png)
 
-```console
-gitops get app podinfo-deploy
-```
-```
-Latest successful deployment time: 2021-06-29T14:41:14Z
-NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
-wego-system gitrepository/podinfo-deploy    True    Fetched revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
+From the Application details page you can see the reconciled objects on your cluster, which specific commit was last fetched from Git and which was last deployed onto the cluster. 
 
-NAMESPACE   NAME                            READY   MESSAGE                                                         REVISION                                        SUSPENDED
-wego-system kustomization/podinfo-deploy    True    Applied revision: main/cb6fc97b304740347e1d98195bc3d972ee07d733 main/cb6fc97b304740347e1d98195bc3d972ee07d733   False
-```
+You can also see the 10 most recent commits to your repository to quickly understand the changes which have occurred, with hyperlinks back to GitHub so you can find more details or revert changes as necessary.
 
-This shows you when the last deployment was as well as the specific SHA from Git that has been deployed.
-
-You have successfully deployed the app!
+As you can see, you have successfully deployed the app!
 
 ### 7 - Access the running application
 
