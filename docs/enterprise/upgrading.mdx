@@ -58,13 +58,14 @@ cd my-management-cluster
 echo "# my-management-cluster" > README.md
 git add README.md
 git commit --all --message "init commit"
-git push
+git push -u
+
 ```
 
 Install Weave Gitops and connect up management folder
 
 ```bash
-gitops install
+gitops install --app-config-url $(git config --get remote.origin.url)
 gitops add app --path ./management --auto-merge
 ```
 
@@ -149,7 +150,7 @@ Update the `capi.config.repositoryURL` with the correct url to your git config r
 
 :::note Restart capi-service
 
-After configuring values in the `ConfigMap` you will have to delete the cluster-service pod for the changes to take effect.
+After configuring values in the `ConfigMap` you will have to delete the `cluster-service`, `gitops-repo-broker` and `event-writer` pods for the changes to take effect.
 
 :::
 
