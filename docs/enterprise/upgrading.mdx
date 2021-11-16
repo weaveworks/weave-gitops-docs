@@ -93,6 +93,12 @@ kubectl apply -f entitlements.yaml
 
 ### 4. Upgrade
 
+:::note Make sure `GITHUB_TOKEN` is set
+
+`GITHUB_TOKEN` should be set as an environment variable in the current shell. It should have permissions to create Pull Requests against the cluster config repo
+
+:::
+
 Run the upgrade command from a local copy of git repo that is sync'd to the cluster:
 
 ```bash
