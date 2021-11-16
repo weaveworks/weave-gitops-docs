@@ -21,13 +21,18 @@ jobs:
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         run: |
           if [ -e yarn.lock ]; then
+          mystr=${{ secrets.ALGOLIA_API_KEY }}
+          echo "len ${#mystr}"
+          echo "debug-0"
           yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
+          echo "debug-1"
           npm ci
           else
+          echo "debug-2"
           npm i
           fi
-          npm run build
+          env GA_KEY="dummy" ALGOLIA_API_KEY=${{ secrets.ALGOLIA_API_KEY }} npm run build
   gh-release:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
