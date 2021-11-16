@@ -28,7 +28,7 @@ sudo mv ./gitops /usr/local/bin/gitops
 gitops version
 ```
 
-you should see:
+You should see:
 
 ```console
 Current Version: 0.4.1
