@@ -7,7 +7,7 @@ sidebar_position: 2
 Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a kind cluster, then make a change to the application in Git, and see it automatically update on the cluster.
 
 You can also join our regular workshops where we go through these steps and help you along the way:
-- Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/
+- Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
 ---
 
 ## Pre-requisites
@@ -111,7 +111,7 @@ Next fill out the form with the required values:
 - Config Repo URL: (**leave blank**)  
   - It is **recommended** to use a separate repository as your config repo when deploying multiple applications, potentially to multiple clusters, however, for simplicity - you can also use the same repo as the `Source Repo URL`.
 - Path: **./**  
-  - This allows you to specify a particular folder with a repository, should the repo contain more than a single applications deployment manifests.
+  - This allows you to specify a particular folder with a repository, should the repo contain more than a single application's deployment manifests.
 - Branch: (**should not require changing**)
 
 Click **Submit** in the bottom right of the form. This will result in an error as we have not recently authenticated with GitHub, so we are not yet authorized to raise a pull request against your repository.
@@ -148,7 +148,7 @@ Merge the Pull Request to start the deployment.
 
 ### 6 - See application details
 
-As the workloads begin to be deployed, you can view the progress and check for key reconiliation status updates in the Application details page.
+As the workloads begin to be deployed, you can view the progress and check for key reconciliation status updates in the Application details page.
 
 Navigate to the Applications view by clicking in the left menu bar, you should now see the `podinfo-deploy` application listed. Click the name of the Application to view the details page. You may need to refresh the page to view up to date status.
 

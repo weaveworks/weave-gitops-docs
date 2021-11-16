@@ -6,7 +6,7 @@ sidebar_position: 1
 ## Pre-requisites
 
 ### Kubernetes Cluster
-Weave GitOps is compatable with conformant Kubernetes distributions which match the minimum required version level of [Flux](https://fluxcd.io/docs/installation/#prerequisites).
+Weave GitOps is compatible with conformant Kubernetes distributions which match the minimum required version level of [Flux](https://fluxcd.io/docs/installation/#prerequisites).
 
 ### CLI
 The `gitops` command-line interface is currently supported on Mac (x86 and Arm), and Linux including WSL.
@@ -30,11 +30,9 @@ gitops version
 you should see:
 
 ```console
-Current Version: v0.0.0
-GitCommit: c0d130b
-
-##BuildTime: 2021-11-03_20:00:24
+Current Version: 0.4.1
+GitCommit: c0d130b40ff6996c409973aa69573aea5d0751ea
+BuildTime: 2021-11-03T20:02:35Z
 Branch: HEAD
-### Kubernetes Cluster
-Weave GitOps is compatable with conformant Kubernetes distributions which match the minimum required version level of Flux x Version: v0.21.0
+Flux Version: v0.21.0
 ```
