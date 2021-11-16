@@ -111,6 +111,17 @@ Weave Gitops Enterprise has a number of configration options but two importants 
 
 Edit `management/weave-gitops-enterprise/artifacts/mccp-chart/helm-chart/HelmRelease.yaml` and set the `spec.interval` to `1m`. Commit and push.
 
+#### 5.0 Cluster name
+
+Set the name of your cluster to be the same as your clusters kubeconfig
+
+```bash
+kubectl config current-context
+kind-kind
+```
+
+Update the `config.cluster.name` value in the Weave Gitops Enterprise `ConfigMap` in your config repo.
+
 #### 5.1. Ingress
 
 An Ingress address is necessary in order to establish connectivity between agents and your WGE instance. The way to determine this depends on your cluster type and provisioning method.
