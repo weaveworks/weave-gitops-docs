@@ -21,10 +21,13 @@ jobs:
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         run: |
           if [ -e yarn.lock ]; then
+          echo "debug-0"
           yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
+          echo "debug-1"
           npm ci
           else
+          echo "debug-2"
           npm i
           fi
           npm run build
