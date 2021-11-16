@@ -30,7 +30,7 @@ jobs:
           echo "debug-2"
           npm i
           fi
-          npm run build
+          env GA_KEY="dummy" ALGOLIA_API_KEY=${{ secrets.ALGOLIA_API_KEY }} npm run build
   gh-release:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
