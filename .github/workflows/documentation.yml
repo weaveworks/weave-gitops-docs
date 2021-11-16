@@ -21,6 +21,8 @@ jobs:
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         run: |
           if [ -e yarn.lock ]; then
+          mystr=${{ secrets.ALGOLIA_API_KEY }}
+          echo "len ${#mystr}"
           echo "debug-0"
           yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
