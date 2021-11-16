@@ -19,7 +19,7 @@ Your browser should open to the Weave GitOps UI:
 
 ![Weave GitOps UI](/img/wego_ui.png)
 
-# What information can I discover about my Applications?
+## What information can I discover about my Applications?
 
 Applications being managed by Weave GitOps are displayed in a list. Clicking the name of an Application allows you to view more details including:
 - It's name, deployment type (Kustomize or Helm), URL for the source repository being synchronized to the cluster and the specific Path within the repository where we are looking for deployment manifests.
@@ -27,5 +27,5 @@ Applications being managed by Weave GitOps are displayed in a list. Clicking the
 - Information from Flux regarding the state of the reconciliation
 - A list of the 10 most recent commits to the source git repository helping you to verify which change has been applied to the cluster. This includes a hyperlink back to your git provider for each commit.
 
-# Future development
+## Future development
 The GitOps Dashboard is under active development, watch this space for exciting new features.
