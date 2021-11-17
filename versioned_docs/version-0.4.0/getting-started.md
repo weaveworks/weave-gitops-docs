@@ -9,8 +9,8 @@ Let's get an app deployed with **Weave GitOps**.
 *This is Work In Progress*
 
 Follow our workshops where we go through these steps!
-- [Upcoming LIVE Workshop: 20 Sep 2021](https://www.meetup.com/Weave-User-Group/events/280492194/)
-- [Last Recorded Workshop: 20 Aug 2021](https://youtu.be/euggUTPJzro)
+- Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+- [Last Recorded Workshop: 20 Sep 2021](https://youtu.be/PE3yuEXmr40)
 
 ## Overview
 
