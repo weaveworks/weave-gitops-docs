@@ -6,5 +6,5 @@ metadata:
   namespace: wego-system
 spec:
   interval: 1m
-  url: https://foot.github.io/podinfo
+  url: https://my-org.github.io/profiles
 status: {}

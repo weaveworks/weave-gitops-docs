@@ -10,39 +10,27 @@ import CodeBlock from "@theme/CodeBlock";
   {frontMatter.title} <TierLabel tiers="enterprise" />
 </h1>
 
-## Getting Started with CAPI
-
-### Creating your first CAPD Cluster
+## Creating your first CAPD Cluster
 
 If you've followed the [Upgrade guide](../enterprise/upgrading.mdx) you should have a management cluster ready to roll. Next up we'll
 
 ### 1. Configure a capi provider
 
-1. Configure `kubectl` to use the management cluster.
+See [Cluster API Providers](cluster-api-providers.mdx) page for more details on providers. He're we'll continue with `kind` and `capd` as an example.
 
 ```bash
-export KUBECONFIG=/path/to/kubeconfig
-```
-
-2. Deploy Docker's CAPD components by following the steps at https://cluster-api-aws.sigs.k8s.io/getting-started.html#install-clusterctl.
-
-> **_NOTE:_** if you are using docker with a `kind` cluster you'll need to mount the docker socket as described in the [Install and/or configure a kubernetes cluster](https://cluster-api-aws.sigs.k8s.io/getting-started.html#install-andor-configure-a-kubernetes-cluster) kind section.
-
-3. Enable an expermintal feature (i.e. ClusterResourceSet (CRS)).
-
-```bash
+# Enable support for `ClusterResourceSet`s for automatically installing CNIs
 export EXP_CLUSTER_RESOURCE_SET=true
-
 clusterctl init --infrastructure docker
 ```
 
-See [Cluster API Providers](cluster-api-providers.mdx) page for more details on other providers.
-
 ### 2. Add a template
+
+See [CAPI Templates](templates.mdx) page for more details on this topic. Once we load a template we can use it in the UI to create clusters!
 
 import CapdTemplate from "!!raw-loader!./assets/templates/capd-template.yaml";
 
-Download the template below to your config repository path with curl
+Download the template below to your config repository path, then commit and push to your git origin.
 
 <CodeBlock className="language-bash">
   curl -o .weave-gitops/apps/capi/templates/capd-template.yaml{" "}
@@ -57,11 +45,9 @@ Download the template below to your config repository path with curl
   {CapdTemplate}
 </CodeBlock>
 
-See [CAPI Templates](templates.mdx) page for more details.
+## Automatically install a CNI with `ClusterResourceSet`s
 
-## Automatically install a CNI
-
-We can use `ClusterResourceSet`s to automatically install calico on a new cluster
+We can use `ClusterResourceSet`s to automatically install CNI's on a new cluster, here we use calico as an example.
 
 ### 1. Add a CRS to install a CNI
 
@@ -73,12 +59,11 @@ import CalicoCRS from "!!raw-loader!./assets/bootstrap/calico-crs.yaml";
   mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
   curl -o .weave-gitops/apps/capi/bootstrap/calico-crs.yaml {
     window.location.protocol
-  }
-  //{window.location.host}
+  }//{window.location.host}
+  {require("./assets/bootstrap/calico-crs.yaml").default}
   {"\n"}
   curl -o .weave-gitops/apps/capi/bootstrap/calico-crs-configmap.yaml{" "}
-  {window.location.protocol}
-  //{window.location.host}
+  {window.location.protocol}//{window.location.host}
   {require("./assets/bootstrap/calico-crs-configmap.yaml").default}
 </CodeBlock>
 
@@ -95,11 +80,18 @@ The full [`calico-crs-configmap.yaml`](./assets/bootstrap/calico-crs-configmap.y
 
 WGE can automatically install profiles onto new clusters
 
-#### 1. Add a helmrepo and annotate some helm chart
+#### 1. Add a helmrepo
 
 import ProfileRepo from "!!raw-loader!./assets/profiles/profile-repo.yaml";
 
-Download the profile repositry below to your config repository path with curl
+A profile is an enhanced helm chart. When publishing profiles to helm repositories make sure to include the `weave.works/profile` in `Chart.yaml`. These annotated profiles will appear in WGE
+
+```
+annotations:
+  weave.works/profile: nginx-profile
+```
+
+Download the profile repositry below to your config repository path then commit and push. Make sure to update the url to point to a helm repository containing your profiles.
 
 <CodeBlock className="language-bash">
   mkdir -p .weave-gitops/apps/capi/profiles{"\n"}
@@ -148,3 +140,7 @@ Then update the `GITOPS_REPO` variable to point to your cluster
 >
   {CapiGitopsCDC}
 </CodeBlock>
+
+## Test
+
+You should now be able to create a new cluster from your template and install profiles onto it with a single Pull Request via the WGE UI!

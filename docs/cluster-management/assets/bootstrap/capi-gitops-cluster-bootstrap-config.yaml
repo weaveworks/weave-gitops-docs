@@ -29,7 +29,7 @@ spec:
             - name: KUBECONFIG
               value: "/etc/gitops/value"
             - name: GITOPS_REPO
-              value: "ssh://git@github.com/foot/my-management-cluster.git"
+              value: "ssh://git@github.com/my-org/my-management-cluster.git"
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
