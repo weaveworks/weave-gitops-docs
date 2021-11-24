@@ -16,7 +16,7 @@ import CodeBlock from "@theme/CodeBlock";
 
 If you've followed the [Upgrade guide](../enterprise/upgrading.mdx) you should have a management cluster ready to roll. Next up we'll
 
-#### 1. Configure a capi provider
+### 1. Configure a capi provider
 
 1. Configure `kubectl` to use the management cluster.
 
@@ -38,7 +38,7 @@ clusterctl init --infrastructure docker
 
 See [Cluster API Providers](cluster-api-providers.mdx) page for more details on other providers.
 
-#### 2. Add a template
+### 2. Add a template
 
 import CapdTemplate from "!!raw-loader!./assets/templates/capd-template.yaml";
 
@@ -59,29 +59,11 @@ Download the template below to your config repository path with curl
 
 See [CAPI Templates](templates.mdx) page for more details.
 
-#### 3. Add a helmrepo and annotate some helm charts
+## Automatically install a CNI
 
-import ProfileRepo from "!!raw-loader!./assets/profiles/profile-repo.yaml";
+We can use `ClusterResourceSet`s to automatically install calico on a new cluster
 
-Download the profile repositry below to your config repository path with curl
-
-<CodeBlock className="language-bash">
-  mkdir -p .weave-gitops/apps/capi/profiles{"\n"}
-  curl -o .weave-gitops/apps/capi/profiles/profile-repo.yaml {
-    window.location.protocol
-  }
-  //{window.location.host}
-  {require("./assets/profiles/profile-repo.yaml").default}
-</CodeBlock>
-
-<CodeBlock
-  title=".weave-gitops/apps/capi/profiles/profile-repo.yaml"
-  className="language-yaml"
->
-  {ProfileRepo}
-</CodeBlock>
-
-#### 4. Add a CRS to install a CNI
+### 1. Add a CRS to install a CNI
 
 Create a calico configmap and a CRS as follows:
 
@@ -107,9 +89,35 @@ import CalicoCRS from "!!raw-loader!./assets/bootstrap/calico-crs.yaml";
   {CalicoCRS}
 </CodeBlock>
 
-The full [`calico-crs-configmap.yaml`](./assets/bootstrap/calico-crs-configmap.yaml) is a bit large to display inline here.
+The full [`calico-crs-configmap.yaml`](./assets/bootstrap/calico-crs-configmap.yaml) is a bit large to display inline here but make sure to download it to `.weave-gitops/apps/capi/bootstrap/calico-crs-configmap.yaml` too, manually or with the above `curl` command.
 
-#### 5. Add a cluster bootstrap config
+## Profiles and clusters
+
+WGE can automatically install profiles onto new clusters
+
+#### 1. Add a helmrepo and annotate some helm chart
+
+import ProfileRepo from "!!raw-loader!./assets/profiles/profile-repo.yaml";
+
+Download the profile repositry below to your config repository path with curl
+
+<CodeBlock className="language-bash">
+  mkdir -p .weave-gitops/apps/capi/profiles{"\n"}
+  curl -o .weave-gitops/apps/capi/profiles/profile-repo.yaml {
+    window.location.protocol
+  }
+  //{window.location.host}
+  {require("./assets/profiles/profile-repo.yaml").default}
+</CodeBlock>
+
+<CodeBlock
+  title=".weave-gitops/apps/capi/profiles/profile-repo.yaml"
+  className="language-yaml"
+>
+  {ProfileRepo}
+</CodeBlock>
+
+#### 3. Add a cluster bootstrap config
 
 Create a cluster bootstrap config as follows:
 
