@@ -31,7 +31,9 @@ export KUBECONFIG=/path/to/kubeconfig
 3. Enable an expermintal feature (i.e. ClusterResourceSet (CRS)).
 
 ```bash
-ENABLE_CRS_FLAG_WHATEVER_IT_IS=1 clusterctl init --enable-the-docker-provider-somehow
+export EXP_CLUSTER_RESOURCE_SET=true
+
+clusterctl init --infrastructure docker
 ```
 
 See [Cluster API Providers](cluster-api-providers.mdx) page for more details on other providers.
