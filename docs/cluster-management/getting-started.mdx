@@ -208,3 +208,53 @@ spec:
 ```
 
 And save it to `apps/capi/bootstrap/cni-crs.yaml`
+
+### 5. Add a cluster bootstrap config
+
+Create a cluster bootstrap config as follows:
+
+```yaml title="clusterbootstrapconfig.yaml"
+apiVersion: capi.gitops.solutions/v1alpha1
+kind: ClusterBootstrapConfig
+metadata:
+  name: clusterbootstrapconfig-sample
+  namespace: default
+spec:
+  clusterSelector:
+    matchLabels:
+      weave.works/spike: upa
+  jobTemplates:
+    - name: 'gitopsify-leaf'
+      spec:
+        containers:
+        - image: ghcr.io/palemtnrider/wego-app:v0.5.0-rc2
+          name: gitops-install
+          resources: {}
+          volumeMounts:
+          - name: kubeconfig
+            mountPath: "/etc/gitops"
+            readOnly: true
+          args: ["install", "--override-in-cluster", "--app-config-url", "$(GITOPS_REPO)"]
+          env: 
+          - name: KUBECONFIG
+            value: "/etc/gitops/value"
+          - name: GITOPS_REPO
+            value: "ssh://git@github.com/palemtnrider/kb3.git"
+          - name: GITHUB_TOKEN
+            valueFrom: 
+              secretKeyRef:
+                name: my-pat  
+                key: GITHUB_TOKEN        
+          # - name: GITLAB_TOKEN # If your GitOps repo is on GitLab, use this instead of GITHUB_TOKEN
+          #   valueFrom: 
+          #     secretKeyRef:
+          #       name: pat
+          #       key: GITLAB_TOKEN        
+        restartPolicy: Never
+        volumes:
+        - name: kubeconfig
+          secret:
+            secretName: '{{ .ObjectMeta.Name }}-kubeconfig'
+```
+
+And save it to `apps/capi/bootstrap/clusterbootstrapconfig.yaml`
