@@ -8,12 +8,12 @@ hide_title: true
   {frontMatter.title} <TierLabel tiers="enterprise" />
 </h1>
 
-# Getting Started with CAPI
-## Creating your first CAPD Cluster
+## Getting Started with CAPI
+### Creating your first CAPD Cluster
 
 If you've followed the [Upgrade guide](../enterprise/upgrading.mdx) you should have a management cluster ready to roll. Next up we'll
 
-### 1. Configure a capi provider
+#### 1. Configure a capi provider
 
 1. Configure `kubectl` to use the management cluster.
 
@@ -33,7 +33,7 @@ ENABLE_CRS_FLAG_WHATEVER_IT_IS=1 clusterctl init --enable-the-docker-provider-so
 
 See [Cluster API Providers](cluster-api-providers.mdx) page for more details on other providers.
 
-### 2. Add a template
+#### 2. Add a template
 
 Save the following example to `.weave-gitops/apps/capi/templates/template.yaml`
 
@@ -182,7 +182,7 @@ spec:
 
 See [CAPI Templates](templates.mdx) page for more details.
 
-### 3. Add a helmrepo and annotate some helm charts
+#### 3. Add a helmrepo and annotate some helm charts
 
 Save the following helm repo to `.weave-gitops/apps/capi/profiles/repo.yaml`:
 
@@ -199,7 +199,7 @@ spec:
 status: {}
 ```
 
-### 4. Add a CRS to install a CNI
+#### 4. Add a CRS to install a CNI
 
 Create a calico configmap and a CRS as follows:
 
@@ -220,7 +220,7 @@ spec:
 
 And save it to `apps/capi/bootstrap/cni-crs.yaml`
 
-### 5. Add a cluster bootstrap config
+#### 5. Add a cluster bootstrap config
 
 Create a cluster bootstrap config as follows:
 
