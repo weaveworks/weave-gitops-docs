@@ -4,7 +4,9 @@ sidebar_position: 1
 hide_title: true
 ---
 
+import TierLabel from "../_components/TierLabel";
 import CodeBlock from "@theme/CodeBlock";
+import BrowserOnly from "@docusaurus/BrowserOnly";
 
 <h1>
   {frontMatter.title} <TierLabel tiers="enterprise" />
@@ -32,11 +34,15 @@ import CapdTemplate from "!!raw-loader!./assets/templates/capd-template.yaml";
 
 Download the template below to your config repository path, then commit and push to your git origin.
 
-<CodeBlock className="language-bash">
-  curl -o .weave-gitops/apps/capi/templates/capd-template.yaml{" "}
-  {window.location.protocol}//{window.location.host}
-  {require("./assets/templates/capd-template.yaml").default}
-</CodeBlock>
+<BrowserOnly>
+  {() => (
+    <CodeBlock className="language-bash">
+      curl -o .weave-gitops/apps/capi/templates/capd-template.yaml{" "}
+      {window.location.protocol}//{window.location.host}
+      {require("./assets/bootstrap/calico-crs.yaml").default}
+    </CodeBlock>
+  )}
+</BrowserOnly>
 
 <CodeBlock
   title=".weave-gitops/apps/capi/templates/capd-template.yaml"
@@ -55,17 +61,21 @@ Create a calico configmap and a CRS as follows:
 
 import CalicoCRS from "!!raw-loader!./assets/bootstrap/calico-crs.yaml";
 
-<CodeBlock className="language-bash">
-  mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
-  curl -o .weave-gitops/apps/capi/bootstrap/calico-crs.yaml {
-    window.location.protocol
-  }//{window.location.host}
-  {require("./assets/bootstrap/calico-crs.yaml").default}
-  {"\n"}
-  curl -o .weave-gitops/apps/capi/bootstrap/calico-crs-configmap.yaml{" "}
-  {window.location.protocol}//{window.location.host}
-  {require("./assets/bootstrap/calico-crs-configmap.yaml").default}
-</CodeBlock>
+<BrowserOnly>
+  {() => (
+    <CodeBlock className="language-bash">
+      mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
+      curl -o .weave-gitops/apps/capi/bootstrap/calico-crs.yaml {
+        window.location.protocol
+      }//{window.location.host}
+      {require("./assets/bootstrap/calico-crs.yaml").default}
+      {"\n"}
+      curl -o .weave-gitops/apps/capi/bootstrap/calico-crs-configmap.yaml{" "}
+      {window.location.protocol}//{window.location.host}
+      {require("./assets/bootstrap/calico-crs-configmap.yaml").default}
+    </CodeBlock>
+  )}
+</BrowserOnly>
 
 <CodeBlock
   title=".weave-gitops/apps/capi/boostrap/calico-crs.yaml"
@@ -93,14 +103,18 @@ annotations:
 
 Download the profile repositry below to your config repository path then commit and push. Make sure to update the url to point to a helm repository containing your profiles.
 
-<CodeBlock className="language-bash">
-  mkdir -p .weave-gitops/apps/capi/profiles{"\n"}
-  curl -o .weave-gitops/apps/capi/profiles/profile-repo.yaml {
-    window.location.protocol
-  }
-  //{window.location.host}
-  {require("./assets/profiles/profile-repo.yaml").default}
-</CodeBlock>
+<BrowserOnly>
+  {() => (
+    <CodeBlock className="language-bash">
+      mkdir -p .weave-gitops/apps/capi/profiles{"\n"}
+      curl -o .weave-gitops/apps/capi/profiles/profile-repo.yaml {
+        window.location.protocol
+      }
+      //{window.location.host}
+      {require("./assets/profiles/profile-repo.yaml").default}
+    </CodeBlock>
+  )}
+</BrowserOnly>
 
 <CodeBlock
   title=".weave-gitops/apps/capi/profiles/profile-repo.yaml"
@@ -121,16 +135,20 @@ import CapiGitopsCDC from "!!raw-loader!./assets/bootstrap/capi-gitops-cluster-b
 
 Download the config with
 
-<CodeBlock className="language-bash">
-  mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
-  curl -o .weave-gitops/apps/capi/bootstrap/capi-gitops-cluster-bootstrap-config.yaml{" "}
-  {window.location.protocol}
-  //{window.location.host}
-  {
-    require("./assets/bootstrap/capi-gitops-cluster-bootstrap-config.yaml")
-      .default
-  }
-</CodeBlock>
+<BrowserOnly>
+  {() => (
+    <CodeBlock className="language-bash">
+      mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
+      curl -o .weave-gitops/apps/capi/bootstrap/capi-gitops-cluster-bootstrap-config.yaml{" "}
+      {window.location.protocol}
+      //{window.location.host}
+      {
+        require("./assets/bootstrap/capi-gitops-cluster-bootstrap-config.yaml")
+          .default
+      }
+    </CodeBlock>
+  )}
+</BrowserOnly>
 
 Then update the `GITOPS_REPO` variable to point to your cluster
 
