@@ -10,6 +10,28 @@ module.exports = {
   favicon: "img/favicon_150px.png",
   organizationName: "weaveworks", // Usually your GitHub org/user name.
   projectName: "weave-gitops-docs", // Usually your repo name.
+  plugins: [
+    () => ({
+      // Load yaml files as blobs
+      configureWebpack: function () {
+        return {
+          module: {
+            rules: [
+              {
+                test: /\.yaml$/,
+                use: [
+                  {
+                    loader: "file-loader",
+                    options: { name: "assets/files/[name]-[hash].[ext]" },
+                  },
+                ],
+              },
+            ],
+          },
+        };
+      },
+    }),
+  ],
   themeConfig: {
     navbar: {
       title: "Weave GitOps",

@@ -4,6 +4,8 @@ sidebar_position: 1
 hide_title: true
 ---
 
+import CodeBlock from "@theme/CodeBlock";
+
 <h1>
   {frontMatter.title} <TierLabel tiers="enterprise" />
 </h1>
@@ -35,237 +37,84 @@ See [Cluster API Providers](cluster-api-providers.mdx) page for more details on 
 
 #### 2. Add a template
 
-Save the following example to `.weave-gitops/apps/capi/templates/template.yaml`
+import CapdTemplate from "!!raw-loader!./assets/templates/capd-template.yaml";
 
-```yaml title="template.yaml"
-apiVersion: capi.weave.works/v1alpha1
-kind: CAPITemplate
-metadata:
-  name: cluster-template-development
-  namespace: default
-spec:
-  description: This is the std. CAPD template
-  params:
-    - name: CLUSTER_NAME
-      description: This is used for the cluster naming.
-    - name: NAMESPACE
-      description: Namespace to create the cluster in.
-    - name: KUBERNETES_VERSION
-      description: The version of Kubernetes to use.
-      options: ["1.19.11", "1.20.7"]
-  resourcetemplates:
-    - apiVersion: cluster.x-k8s.io/v1beta1
-      kind: Cluster
-      metadata:
-        name: "${CLUSTER_NAME}"
-        namespace: "${NAMESPACE}"
-      spec:
-        clusterNetwork:
-          services:
-            cidrBlocks:
-              - 10.128.0.0/12
-          pods:
-            cidrBlocks:
-              - 192.168.0.0/16
-          serviceDomain: cluster.local
-        infrastructureRef:
-          apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-          kind: DockerCluster
-          name: "${CLUSTER_NAME}"
-          namespace: "${NAMESPACE}"
-        controlPlaneRef:
-          kind: KubeadmControlPlane
-          apiVersion: controlplane.cluster.x-k8s.io/v1beta1
-          name: "${CLUSTER_NAME}-control-plane"
-          namespace: "${NAMESPACE}"
-    - apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-      kind: DockerCluster
-      metadata:
-        name: "${CLUSTER_NAME}"
-        namespace: "${NAMESPACE}"
-    - apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-      kind: DockerMachineTemplate
-      metadata:
-        name: "${CLUSTER_NAME}-control-plane"
-        namespace: "${NAMESPACE}"
-      spec:
-        template:
-          spec:
-            extraMounts:
-              - containerPath: "/var/run/docker.sock"
-                hostPath: "/var/run/docker.sock"
-    - kind: KubeadmControlPlane
-      apiVersion: controlplane.cluster.x-k8s.io/v1beta1
-      metadata:
-        name: "${CLUSTER_NAME}-control-plane"
-        namespace: "${NAMESPACE}"
-      spec:
-        replicas: 1
-        machineTemplate:
-          infrastructureRef:
-            kind: DockerMachineTemplate
-            apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-            name: "${CLUSTER_NAME}-control-plane"
-            namespace: "${NAMESPACE}"
-        kubeadmConfigSpec:
-          clusterConfiguration:
-            controllerManager:
-              extraArgs: { enable-hostpath-provisioner: "true" }
-            apiServer:
-              certSANs: [localhost, 127.0.0.1]
-          initConfiguration:
-            nodeRegistration:
-              criSocket: /var/run/containerd/containerd.sock
-              kubeletExtraArgs:
-                # We have to pin the cgroupDriver to cgroupfs as kubeadm >=1.21 defaults to systemd
-                # kind will implement systemd support in: https://github.com/kubernetes-sigs/kind/issues/1726
-                cgroup-driver: cgroupfs
-                eviction-hard: "nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%"
-          joinConfiguration:
-            nodeRegistration:
-              criSocket: /var/run/containerd/containerd.sock
-              kubeletExtraArgs:
-                # We have to pin the cgroupDriver to cgroupfs as kubeadm >=1.21 defaults to systemd
-                # kind will implement systemd support in: https://github.com/kubernetes-sigs/kind/issues/1726
-                cgroup-driver: cgroupfs
-                eviction-hard: "nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%"
-        version: "${KUBERNETES_VERSION}"
-    - apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-      kind: DockerMachineTemplate
-      metadata:
-        name: "${CLUSTER_NAME}-md-0"
-        namespace: "${NAMESPACE}"
-      spec:
-        template:
-          spec: {}
-    - apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
-      kind: KubeadmConfigTemplate
-      metadata:
-        name: "${CLUSTER_NAME}-md-0"
-        namespace: "${NAMESPACE}"
-      spec:
-        template:
-          spec:
-            joinConfiguration:
-              nodeRegistration:
-                kubeletExtraArgs:
-                  # We have to pin the cgroupDriver to cgroupfs as kubeadm >=1.21 defaults to systemd
-                  # kind will implement systemd support in: https://github.com/kubernetes-sigs/kind/issues/1726
-                  cgroup-driver: cgroupfs
-                  eviction-hard: "nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%"
-    - apiVersion: cluster.x-k8s.io/v1beta1
-      kind: MachineDeployment
-      metadata:
-        name: "${CLUSTER_NAME}-md-0"
-        namespace: "${NAMESPACE}"
-      spec:
-        clusterName: "${CLUSTER_NAME}"
-        replicas: 1
-        selector:
-          matchLabels:
-        template:
-          spec:
-            clusterName: "${CLUSTER_NAME}"
-            version: "${KUBERNETES_VERSION}"
-            bootstrap:
-              configRef:
-                name: "${CLUSTER_NAME}-md-0"
-                namespace: "${NAMESPACE}"
-                apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
-                kind: KubeadmConfigTemplate
-            infrastructureRef:
-              name: "${CLUSTER_NAME}-md-0"
-              namespace: "${NAMESPACE}"
-              apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-              kind: DockerMachineTemplate
-```
+Download the template below to your config repository path with curl
+
+<CodeBlock className="language-bash">
+  curl -o .weave-gitops/apps/capi/templates/capd-template.yaml{" "}
+  {window.location.protocol}//{window.location.host}
+  {require("./assets/templates/capd-template.yaml").default}
+</CodeBlock>
+
+<CodeBlock
+  title=".weave-gitops/apps/capi/templates/capd-template.yaml"
+  className="language-yaml"
+>
+  {CapdTemplate}
+</CodeBlock>
 
 See [CAPI Templates](templates.mdx) page for more details.
 
 #### 3. Add a helmrepo and annotate some helm charts
 
-Save the following helm repo to `.weave-gitops/apps/capi/profiles/repo.yaml`:
+import ProfileRepo from "!!raw-loader!./assets/profiles/profile-repo.yaml";
 
-```yaml title="repo.yaml"
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
-metadata:
-  creationTimestamp: null
-  name: weaveworks-charts
-  namespace: wego-system
-spec:
-  interval: 1m
-  url: https://foot.github.io/podinfo
-status: {}
-```
+Download the profile repositry below to your config repository path with curl
+
+<CodeBlock className="language-bash">
+  mkdir -p .weave-gitops/apps/capi/profiles{"\n"}
+  curl -o .weave-gitops/apps/capi/profiles/profile-repo.yaml {
+    window.location.protocol
+  }
+  //{window.location.host}
+  {require("./assets/profiles/profile-repo.yaml").default}
+</CodeBlock>
+
+<CodeBlock
+  title=".weave-gitops/apps/capi/profiles/profile-repo.yaml"
+  className="language-yaml"
+>
+  {ProfileRepo}
+</CodeBlock>
 
 #### 4. Add a CRS to install a CNI
 
 Create a calico configmap and a CRS as follows:
 
-```yaml title="cni-crs.yaml"
-apiVersion: addons.cluster.x-k8s.io/v1alpha3
-kind: ClusterResourceSet
-metadata:
-  name: calico-crs
-  namespace: default
-spec:
-  clusterSelector:
-    matchLabels:
-      cni: calico
-  resources:
-  - kind: ConfigMap
-    name: calico-crs-configmap
-```
+import CalicoCRS from "!!raw-loader!./assets/bootstrap/calico-crs.yaml";
 
-And save it to `apps/capi/bootstrap/cni-crs.yaml`
+<CodeBlock
+  title=".weave-gitops/apps/capi/boostrap/calico-crs.yaml"
+  className="language-yaml"
+>
+  {CalicoCRS}
+</CodeBlock>
 
 #### 5. Add a cluster bootstrap config
 
 Create a cluster bootstrap config as follows:
 
-```yaml title="clusterbootstrapconfig.yaml"
-apiVersion: capi.gitops.solutions/v1alpha1
-kind: ClusterBootstrapConfig
-metadata:
-  name: clusterbootstrapconfig-sample
-  namespace: default
-spec:
-  clusterSelector:
-    matchLabels:
-      weave.works/spike: upa
-  jobTemplates:
-    - name: 'gitopsify-leaf'
-      spec:
-        containers:
-        - image: ghcr.io/palemtnrider/wego-app:v0.5.0-rc2
-          name: gitops-install
-          resources: {}
-          volumeMounts:
-          - name: kubeconfig
-            mountPath: "/etc/gitops"
-            readOnly: true
-          args: ["install", "--override-in-cluster", "--app-config-url", "$(GITOPS_REPO)"]
-          env: 
-          - name: KUBECONFIG
-            value: "/etc/gitops/value"
-          - name: GITOPS_REPO
-            value: "ssh://git@github.com/palemtnrider/kb3.git"
-          - name: GITHUB_TOKEN
-            valueFrom: 
-              secretKeyRef:
-                name: my-pat  
-                key: GITHUB_TOKEN        
-          # - name: GITLAB_TOKEN # If your GitOps repo is on GitLab, use this instead of GITHUB_TOKEN
-          #   valueFrom: 
-          #     secretKeyRef:
-          #       name: pat
-          #       key: GITLAB_TOKEN        
-        restartPolicy: Never
-        volumes:
-        - name: kubeconfig
-          secret:
-            secretName: '{{ .ObjectMeta.Name }}-kubeconfig'
+```bash
+ kubectl create secret generic my-pat --from-literal GITHUB_TOKEN=$GITHUB_TOKEN
 ```
 
-And save it to `apps/capi/bootstrap/clusterbootstrapconfig.yaml`
+import CapiGitopsCDC from "!!raw-loader!./assets/bootstrap/capi-gitops-cluster-bootstrap-config.yaml";
+
+<CodeBlock className="language-bash">
+  mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
+  curl -o .weave-gitops/apps/capi/bootstrap/capi-gitops-cluster-bootstrap-config.yaml{" "}
+  {window.location.protocol}
+  //{window.location.host}
+  {
+    require("./assets/bootstrap/capi-gitops-cluster-bootstrap-config.yaml")
+      .default
+  }
+</CodeBlock>
+
+<CodeBlock
+  title=".weave-gitops/apps/capi/boostrap/capi-gitops-cluster-bootstrap-config.yaml"
+  className="language-yaml"
+>
+  {CapiGitopsCDC}
+</CodeBlock>
