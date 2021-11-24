@@ -11,6 +11,7 @@ import CodeBlock from "@theme/CodeBlock";
 </h1>
 
 ## Getting Started with CAPI
+
 ### Creating your first CAPD Cluster
 
 If you've followed the [Upgrade guide](../enterprise/upgrading.mdx) you should have a management cluster ready to roll. Next up we'll
@@ -101,6 +102,8 @@ Create a cluster bootstrap config as follows:
 
 import CapiGitopsCDC from "!!raw-loader!./assets/bootstrap/capi-gitops-cluster-bootstrap-config.yaml";
 
+Download the config with
+
 <CodeBlock className="language-bash">
   mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
   curl -o .weave-gitops/apps/capi/bootstrap/capi-gitops-cluster-bootstrap-config.yaml{" "}
@@ -111,6 +114,8 @@ import CapiGitopsCDC from "!!raw-loader!./assets/bootstrap/capi-gitops-cluster-b
       .default
   }
 </CodeBlock>
+
+Then update the `GITOPS_REPO` variable to point to your cluster
 
 <CodeBlock
   title=".weave-gitops/apps/capi/boostrap/capi-gitops-cluster-bootstrap-config.yaml"
