@@ -8,15 +8,19 @@ import TabItem from "@theme/TabItem";
 
 ## How to: Upgrade to Weave Gitops Enterprise
 
+:::note gitops >= 0.5.0-rc2 version required
+
+Make sure `gitops version` is reporting a version >= `0.5.0-rc2` before continuing with these instructions. Download releases of Weave Gitops from [the releases page](https://github.com/weaveworks/weave-gitops/releases).
+
+:::
+
 Upgrading requires we:
 
 1. Have a cluster with Weave GitOps installed
-2. Install Profiles onto the cluster
-3. Apply the entitlements secret
-4. Upgrade
-5. Configure
-6. Check that Weave Gitops Enterprise has been installed
-7. Connect the management cluster up to itself
+2. Apply the entitlements secret
+3. Upgrade
+4. Check that Weave Gitops Enterprise has been installed
+5. Connect the management cluster up to itself
 
 ### 1. Install `gitops` on a new cluster
 
@@ -62,28 +66,13 @@ git push -u
 
 ```
 
-Install Weave Gitops and connect up management folder
+Install Weave Gitops
 
 ```bash
-gitops install
-gitops add app --path ./management --auto-merge
+gitops install --app-config-url $(git config --get remote.origin.url)
 ```
 
-### 2. Install profiles
-
-:::note This step will be removed
-
-This step will be removed when Profiles are included in Weave Gitops
-
-:::
-
-Download the latest `pctl` [release](https://github.com/weaveworks/pctl/releases) and install the Profile custom resources:
-
-```bash
-pctl install --flux-namespace wego-system
-```
-
-### 3. Apply the entitlements secret
+### 2. Apply the entitlements secret
 
 Contact sales@weave.works for a valid entitlements secret. Then apply it to the cluster:
 
@@ -91,7 +80,7 @@ Contact sales@weave.works for a valid entitlements secret. Then apply it to the 
 kubectl apply -f entitlements.yaml
 ```
 
-### 4. Upgrade
+### 3. Upgrade
 
 :::note Make sure `GITHUB_TOKEN` is set
 
@@ -102,106 +91,23 @@ kubectl apply -f entitlements.yaml
 Run the upgrade command from a local copy of git repo that is sync'd to the cluster:
 
 ```bash
-cd my-cluster-repo
-gitops upgrade --out management
-git checkout -
+gitops upgrade --profile-version 0.0.15 --app-config-url $(git config --get remote.origin.url)
 ```
 
 A **Pull Request** will be created against your cluster repository. **Review and merge** this pull request to upgrade to Weave Gitops Enterprise.
 
-### 5. Configure Weave Gitops Enterprise
-
-Weave Gitops Enterprise has a number of configration options but two importants aspect to configure are:
-
-#### Update HelmRelease interval
-
-Edit `management/weave-gitops-enterprise/artifacts/mccp-chart/helm-chart/HelmRelease.yaml` and set the `spec.interval` to `1m`. Commit and push.
-
-#### 5.0 Cluster name
-
-Set the name of your cluster to be the same as your clusters kubeconfig
-
-```bash
-kubectl config current-context
-kind-kind
-```
-
-Update the `config.cluster.name` value in the Weave Gitops Enterprise `ConfigMap` in your config repo.
-
-#### 5.1. Ingress
-
-An Ingress address is necessary in order to establish connectivity between agents and your WGE instance. The way to determine this depends on your cluster type and provisioning method.
-
-<Tabs
-  groupId="agent-ingress"
-  values={[
-    { label: "kind clusters", value: "kind-clusters" },
-    { label: "Other cloud providers", value: "other-clusters" },
-  ]}
->
-  <TabItem value="kind-clusters" default>
-
-To determine the public IP address of the worker nodes of your cluster get the local IP for kind:
-
-```bash
-export INGRESS_ADDRESS=$(ipconfig getifaddr en0)
-```
-
-  </TabItem>
-  <TabItem value="other-clusters">
-
-For other cluster providers you'll have to configure the ingress around what they provide.
-
-```bash
-export INGRESS_ADDRESS=wge.example.com
-```
-
-  </TabItem>
-</Tabs>
-
-Update the `agentTemplate.natsURL` value in the Weave Gitops Enterprise `ConfigMap` in your config repo.
-
-#### 5.2. Git repository configuration
-
-Update the `capi.config.repositoryURL` with the correct url to your git config repository in the Weave Gitops Enterprise `ConfigMap` in git config repository itself.
-
-:::note Restart capi-service
-
-After configuring values in the `ConfigMap` you will have to delete the `cluster-service`, `gitops-repo-broker` and `event-writer` pods for the changes to take effect.
-
-:::
-
-### 6. Checking that WGE is installed
+### 4. Checking that WGE is installed
 
 You should now be able to load the WGE UI:
 
-<Tabs
-  groupId="check-installation"
-  values={[
-    { label: "kind clusters", value: "kind-clusters" },
-    { label: "Other cloud providers", value: "other-clusters" },
-  ]}
->
-  <TabItem value="kind-clusters" default>
-
-If you've created a `kind` cluster using the config above, head to [http://localhost:30080](http://localhost:30080) to view the UI.
-
-  </TabItem>
-  <TabItem value="other-clusters">
-
-For other cluster providers you can port forward to quickly test things are working
-
 ```bash
-$ kubectl port-forward --namespace wego-system deployments.apps/mccp-nginx-ingress-controller 8000:80
+kubectl port-forward --namespace wego-system deployments.apps/weave-gitops-enterprise-nginx-ingress-controller 8000:80
 ```
 
 The WGE UI should now be accessible at [http://localhost:8000](http://localhost:8000).
 
-  </TabItem>
-</Tabs>
+### 5. Connect the management cluster up to itself
 
-### 7. Connect the management cluster up to itself
-
-_Connecting a cluster_ installs the agent which is responsible for detecting new clusters and reporting their status to the UI. We need to install the agent on our newly created management cluster. Check out [How to: Connect a cluster](../cluster-management/managing-existing-clusters.mdx#how-to-connect-a-cluster).
+_Connecting a cluster_ installs the agent which is responsible for detecting new clusters and reporting their status to the UI. We need to install the agent on our newly created management cluster. Check out [How to: Connect a cluster](../cluster-management/managing-existing-clusters.mdx#how-to-connect-a-cluster). The agent should be loaded onto our new management cluster, give it a name like **Management** and leave the Ingress URL blank.
 
 Head over to [Getting started](../cluster-management/getting-started.mdx) to create your first CAPI Cluster.
