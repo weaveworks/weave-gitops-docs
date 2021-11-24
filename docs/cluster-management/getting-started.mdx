@@ -85,12 +85,27 @@ Create a calico configmap and a CRS as follows:
 
 import CalicoCRS from "!!raw-loader!./assets/bootstrap/calico-crs.yaml";
 
+<CodeBlock className="language-bash">
+  mkdir -p .weave-gitops/apps/capi/bootstrap{"\n"}
+  curl -o .weave-gitops/apps/capi/bootstrap/calico-crs.yaml {
+    window.location.protocol
+  }
+  //{window.location.host}
+  {"\n"}
+  curl -o .weave-gitops/apps/capi/bootstrap/calico-crs-configmap.yaml{" "}
+  {window.location.protocol}
+  //{window.location.host}
+  {require("./assets/bootstrap/calico-crs-configmap.yaml").default}
+</CodeBlock>
+
 <CodeBlock
   title=".weave-gitops/apps/capi/boostrap/calico-crs.yaml"
   className="language-yaml"
 >
   {CalicoCRS}
 </CodeBlock>
+
+The full [`calico-crs-configmap.yaml`](./assets/bootstrap/calico-crs-configmap.yaml) is a bit large to display inline here.
 
 #### 5. Add a cluster bootstrap config
 
