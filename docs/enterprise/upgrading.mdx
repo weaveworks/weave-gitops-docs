@@ -17,10 +17,11 @@ Make sure `gitops version` is reporting a version >= `0.5.0-rc2` before continui
 Upgrading requires we:
 
 1. Have a cluster with Weave GitOps installed
-2. Apply the entitlements secret
-3. Upgrade
-4. Check that Weave Gitops Enterprise has been installed
-5. Connect the management cluster up to itself
+2. Install a CAPI provider
+3. Apply the entitlements secret
+4. Upgrade
+5. Check that Weave Gitops Enterprise has been installed
+6. Connect the management cluster up to itself
 
 ### 1. Install `gitops` on a new cluster
 
@@ -71,7 +72,19 @@ Install Weave Gitops
 gitops install --app-config-url $(git config --get remote.origin.url)
 ```
 
-### 2. Apply the entitlements secret
+### 2. Install a CAPI provider
+
+In order to be able to provision Kubernetes clusters, a CAPI provider needs to be installed.
+
+```
+clusterctl init --infrastructure docker
+```
+
+:::note clusterctl >= 1.0.0 version required
+
+:::
+
+### 3. Apply the entitlements secret
 
 Contact sales@weave.works for a valid entitlements secret. Then apply it to the cluster:
 
@@ -79,7 +92,9 @@ Contact sales@weave.works for a valid entitlements secret. Then apply it to the 
 kubectl apply -f entitlements.yaml
 ```
 
-### 3. Upgrade
+
+
+### 4. Upgrade
 
 :::note Make sure `GITHUB_TOKEN` is set
 
@@ -95,7 +110,7 @@ gitops upgrade --profile-version 0.0.16 --app-config-url $(git config --get remo
 
 A **Pull Request** will be created against your cluster repository. **Review and merge** this pull request to upgrade to Weave Gitops Enterprise.
 
-### 4. Checking that WGE is installed
+### 5. Checking that WGE is installed
 
 You should now be able to load the WGE UI:
 
@@ -105,7 +120,7 @@ kubectl port-forward --namespace wego-system deployments.apps/weave-gitops-enter
 
 The WGE UI should now be accessible at [http://localhost:8000](http://localhost:8000).
 
-### 5. Connect the management cluster up to itself
+### 6. Connect the management cluster up to itself
 
 _Connecting a cluster_ installs the agent which is responsible for detecting new clusters and reporting their status to the UI. We need to install the agent on our newly created management cluster. Check out [How to: Connect a cluster](../cluster-management/managing-existing-clusters.mdx#how-to-connect-a-cluster). The agent should be loaded onto our new management cluster, give it a name like **Management** and leave the Ingress URL blank.
 
