@@ -6,12 +6,17 @@ sidebar_position: 0
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## How to: Upgrade to Weave Gitops Enterprise
+## How to: Upgrade to Weave GitOps Enterprise
 
-:::note gitops >= 0.5.0-rc2 version required
+:::note BEFORE YOU START 
 
-Make sure `gitops version` is reporting a version >= `0.5.0-rc2` before continuing with these instructions. Download releases of Weave Gitops from [the releases page](https://github.com/weaveworks/weave-gitops/releases).
+  Make sure the following software is installed before continuing with these instructions:
+  
+  - `gitops` >= 0.5.0-rc2. Use `gitops version` to check the currently installed version. If needed, download a newer version of Weave GitOps from the [releases page](https://github.com/weaveworks/weave-gitops/releases).
+  - `clusterctl` >= 1.0.1. Use `clusterctl version` to check the currently installed version. If needed, download a newer version of clusterctl from the [releases page](https://github.com/kubernetes-sigs/cluster-api/releases).
 
+
+  Also `GITHUB_TOKEN` should be set as an environment variable in the current shell. It should have permissions to create Pull Requests against the cluster config repo.
 :::
 
 Upgrading requires we:
@@ -20,7 +25,7 @@ Upgrading requires we:
 2. Install a CAPI provider
 3. Apply the entitlements secret
 4. Upgrade
-5. Check that Weave Gitops Enterprise has been installed
+5. Check that Weave GitOps Enterprise has been installed
 6. Connect the management cluster up to itself
 
 ### 1. Install `gitops` on a new cluster
@@ -80,10 +85,6 @@ In order to be able to provision Kubernetes clusters, a CAPI provider needs to b
 clusterctl init --infrastructure docker
 ```
 
-:::note clusterctl >= 1.0.0 version required
-
-:::
-
 ### 3. Apply the entitlements secret
 
 Contact sales@weave.works for a valid entitlements secret. Then apply it to the cluster:
@@ -96,19 +97,13 @@ kubectl apply -f entitlements.yaml
 
 ### 4. Upgrade
 
-:::note Make sure `GITHUB_TOKEN` is set
-
-`GITHUB_TOKEN` should be set as an environment variable in the current shell. It should have permissions to create Pull Requests against the cluster config repo
-
-:::
-
 Run the upgrade command from a local copy of git repo that is sync'd to the cluster:
 
 ```bash
 gitops upgrade --profile-version 0.0.16 --app-config-url $(git config --get remote.origin.url)
 ```
 
-A **Pull Request** will be created against your cluster repository. **Review and merge** this pull request to upgrade to Weave Gitops Enterprise.
+A **Pull Request** will be created against your cluster repository. **Review and merge** this pull request to upgrade to Weave GitOps Enterprise.
 
 ### 5. Checking that WGE is installed
 
