@@ -1,8 +1,14 @@
 ---
+title: Getting Started
 sidebar_position: 2
+hide_title: true
 ---
 
-# Getting Started
+import TierLabel from "./_components/TierLabel";
+
+<h1>
+  {frontMatter.title} <TierLabel tiers="Core" />
+</h1>
 
 Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a kind cluster, then make a change to the application in Git, and see it automatically update on the cluster.
 
