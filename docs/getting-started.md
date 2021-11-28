@@ -4,15 +4,36 @@ sidebar_position: 2
 
 # Getting Started
 
-Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a kind cluster, then make a change to the application in Git, and see it automatically update on the cluster.
+**Weave GitOps** makes it easy to get started on your GitOps journey; deploying your Kubernetes workloads in a way which is:
 
-You can also join our regular workshops where we go through these steps and help you along the way:
-- Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+- **Declarative** - desired state is expressed declaratively
+- **Versioned and immutable** - including retaining complete version history
+- **Pulled Automatically** - software agents automatically pull the desired state declarations from the source
+- **Continuously reconciled** - software agents continuously observe actual system state and attempt to apply the desired state
+
+_See GitOps Principles v1.0.0 - [OpenGitOps](https://opengitops.dev/)_
+
+You can learn more about [What is GitOps?](https://www.weave.works/technologies/gitops/) and [Weave GitOps](https://www.weave.works/product/gitops-core/) at [weave.works](weave.works).
+
+Now, let's get an app deployed with **Weave GitOps**! This guide will walk you through a complete end-to-end scenario from creating a fresh local Kubernetes cluster, to having an application workload being deployed and managed through GitOps.
+
+We will:
+
+- Create a new Kubernetes cluster
+- Install the Weave GitOps CLI
+- Deploy a sample application with Weave GitOps
+- Show GitOps reconciliation by attempting a change to the app running on the cluster, then pushing a change to the application through git
+
+You can also join our regular workshops where we go through these steps together and can help you along the way:
+
+- Next workshop: 9 Dec 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+
 ---
 
 ## Pre-requisites
 
 To follow along with this guide you will need:
+
 1. A GitHub account
 2. kubectl installed - [instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
 3. For our Kubernetes cluster we use [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) which requires [Docker](https://docs.docker.com/get-docker/).
@@ -27,24 +48,61 @@ gitops version
 
 Alternatively, macOS users can use Homebrew:
 
-
 ```console
 brew tap weaveworks/tap
 brew install weaveworks/tap/gitops
 ```
 
-For complete installation instructions and general pre-requisites, see the  [Installation page](installation.md).
+For complete installation instructions and general pre-requisites, see the [Installation page](installation.md).
+
+## Create your GitHub Repositories
+
+Weave GitOps can be used to deploy multiple applications, each with deployment manifests in their own separate repositories, to multiple Kubernetes clusters. We store the [GitOps Automation](gitops-automation.md) for one or more clusters in a single configuration repository for ease of management.
+
+Whilst you can add the automation to any existing repository, including one with your application deployment manifests, we recommend using a new or empty repository for this purpose and our guide will take this approach.
+
+### 1 - Create a configuration repository
+
+This is where we will push GitOps Automation manifests. Storing in git allows for easy recovery and cluster bootstrapping.
+
+From [GitHub](https://github.com) click "+" and create a new respository; be sure to initialize the repository. This guide assumes the name `gitops-config` is used.
+
+### 2 - Fork the podinfo sample application repository
+
+We will be making changes to the sample application to show GitOps reconciliation in action. So we will first fork the podinfo sample repository.
+
+Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy).
+
+![fork](/img/github-fork.png)
+
+`Podinfo` is simple, Go web application made up of a frontend and backend component; it is designed to showcase best practices of running microservices in Kubernetes. The full application source can be found [here](https://github.com/stefanprodan/podinfo).
+
+```
+.
+├── README.md
+├── backend
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   └── service.yaml
+├── frontend
+│   ├── deployment.yaml
+│   └── service.yaml
+└── namespace.yaml
+2 directories, 7 files
+```
 
 ## Prepare your cluster
 
-### 1) Create the cluster
+### 3) Create the cluster
 
 Open a terminal and enter the following:
 
 ```console
 kind create cluster
 ```
+
 You should see output similar to:
+
 ```
 Creating cluster "kind" ...
  ✓ Ensuring node image (kindest/node:v1.21.1) 🖼
@@ -61,17 +119,21 @@ Have a nice day! 👋
 
 ```
 
-### 2 - Install Weave GitOps onto the cluster
+### 4 - Install Weave GitOps on the Kubernetes cluster
 
 ```console
-gitops install
+gitops install --app-config-url git@github.com:<username>/gitops-config
 ```
 
-The install will take roughly 1-2 minutes depending on your system. 
+Run the install command specifying the location of your configuration repository created in step 1.
+
+The install will take roughly 2 minutes depending on your system.
 
 Once complete, you will see:
 
 ```
+...
+◎ verifying installation
 ✔ image-reflector-controller: deployment ready
 ✔ image-automation-controller: deployment ready
 ✔ source-controller: deployment ready
@@ -79,55 +141,51 @@ Once complete, you will see:
 ✔ helm-controller: deployment ready
 ✔ notification-controller: deployment ready
 ✔ install finished
+Deploy key generated and uploaded to git provider
+► Writing manifests to disk
+► Committing and pushing gitops updates for application
+► Pushing app changes to repository
+► Applying manifests to the cluster
 ```
-## Configure Weave GitOps to deploy your application
 
-### 3 - Fork the Podinfo repository
+## Configure Weave GitOps to deploy the podinfo application
 
-For Weave GitOps to set up automation to reconcile the workload, we will need write access to the repository, so we will first fork the podinfo sample repository.
+### 5 - Start the GitOps Dashboard web UI
 
-Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy).
-
-![fork](/img/github-fork.png)
-
-### 4 - Start the GitOps Dashboard web UI
+Weave GitOps provides a web UI to help manage the lifecycle management of your applications.
 
 ```
 gitops ui run
 ```
 
-This will open the dashboard in your browser at [http://0.0.0.0:9001/](http://0.0.0.0:9001/).
+Running this command will open the dashboard in your browser at [http://0.0.0.0:9001/](http://0.0.0.0:9001/).
 
 You will see an empty Applications view as shown in the image below.
 
 ![GitOps Dashboard web UI - empty applications view](/img/dashboard-applications-empty.png)
 
-### 5 - Add the podinfo application
+### 6 - Add the podinfo application
 
 Click **add application** in the top right of the screen to bring up the following form:
 
-![GitOps Dashboard web UI - add applications form](/img/dashboard-add-application.png)
+![GitOps Dashboard web UI - add applications form](/img/dashboard-add-form-complete.png)
 
 Next fill out the form with the required values:
 
 - Name: **podinfo-deploy**
-- Kubernetes Namespace: **wego-system**  
-  -  **Leave as default**, this is where the automation objects for the application will be created.
-- Source Repo URL: (**your-forked-podinfo-repo**)
-  - For example: `https://github.com/sympatheticmoose/podinfo-deploy` or `git@github.com:sympatheticmoose/podinfo-deploy`
-- Config Repo URL: (**leave blank**)  
-  - It is **recommended** to use a separate repository as your config repo when deploying multiple applications, potentially to multiple clusters, however, for simplicity - you can also use the same repo as the `Source Repo URL`.
-- Path: **./**  
-  - This allows you to specify a particular folder with a repository, should the repo contain more than a single application's deployment manifests.
+- Kubernetes Namespace: **wego-system**
+  - **Leave as default**, this is where the GitOps Automation objects for the application will be deployed.
+- Source Repo URL: (**\*git@github.com:\<username\>/podinfo-deploy**)
+  - URL references can be in either the HTTPS `https://github.com/sympatheticmoose/podinfo-deploy` or SSH `git@github.com:sympatheticmoose/podinfo-deploy` format.
+- Config Repo URL: (**git@github.com:\<username\>/gitops-config**)
+  - Specify the same configuration repository from steps 1 and 4 (install).
+- Path: **./**
+  - **Leave as default**, this allows you to specify a particular folder with a repository, should the repo contain more than a single application's deployment manifests.
 - Branch: (**should not require changing**)
 
-Click **Submit** in the bottom right of the form. This will result in an error as we have not recently authenticated with GitHub, so we are not yet authorized to raise a pull request against your repository.
+Click **Authenticate with GitHub** next to the `Source Repo URL` field
 
-Click **Authenticate with GitHub** within the error message as shown below:
-
-![Not authenticated error](/img/dashboard-add-application-auth-error.png)
-
-You will be prompted with a screen to copy a code from, before visiting GitHub to authorize Weave GitOps to write to your repositories. Copy the code to your clipboard and click **AUTHORIZE GITHUB ACCESS**.
+You will be prompted with a screen to copy a code from, before visiting GitHub to authorize Weave GitOps with a short-lived token to write to your repositories. Copy the code to your clipboard and click **AUTHORIZE GITHUB ACCESS**.
 
 Paste the code into the screen as shown below:
 ![device flow activation](/img/github-device-flow-start.png)
@@ -138,14 +196,18 @@ You should then see this confirmation:
 
 Once authorization has completed, navigate back to the GitOps Dashboard.
 
+Click **Submit** in the bottom right of the form.
+
 The screen should update with a message that the Pull Request has been created, click **Open Pull Requests** to review the PR in GitHub.
 
 ![Pull request raised](/img/dashboard-add-application-PR-raised.png)
 
-The Pull Request adds three files which will be deployed to your cluster:
+The Pull Request adds five files under a `.weave-gitops` directory:
+
 - An **Application custom resource** with details about the deployment.
 - A [**GitRepository**](https://fluxcd.io/docs/concepts/#sources) source which "defines the origin of a repository containing the desired state of the system and the requirements to obtain it". This includes the `interval` which is how frequently to check for available new versions.
-- A [**Kustomization**](https://fluxcd.io/docs/concepts/#kustomization) which "represents a local set of Kubernetes resources (e.g. kustomize overlay) that Flux is supposed to reconcile in the cluster". This deploys the resources found under the specified path, reconciling between the cluster and the declared state in Git. Where "if you make any changes to the cluster using kubectl edit/patch/delete, they will be promptly reverted." based on the `interval` value. Note you can pause this reconciliation process using `gitops suspend <app-name>`.
+- A [**Flux Kustomization**](https://fluxcd.io/docs/concepts/#kustomization) which "represents a local set of Kubernetes resources (e.g. kustomize overlay) that Flux is supposed to reconcile in the cluster". This deploys the resources found under the specified path, reconciling between the cluster and the declared state in Git. Where "if you make any changes to the cluster using kubectl edit/patch/delete, they will be promptly reverted." based on the `interval` value. Note you can pause this reconciliation process using `gitops suspend <app-name>`.
+- Two [Kubernetes Kustomizations](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization). One in the `apps/podinfo-deploy` directory which references the above resources to be built with Kustomize when your application is deployed. The second in `clusters/kind-kind/user` which associates the application with your kind cluster as a target for deployment.
 
 Merge the Pull Request to start the deployment.
 
@@ -153,26 +215,28 @@ Merge the Pull Request to start the deployment.
 
 ## View the running application
 
-### 6 - See application details
+### 7 - See application details
 
 As the workloads begin to be deployed, you can view the progress and check for key reconciliation status updates in the Application details page.
 
-Navigate to the Applications view by clicking in the left menu bar, you should now see the `podinfo-deploy` application listed. Click the name of the Application to view the details page. You may need to refresh the page to view up to date status.
+Navigate to the Applications view by clicking in the left menu bar, you should now see the `podinfo-deploy` application listed. Click the name of the Application to view the details page.
 
 ![Weave GitOps UI](/img/wego_ui.png)
 
-From the Application details page you can see the reconciled objects on your cluster, which specific commit was last fetched from Git and which was last deployed onto the cluster. 
+From the Application details page you can see the reconciled objects on your cluster, which specific commit was last fetched from Git and which was last deployed onto the cluster. The `sync` button allows you to force a reconciliation and bypass the `interval` values. `Delete`
 
-You can also see the 10 most recent commits to your repository to quickly understand the changes which have occurred, with hyperlinks back to GitHub so you can find more details or revert changes as necessary.
+You can also see the 10 most recent commits to your application source repository to quickly understand the changes which have occurred, with hyperlinks back to GitHub so you can find more details or revert changes as necessary.
 
 As you can see, you have successfully deployed the app!
 
 ### 7 - Access the running application
 
 To access the `podinfo` UI you can set up a port forward into the pod.
+
 ```console
 kubectl port-forward service/frontend 9898:9898 --namespace test
 ```
+
 ```
 Forwarding from 127.0.0.1:9898 -> 9898
 Forwarding from [::1]:9898 -> 9898
@@ -192,17 +256,20 @@ The real aim of GitOps is not just to deploy once, but to continuously reconcile
 
 ### 8 - Bad actor time, delete your application.
 
-Let's try deleting the `frontend` deployment and seeing what happens. 
+Let's try deleting the `frontend` deployment and seeing what happens.
 
 First set up a watch on the pods
+
 ```
 kubectl get pods -n test --watch
 ```
 
 Now delete the deployment for `frontend`
+
 ```
 kubectl delete deployment/frontend -n test
 ```
+
 You will see the pod terminate, but after a short while, a new deployment will be created and a new pod created as drift was detected between our desired state and live state.
 
 ```
@@ -221,19 +288,21 @@ frontend-64769bf658-mjjcs   1/1     Running             0          11s
 ```
 
 ### 9 - Make a (desired) change to your application
+
 Edit `frontend/deployment.yaml`
 
 Change the `PODINFO_UI_COLOR` to grey:
+
 ```yaml
-        env:
-        - name: PODINFO_UI_COLOR
-          value: "#888888"
+env:
+  - name: PODINFO_UI_COLOR
+    value: "#888888"
 ```
 
 You can do this through the GitHub web interface (including via pull request ♥) or clone the repo locally and make the change as shown below:
 
 ```
-git clone git@github:<username>/podinfo-deploy
+git clone git@github:\<username\>/podinfo-deploy
 
 # make changes in /frontend/deployment.yaml
 
@@ -243,22 +312,27 @@ git push
 ```
 
 Now wait for the reconciliation to take place and you should see the pods recycle
+
 ```console
 kubectl get pods --namespace test
 ```
+
 ```
 NAME                       READY   STATUS              RESTARTS   AGE
 backend-5cd878f8dd-rl64h   1/1     Running             0          33m
 frontend-5c45876f-pnxrq    1/1     Running             0          6m51s
 frontend-ff74574fc-7ntw4   0/1     ContainerCreating   0          1s
 ```
+
 And a little later:
+
 ```
 NAME                       READY   STATUS        RESTARTS   AGE
 backend-5cd878f8dd-rl64h   1/1     Running       0          34m
 frontend-5c45876f-pnxrq    0/1     Terminating   0          7m9s
 frontend-ff74574fc-7ntw4   1/1     Running       0          19s
 ```
+
 Notice that the backend has not changed and so the backend pod is not affected.
 
 Restart `kubectl port-forward service/frontend 9898:9898 --namespace test` and you will see the color has changed. NB: If you use a real ingress then you wouldn't need to do this.
@@ -266,3 +340,11 @@ Restart `kubectl port-forward service/frontend 9898:9898 --namespace test` and y
 ## Complete!
 
 **Congratulations!** You have achieved a GitOps deployment using Weave GitOps. We hope you continue to be successful and are available for any questions or feedback in our [Slack](https://weave-community.slack.com/archives/C0248LVC719).
+
+### Where next?
+
+- Learn more about GitOps from the Weaveworks [Guide to GitOps](https://www.weave.works/technologies/gitops/)
+- Read more about the [GitOps Automation](gitops-automation.md) objects used to reconcile workloads
+- Get to know our [CLI](https://docs.gitops.weave.works/docs/cli-reference/gitops)
+- Get started with Cluster management with Weave GitOps Enterprise [Weave GitOps Enterprise](https://docs.gitops.weave.works/docs/cluster-management/getting-started)
+- Dive into [Flux](https://fluxcd.io/), the proven CNCF technology that provides the foundation for Weave GitOps, to learn about the configurations possible for your deployments
