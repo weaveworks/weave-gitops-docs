@@ -13,7 +13,7 @@ sidebar_position: 2
 
 _See GitOps Principles v1.0.0 - [OpenGitOps](https://opengitops.dev/)_
 
-You can learn more about [What is GitOps?](https://www.weave.works/technologies/gitops/) and [Weave GitOps](https://www.weave.works/product/gitops-core/) at [weave.works](weave.works).
+You can learn more about [What is GitOps?](https://www.weave.works/technologies/gitops/) and [Weave GitOps](https://www.weave.works/product/gitops-core/) at [weave.works](https://weave.works).
 
 Now, let's get an app deployed with **Weave GitOps**! This guide will walk you through a complete end-to-end scenario from creating a fresh local Kubernetes cluster, to having an application workload being deployed and managed through GitOps.
 
