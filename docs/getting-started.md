@@ -24,6 +24,8 @@ We will:
 - Deploy a sample application with Weave GitOps
 - Show GitOps reconciliation by attempting a change to the app running on the cluster, then pushing a change to the application through git
 
+### Workshops
+
 You can also join our regular workshops where we go through these steps together and can help you along the way:
 
 - Next workshop: 9 Dec 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
@@ -71,7 +73,7 @@ From [GitHub](https://github.com) click "+" and create a new respository; be sur
 
 We will be making changes to the sample application to show GitOps reconciliation in action. So we will first fork the podinfo sample repository.
 
-Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy).
+Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-example/podinfo-deploy) and fork the repository.
 
 ![fork](/img/github-fork.png)
 
@@ -93,7 +95,7 @@ Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-e
 
 ## Prepare your cluster
 
-### 3) Create the cluster
+### 3 - Create the cluster
 
 Open a terminal and enter the following:
 
@@ -158,7 +160,7 @@ Weave GitOps provides a web UI to help manage the lifecycle management of your a
 gitops ui run
 ```
 
-Running this command will open the dashboard in your browser at [http://0.0.0.0:9001/](http://0.0.0.0:9001/).
+Running the above command will open the dashboard in your browser at [http://0.0.0.0:9001/](http://0.0.0.0:9001/).
 
 You will see an empty Applications view as shown in the image below.
 
@@ -183,7 +185,7 @@ Next fill out the form with the required values:
   - **Leave as default**, this allows you to specify a particular folder with a repository, should the repo contain more than a single application's deployment manifests.
 - Branch: (**should not require changing**)
 
-Click **Authenticate with GitHub** next to the `Source Repo URL` field
+Click **AUTHENTICATE WITH GITHUB** next to the `Source Repo URL` field.
 
 You will be prompted with a screen to copy a code from, before visiting GitHub to authorize Weave GitOps with a short-lived token to write to your repositories. Copy the code to your clipboard and click **AUTHORIZE GITHUB ACCESS**.
 
@@ -223,13 +225,13 @@ Navigate to the Applications view by clicking in the left menu bar, you should n
 
 ![Weave GitOps UI](/img/wego_ui.png)
 
-From the Application details page you can see the reconciled objects on your cluster, which specific commit was last fetched from Git and which was last deployed onto the cluster. The `sync` button allows you to force a reconciliation and bypass the `interval` values. `Delete`
+From the Application details page you can see the reconciled objects on your cluster, which specific commit was last fetched from Git and which was last deployed onto the cluster. The `sync` button allows you to force a reconciliation and bypass the `interval` values. `Remove app` will remove from GitHub repository and then the cluster as GitOps reconciliation takes effect.
 
 You can also see the 10 most recent commits to your application source repository to quickly understand the changes which have occurred, with hyperlinks back to GitHub so you can find more details or revert changes as necessary.
 
 As you can see, you have successfully deployed the app!
 
-### 7 - Access the running application
+### 8 - Access the running application
 
 To access the `podinfo` UI you can set up a port forward into the pod.
 
@@ -242,7 +244,7 @@ Forwarding from 127.0.0.1:9898 -> 9898
 Forwarding from [::1]:9898 -> 9898
 ```
 
-Now you can browse [http://localhost:9898](http://localhost:9898)
+Now you can browse [http://localhost:9898](http://localhost:9898).
 
 You should see something like:
 
@@ -254,7 +256,7 @@ Use CTRL+C to cancel the `kubectl port-forward` command to continue with your co
 
 The real aim of GitOps is not just to deploy once, but to continuously reconcile desired state in Git with live state in Kubernetes. So we will now show a change.
 
-### 8 - Bad actor time, delete your application.
+### 9 - Bad actor time, delete your application.
 
 Let's try deleting the `frontend` deployment and seeing what happens.
 
@@ -302,7 +304,7 @@ env:
 You can do this through the GitHub web interface (including via pull request ♥) or clone the repo locally and make the change as shown below:
 
 ```
-git clone git@github:\<username\>/podinfo-deploy
+git clone git@github:<username>/podinfo-deploy
 
 # make changes in /frontend/deployment.yaml
 
