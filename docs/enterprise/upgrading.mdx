@@ -100,10 +100,10 @@ kubectl apply -f entitlements.yaml
 
 ### 4. Upgrade
 
-Run the upgrade command from a local copy of git repo that is sync'd to the cluster:
+Run the upgrade command specifying the same `--app-config-repo` used in install and the desired version of Weave GitOps Enterprise.
 
 ```bash
-gitops upgrade --app-config-url https://github.com/my-org/my-repo --profile-version 0.0.16
+gitops upgrade --app-config-url https://github.com/my-org/my-repo --version 0.0.16
 ```
 
 A **Pull Request** will be created against your cluster repository. **Review and merge** this pull request to upgrade to Weave GitOps Enterprise.
