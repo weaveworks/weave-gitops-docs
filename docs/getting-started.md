@@ -67,7 +67,7 @@ Whilst you can add the automation to any existing repository, including one with
 
 This is where we will push GitOps Automation manifests. Storing in git allows for easy recovery and cluster bootstrapping.
 
-From [GitHub](https://github.com) click "+" and create a new respository; be sure to initialize the repository. This guide assumes the name `gitops-config` is used.
+From [GitHub](https://github.com) click "+" and create a new repository; be sure to initialize the repository. This guide assumes the name `gitops-config` is used.
 
 ### 2 - Fork the podinfo sample application repository
 
@@ -150,6 +150,32 @@ Deploy key generated and uploaded to git provider
 ► Applying manifests to the cluster
 ```
 
+This will commit a new `.weave-gitops` folder to your configuration repository with the following files to manage the Weave GitOps runtime on the specified cluster:
+
+```
+.
+└── clusters
+    └── kind-kind
+        ├── system
+        │   ├── flux-source-resource.yaml
+        │   ├── flux-system-kustomization-resource.yaml
+        │   ├── flux-user-kustomization-resource.yaml
+        │   ├── gitops-runtime.yaml
+        │   ├── wego-app.yaml
+        │   └── wego-system.yaml
+        └── user
+            └── .keep
+```
+
+- `flux-source-resource`: a [**GitRepository**](https://fluxcd.io/docs/concepts/#sources) source which "defines the origin of a repository containing the desired state of the system and the requirements to obtain it". This includes the `interval` which is how frequently to check for available new versions.
+- `flux-system-kustomization-resource`: a [**Flux Kustomization**](https://fluxcd.io/docs/concepts/#kustomization) which "represents a local set of Kubernetes resources (e.g. kustomize overlay) that Flux is supposed to reconcile in the cluster". This deploys the resources found under the specified path, in this case the `/system` folder, reconciling between the cluster and the declared state in Git. Where "if you make any changes to the cluster using kubectl edit/patch/delete, they will be promptly reverted." based on the `interval` value.
+- `flux-user-kustomization-resource`: another [**Flux Kustomization**](https://fluxcd.io/docs/concepts/#kustomization), this time for anything in the `/user` folder which later in this guide will include a reference to our sample application.
+- `gitops-runtime`: which creates the `wego-system` namespace and deploys the Flux runtime.
+- `wego-app`: which deploys our on-cluster web UI (not currently exposed).
+- `wego-system`: which creates our Application Custom Resource Definition (CRD).
+
+To learn more about these files, see our [GitOps Automation](gitops-automation.md).
+
 ## Configure Weave GitOps to deploy the podinfo application
 
 ### 5 - Start the GitOps Dashboard web UI
@@ -204,12 +230,40 @@ The screen should update with a message that the Pull Request has been created, 
 
 ![Pull request raised](/img/dashboard-add-application-PR-raised.png)
 
-The Pull Request adds five files under a `.weave-gitops` directory:
+The Pull Request adds five additional files under the `.weave-gitops` folder in your configuration repository. In a new `apps` top level folder the following four files are added:
 
-- An **Application custom resource** with details about the deployment.
-- A [**GitRepository**](https://fluxcd.io/docs/concepts/#sources) source which "defines the origin of a repository containing the desired state of the system and the requirements to obtain it". This includes the `interval` which is how frequently to check for available new versions.
-- A [**Flux Kustomization**](https://fluxcd.io/docs/concepts/#kustomization) which "represents a local set of Kubernetes resources (e.g. kustomize overlay) that Flux is supposed to reconcile in the cluster". This deploys the resources found under the specified path, reconciling between the cluster and the declared state in Git. Where "if you make any changes to the cluster using kubectl edit/patch/delete, they will be promptly reverted." based on the `interval` value. Note you can pause this reconciliation process using `gitops suspend <app-name>`.
-- Two [Kubernetes Kustomizations](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization). One in the `apps/podinfo-deploy` directory which references the above resources to be built with Kustomize when your application is deployed. The second in `clusters/kind-kind/user` which associates the application with your kind cluster as a target for deployment.
+- `app.yaml`: An **Application custom resource** with details about the deployment.
+- `kustomization.yaml`: a [**Kubernetes Kustomization**](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization) which references the resources within this folder to deploy the workload.
+- `podinfo-deploy-gitops-source`: a [**GitRepository**](https://fluxcd.io/docs/concepts/#sources) (described in step 4) for the application source repository.
+- `podinfo-deploy-gitops-deploy`: a [**Flux Kustomization**](https://fluxcd.io/docs/concepts/#kustomization) (described in step 4) to deploy the application. Note you can pause the reconciliation process using `gitops suspend <app-name>` for i.e. debugging.
+
+Then in the `../clusters/kind-kind/user` folder:
+
+- Another [**Kubernetes Kustomization**](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization) which associates the `podinfo-deploy` application with your kind cluster as a target for its deployment.
+
+So now our `.weave-gitops` folder looks like:
+
+```
+.
+├── apps
+│   └── podinfo-deploy
+│       ├── app.yaml
+│       ├── kustomization.yaml
+│       ├── podinfo-deploy-gitops-deploy.yaml
+│       └── podinfo-deploy-gitops-source.yaml
+└── clusters
+    └── kind-kind
+        ├── system
+        │   ├── flux-source-resource.yaml
+        │   ├── flux-system-kustomization-resource.yaml
+        │   ├── flux-user-kustomization-resource.yaml
+        │   ├── gitops-runtime.yaml
+        │   ├── wego-app.yaml
+        │   └── wego-system.yaml
+        └── user
+            ├── .keep
+            └── kustomization.yaml
+```
 
 Merge the Pull Request to start the deployment.
 
