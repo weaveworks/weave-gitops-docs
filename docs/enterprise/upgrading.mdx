@@ -105,6 +105,10 @@ Run the upgrade command specifying the same `--app-config-repo` used in install 
 ```bash
 gitops upgrade --app-config-url https://github.com/my-org/my-repo --version 0.0.16
 ```
+:::note
+You may need to add the `--base` flag to the above command to indicate your local branch name, if it is not set to `main`.
+:::
+
 
 A **Pull Request** will be created against your cluster repository. **Review and merge** this pull request to upgrade to Weave GitOps Enterprise.
 
