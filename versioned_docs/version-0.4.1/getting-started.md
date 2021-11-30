@@ -7,7 +7,7 @@ sidebar_position: 2
 Let's get an app deployed with **Weave GitOps**! We'll show you how to get a simple application running in a kind cluster, then make a change to the application in Git, and see it automatically update on the cluster.
 
 You can also join our regular workshops where we go through these steps and help you along the way:
-- Next workshop: 18 Nov 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+- Next workshop: 9 Dec 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
 ---
 
 ## Pre-requisites
