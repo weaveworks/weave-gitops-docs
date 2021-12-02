@@ -206,6 +206,7 @@ Examining this command, we see two new arguments:
 
 ```console
 gitops add app \
+--name microservices-demo
 --url ssh://git@github.com/example/microservices-demo.git \
 --path ./deploy/kubernetes/helm-chart \
 --app-config-url ssh://git@github.com/example/external.git
@@ -216,6 +217,8 @@ gitops add app \
 
 1. Since we're pulling the chart from a git repository, we need to explicitly state that we're using a helm chart. If we were using a helm repository, we would use `--chart <chart name>` instead of `--path <path to application>` and the deployment type would be unambiguous
 2. The application will be deployed in the namespace specified by `--helm-release-target-namespace`
+
+You can check the status of the application by running the `gitops get app microservices-demo` command.
 
 ### Single Repository Usage
 
