@@ -4,13 +4,14 @@ sidebar_position: 8
 
 # Deploying the Sock Shop Application
 
-In this example, we'll show how easy it is to deploy a real world application using Weave GitOps. The *Sock Shop* is a well known microservices application that is widely used in demonstration and testing of microservice environments such as Kubernetes. We'll actually see two different ways of deploying the *Sock Shop*:
+In this example, we'll show how easy it is to deploy a real world application using Weave GitOps. The _Sock Shop_ is a well known microservices application that is widely used in demonstration and testing of microservice environments such as Kubernetes. We'll actually see two different ways of deploying the _Sock Shop_:
+
 - as a plain set of Kubernetes manifests
 - as a helm chart
 
 # Prerequisites
 
-In order to deploy the *Sock Shop*, you need to first deploy Weave GitOps to a Kubernetes cluster. If you'd like to test this out locally, you can set up a [kind](https://kind.sigs.k8s.io/) cluster by following the instructions at the link. Regardless of which cluster you'd like to use, you can install Weave GitOps by first making sure your default kubeconfig points to the chosen cluster and then running `gitops install --app-config-url <configuration repository>`. The configuration repository is a Git repository that will hold the resource definitions required to manage your applications via GitOps. Please note that these examples are being run with the `GITOPS_TOKEN` environment variable set to a valid GitHub Personal Access Token (PAT) possessing `repo` access. If that were not the case, you would see extra user authentication steps in the output.
+In order to deploy the _Sock Shop_, you need to first deploy Weave GitOps to a Kubernetes cluster. If you'd like to test this out locally, you can set up a [kind](https://kind.sigs.k8s.io/) cluster by following the instructions at the link. Regardless of which cluster you'd like to use, you can install Weave GitOps by first making sure your default kubeconfig points to the chosen cluster and then running `gitops install --app-config-url <configuration repository>`. The configuration repository is a Git repository that will hold the resource definitions required to manage your applications via GitOps. Please note that these examples are being run with the `GITOPS_TOKEN` environment variable set to a valid GitHub Personal Access Token (PAT) possessing `repo` access. If that were not the case, you would see extra user authentication steps in the output.
 
 ```console
 gitops install --app-config-url ssh://git@github.com/example/external.git
@@ -70,17 +71,22 @@ arete: /tmp/sock-shop>
 
 Once you see `► Applying manifests to the cluster`, your cluster is ready to go with Weave GitOps.
 
-## Simple Deployment
-Once you have a cluster running Weave GitOps, it's simple to deploy an application like [*Sock Shop*](https://github.com/microservices-demo/microservices-demo).
+## Deploying with Weave GitOps
 
-To deploy the *Sock Shop*, we need to use `gitops add app`. `gitops add app` will store the GitOps automation support for your application in the `.weave-gitops` directory of the configuration repository you specified at install time. The definition of your application can be stored either in a separate repository or in the configuration repository itself (for a simple all-in-one configuration). If you want to store the application resources in the configuration repository, you only need to specify the `--url` flag which will be used for both application and configuration resources; however, this assumes that the application repository URL was passed to `gitops install`. If you want the application resources to be stored separately, you need to specify both `--url` and `--app-config-url` parameters. The `--url` parameter should be the URL of the repository containing the application definition and the `--app-config-url` parameter should be the URL that was used in `gitops install`.
+Once you have a cluster running Weave GitOps, it's simple to deploy an application like [_Sock Shop_](https://github.com/microservices-demo/microservices-demo).
 
-First, let's fork the *Sock Shop* repository. You can simply go to the [repository](https://github.com/microservices-demo/microservices-demo) in `GitHub` and select `Fork`.
+To deploy the _Sock Shop_, we need to use `gitops add app`. `gitops add app` will store the GitOps automation support for your application in the `.weave-gitops` directory of the configuration repository you specified at install time. The definition of your application can be stored either in a separate repository or in the configuration repository itself (for a simple all-in-one configuration). If you want to store the application resources in the configuration repository, you only need to specify the `--url` flag which will be used for both application and configuration resources; however, this assumes that the application repository URL was passed to `gitops install`. If you want the application resources to be stored separately, you need to specify both `--url` and `--app-config-url` parameters. The `--url` parameter should be the URL of the repository containing the application definition and the `--app-config-url` parameter must be the URL that was used in `gitops install`.
 
-Now, we can get the *Sock Shop* running as simply as possible using a separate configuration repository with:
+First, let's fork the _Sock Shop_ repository. You can simply go to the [repository](https://github.com/microservices-demo/microservices-demo) in `GitHub` and select `Fork`.
+
+Now, we can add the Sock Shop application to the configuration repository so it can be managed through GitOps:
 
 ```console
-> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url ssh://git@github.com/example/external.git --auto-merge
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --app-config-url
+```
+
+```console
+ssh://git@github.com/example/external.git --auto-merge
 Adding application:
 
 Name: microservices-demo
@@ -164,7 +170,9 @@ gitops add app \                                                 # (1)
 4. Store the management manifests in a separate configuration repository within GitHub; the `app-config-url` parameter says where to store management manifests. The default location (if no `app-config-url` is specified) is to place them in the `.weave-gitops` directory within the application repository itself. An actual URL value causes them to be stored in the repository referenced by the URL
 5. Don't create a pull request for the management manifests; push them directly to the upstream repository
 
-The application can also be deployed via a helm chart. Applications defined in helm charts can be deployed from either helm repositories or git repositories. In the case of the *Sock Shop* application, a helm chart is included in the `GitHub` repository. We only need to make minor changes to the command we used above to switch to a helm chart, but using a helm chart for *Sock Shop* requires the target namespace to exist before deploying. By default, the chart would be deployed into the `wego-system` namespace (since we know it exists), but we'd like to put it in the `sock-shop` namespace. So, before we run `gitops add app`, we'll run:
+### Using Helm Charts
+
+The application can also be deployed via a helm chart. Applications defined in helm charts can be deployed from either helm repositories or git repositories. In the case of the _Sock Shop_ application, a helm chart is included in the `GitHub` repository. We only need to make minor changes to the command we used above to switch to a helm chart, but using a helm chart for _Sock Shop_ requires the target namespace to exist before deploying. By default, the chart would be deployed into the `wego-system` namespace (since we know it exists), but we'd like to put it in the `sock-shop` namespace. So, before we run `gitops add app`, we'll run:
 
 ```console
 kubectl create namespace sock-shop
@@ -209,8 +217,7 @@ gitops add app \
 1. Since we're pulling the chart from a git repository, we need to explicitly state that we're using a helm chart. If we were using a helm repository, we would use `--chart <chart name>` instead of `--path <path to application>` and the deployment type would be unambiguous
 2. The application will be deployed in the namespace specified by `--helm-release-target-namespace`
 
-
-### Deployment with GitOps Resources in Application Repository
+### Single Repository Usage
 
 As we mentioned above, it's possible to have a single repository perform hold both the application and the configuration. If you place the application manifests in the configuration repository passed to `gitops install`, you can leave off the separate `--app-config-url` parameter. In this case, we would either have had to pass the `microservices-demo` URL to `gitops install` or copy the application manifests into the `external` repository. Let's proceed as if we had initialized the cluster with: `gitops install --app-config-url ssh://git@github.com/example/microservices-demo.git`.
 
@@ -291,9 +298,9 @@ metadata:
   name: microservices-demo
   namespace: wego-system
 resources:
-- app.yaml
-- microservices-demo-gitops-deploy.yaml
-- microservices-demo-gitops-source.yaml
+  - app.yaml
+  - microservices-demo-gitops-deploy.yaml
+  - microservices-demo-gitops-source.yaml
 ```
 
 The `microservices-demo-gitops-source.yaml` file tells flux the location (repository) containing the application. It has a special `ignore` section that skips `.weave-gitops` to support keeping an application in the configuration repository:
@@ -338,6 +345,7 @@ spec:
 ```
 
 The `microservices-demo-gitops-deploy.yaml` file defines the path within the repository and the sync interval for the application:
+
 ```yaml
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
@@ -354,18 +362,18 @@ spec:
     name: microservices-demo
 ```
 
-
 (This will look different in the case of a helm chart; it will hold a `HelmRelease` rather than a `Kustomization`)
 
 Finally, the `clusters` directory has a subdirectory for each cluster defining which applications will run there. The `user/kustomization.yaml` file in a specific cluster directory has a `resources` section containing a list of applications references:
 
 ```yaml
 resources:
-- ../../../apps/microservices-demo
+  - ../../../apps/microservices-demo
 ```
 
 ### Using Pull Requests
-We've reached the all-singing, all-dancing case now. This is the way most people will actually use Weave GitOps in a real environment. Whether you use the default application repository model or have a separate configuration repository, you can support reviewing and auditing changes to your GitOps resources via *Pull Requests*. (Also, as a practical matter, many people don't allow direct merges to their repositories without pull requests anyway)
+
+We've reached the all-singing, all-dancing case now. This is the way most people will actually use Weave GitOps in a real environment. Whether you use the default application repository model or have a separate configuration repository, you can support reviewing and auditing changes to your GitOps resources via _Pull Requests_. (Also, as a practical matter, many people don't allow direct merges to their repositories without pull requests anyway)
 
 In order to use pull requests for your GitOps resources, you simply need to leave off the `--auto-merge` flag we've been passing so far (in other words, using pull requests is the default). For example, if we run the previous command without `--auto-merge`, we see different output:
 
@@ -392,4 +400,3 @@ Pull Request created: https://github.com/example/external/pull/14
 Note the line: `Pull Request created: https://github.com/example/external/pull/14`. If we were to go to that GitHub repository and merge the pull request, the app would then be deployed.
 
 Hopefully, this example has given you a good understanding of how to deploy applications with Weave GitOps. Thanks for reading!
-
