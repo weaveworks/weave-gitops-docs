@@ -77,7 +77,7 @@ Go to [https://github.com/wego-example/podinfo-deploy](https://github.com/wego-e
 
 ![fork](/img/github-fork.png)
 
-`Podinfo` is simple, Go web application made up of a frontend and backend component; it is designed to showcase best practices of running microservices in Kubernetes. The full application source can be found [here](https://github.com/stefanprodan/podinfo).
+`Podinfo` is a simple web application written in Go made up of a frontend and backend component; it is designed to showcase best practices of running microservices in Kubernetes. The full application source can be found [here](https://github.com/stefanprodan/podinfo).
 
 ```
 .
