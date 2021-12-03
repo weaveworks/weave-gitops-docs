@@ -58,12 +58,8 @@ Fire up cluster
 kind create cluster --config kind-config.yaml
 ```
 
-Create a new repository.
+Create a new repo
 
-The repository will contain the configurations and manifests for the management cluster and the clusters that are provisioned by Weave GitOps Enterprise.
-Currently, GitHub and Gitlab are supported, and you will need a Personal Access Token from your git provider as a part of this installation.
-
-Here is an example using the GitHub `gh` command line tool:
 ```bash
 gh repo create my-management-cluster --private --confirm
 cd my-management-cluster
@@ -76,8 +72,6 @@ git push -u origin main
 Install Weave Gitops
 
 ```bash
-# Enable support for `ClusterResourceSet`s for automatically installing CNIs
-export EXP_CLUSTER_RESOURCE_SET=true
 gitops install --app-config-url https://github.com/my-org/my-repo
 ```
 
@@ -102,6 +96,11 @@ Contact sales@weave.works for a valid entitlements secret. Then apply it to the 
 
 ```bash
 kubectl apply -f entitlements.yaml
+```
+
+In addition, you will add your git repository token (in this example, GitHub) as a secret. This is used to update the configurations and manifests in the management repository.
+```bash
+kubectl create secret generic git-provider-credentials --namespace=wego-system --from-literal="GIT_PROVIDER_TOKEN=$GITHUB_TOKEN"
 ```
 
 ### 4. Upgrade
