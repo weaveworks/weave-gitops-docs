@@ -58,8 +58,10 @@ Fire up cluster
 kind create cluster --config kind-config.yaml
 ```
 
-Create a new repo
+Create a new repository. The repository will contain the configurations and manifests for the management cluster and the clusters that are created.
+Currently, GitHub and Gitlab are supported, and you will need a Personal Access Token from your git provider as a part of this installation.
 
+Here is an example using the GitHub `gh` command line tool:
 ```bash
 gh repo create my-management-cluster --private --confirm
 cd my-management-cluster
@@ -72,6 +74,8 @@ git push -u origin main
 Install Weave Gitops
 
 ```bash
+# Enable support for `ClusterResourceSet`s for automatically installing CNIs
+export EXP_CLUSTER_RESOURCE_SET=true
 gitops install --app-config-url https://github.com/my-org/my-repo
 ```
 
