@@ -4,7 +4,7 @@ module.exports = {
   title: "Weave GitOps",
   tagline: "Weave GitOps Documentation",
   url: "https://docs.gitops.weave.works/",
-  baseUrl: "/",
+  baseUrl: "/weave-gitops-docs/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon_150px.png",
