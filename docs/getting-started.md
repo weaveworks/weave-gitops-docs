@@ -124,7 +124,7 @@ Have a nice day! 👋
 ### 4 - Install Weave GitOps on the Kubernetes cluster
 
 ```console
-gitops install --app-config-url git@github.com:<username>/gitops-config
+gitops install --config-repo git@github.com:<username>/gitops-config
 ```
 
 Run the install command specifying the location of your configuration repository created in step 1.
