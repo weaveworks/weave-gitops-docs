@@ -20,7 +20,7 @@ To follow along with this guide you will need:
 ## Install the Weave GitOps CLI
 
 ```console
-curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.4.1/gitops-$(uname)-$(uname -m)" -o gitops
+curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.5.0/gitops-$(uname)-$(uname -m)" -o gitops
 chmod +x gitops
 sudo mv ./gitops /usr/local/bin/gitops
 gitops version
