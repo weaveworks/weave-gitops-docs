@@ -120,9 +120,12 @@ Have a nice day! 👋
 gitops install --app-config-url git@github.com:<username>/gitops-config
 ```
 
-Run the install command specifying the location of your configuration repository created in step 1.
+Run the install command specifying the location of your configuration repository created in step 1. In order to authorize Weave GitOps to push to this repository you can either:
+- Follow the prompts in your terminal to authenticate via https://github.com/login/device with the provided code
+- You can create a [personal access token](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with repo scope. Then set this through `export GITHUB_TOKEN=<your-token>` or persist by adding to your profile.
 
-The install will take roughly 2 minutes depending on your system.
+
+The install will take roughly 2 minutes depending on your system. 
 
 Once complete, you will see:
 
