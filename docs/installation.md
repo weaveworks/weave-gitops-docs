@@ -31,8 +31,8 @@ You should see:
 
 ```console
 Current Version: 0.5.0
-GitCommit: c0d130b40ff6996c409973aa69573aea5d0751ea
-BuildTime: 2021-11-03T20:02:35Z
+GitCommit: 0f31ce970e386908a50107ce00c89867e8c2e861
+BuildTime: 2021-12-02T22:55:42Z
 Branch: HEAD
 Flux Version: v0.21.0
 ```
