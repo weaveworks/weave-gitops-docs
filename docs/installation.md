@@ -30,7 +30,7 @@ gitops version
 You should see:
 
 ```console
-Current Version: 0.4.1
+Current Version: 0.5.0
 GitCommit: c0d130b40ff6996c409973aa69573aea5d0751ea
 BuildTime: 2021-11-03T20:02:35Z
 Branch: HEAD
