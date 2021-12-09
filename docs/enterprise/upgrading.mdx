@@ -72,7 +72,7 @@ git push -u origin main
 Install Weave Gitops
 
 ```bash
-gitops install --app-config-url https://github.com/my-org/my-repo
+gitops install --config-repo -url https://github.com/my-org/my-repo
 ```
 
 ### 2. Install a CAPI provider
@@ -100,10 +100,10 @@ kubectl apply -f entitlements.yaml
 
 ### 4. Upgrade
 
-Run the upgrade command specifying the same `--app-config-repo` used in install and the desired version of Weave GitOps Enterprise.
+Run the upgrade command specifying the same `--config-repo` used in install and the desired version of Weave GitOps Enterprise.
 
 ```bash
-gitops upgrade --app-config-url https://github.com/my-org/my-repo --version 0.0.16
+gitops upgrade --config-repo https://github.com/my-org/my-repo --version 0.0.16
 ```
 :::note
 You may need to add the `--base` flag to the above command to indicate your local branch name, if it is not set to `main`.
