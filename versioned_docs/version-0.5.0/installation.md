@@ -21,8 +21,9 @@ Weave GitOps currently supports SaaS versions of GitHub and GitLab (CLI only).
 To install the `Gitops` CLI, please follow the following steps:
 
 ```console
-curl --silent --location "https://github.com/weaveworks/weave-gitops/releases/download/v0.5.0/tmp
-sudo mv /tmp/gitops /usr/local/bin
+curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v0.5.0/gitops-$(uname)-$(uname -m).tar.gz" | tar -xz -C /tmp
+chmod +x /tmp/gitops
+sudo mv /tmp/gitops /usr/local/bin/gitops
 gitops version
 ```
 
@@ -31,6 +32,7 @@ Alternatively, macOS users can use Homebrew:
 ```console
 brew tap weaveworks/tap
 brew install weaveworks/tap/gitops
+gitops version
 ```
 
 You should see:
