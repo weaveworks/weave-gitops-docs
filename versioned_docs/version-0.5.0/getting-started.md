@@ -28,7 +28,7 @@ We will:
 
 You can also join our regular workshops where we go through these steps together and can help you along the way:
 
-- Next workshop: 9 Dec 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+- [Join our user group](https://www.meetup.com/Weave-User-Group/)
 
 ---
 
