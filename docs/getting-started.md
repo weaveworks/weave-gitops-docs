@@ -28,7 +28,7 @@ We will:
 
 You can also join our regular workshops where we go through these steps together and can help you along the way:
 
-- Next workshop: 9 Dec 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+- [Join our user group](https://www.meetup.com/Weave-User-Group/)
 
 ---
 
@@ -43,7 +43,7 @@ To follow along with this guide you will need:
 ## Install the Weave GitOps CLI
 
 ```console
-curl --silent --location "https://github.com/weaveworks/weave-gitops/releases/download/v0.4.1/gitops-$(uname)-$(uname -m).tar.gz" | tar xz -C /tmp
+curl --silent --location "https://github.com/weaveworks/weave-gitops/releases/download/v0.6.0/gitops-$(uname)-$(uname -m).tar.gz" | tar xz -C /tmp
 sudo mv /tmp/gitops /usr/local/bin
 gitops version
 ```
