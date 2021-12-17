@@ -9,7 +9,7 @@ Let's get an app deployed with **Weave GitOps**.
 *This is Work In Progress*
 
 Follow our workshops where we go through these steps!
-- Next workshop: 9 Dec 2021 - [Intro to Kubernetes & GitOps + Free GitOps Workshop](https://www.meetup.com/Weave-User-Group/)
+- [Join our user group](https://www.meetup.com/Weave-User-Group/)
 ## Overview
 
 In this short guide, we will see how to get a simple workload running in a cluster using GitOps, and then make a change to that deployment and see it updated automatically
