@@ -160,14 +160,14 @@ Pretty simple! Now, let's go back and look at that command in more detail:
 gitops add app \                                                 # (1)
    --url ssh://git@github.com/example/microservices-demo.git \   # (2)
    --path ./deploy/kubernetes/manifests \                        # (3)
-   --app-config-url ssh://git@github.com/example/external.git    # (4)
+   --config-repo ssh://git@github.com/example/external.git    # (4)
    --auto-merge                                                  # (5)`
 ```
 
 1. Add an application to a cluster under the control of Weave GitOps
 2. The application is defined in the GitHub repository at the specified URL
 3. Only the manifests at the specified path within the repository are part of the application
-4. Store the management manifests in a separate configuration repository within GitHub; the `app-config-url` parameter says where to store management manifests. The default location (if no `app-config-url` is specified) is to place them in the `.weave-gitops` directory within the application repository itself. An actual URL value causes them to be stored in the repository referenced by the URL
+4. Store the management manifests in a separate configuration repository within GitHub; the `config-repo` parameter says where to store management manifests. The default location (if no `config-repo` is specified) is to place them in the `.weave-gitops` directory within the application repository itself. An actual URL value causes them to be stored in the repository referenced by the URL
 5. Don't create a pull request for the management manifests; push them directly to the upstream repository
 
 ### Using Helm Charts
@@ -183,7 +183,7 @@ namespace/sock-shop created
 Then, we can run:
 
 ```console
-> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/helm-chart --app-config-url ssh://git@github.com/example/external.git --deployment-type helm --helm-release-target-namespace sock-shop --auto-merge
+> gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/helm-chart --config-repo ssh://git@github.com/example/external.git --deployment-type helm --helm-release-target-namespace sock-shop --auto-merge
 Adding application:
 
 Name: microservices-demo
@@ -209,7 +209,7 @@ gitops add app \
 --name microservices-demo
 --url ssh://git@github.com/example/microservices-demo.git \
 --path ./deploy/kubernetes/helm-chart \
---app-config-url ssh://git@github.com/example/external.git
+--config-repo ssh://git@github.com/example/external.git
 --deployment-type helm \                   # (1)
 --helm-release-target-namespace sock-shop  # (2)
 --auto-merge
@@ -222,7 +222,7 @@ You can check the status of the application by running the `gitops get app micro
 
 ### Single Repository Usage
 
-As we mentioned above, it's possible to have a single repository perform hold both the application and the configuration. If you place the application manifests in the configuration repository passed to `gitops install`, you can leave off the separate `--app-config-url` parameter. In this case, we would either have had to pass the `microservices-demo` URL to `gitops install` or copy the application manifests into the `external` repository. Let's proceed as if we had initialized the cluster with: `gitops install --app-config-url ssh://git@github.com/example/microservices-demo.git`.
+As we mentioned above, it's possible to have a single repository perform hold both the application and the configuration. If you place the application manifests in the configuration repository passed to `gitops install`, you can leave off the separate `--config-repo` parameter. In this case, we would either have had to pass the `microservices-demo` URL to `gitops install` or copy the application manifests into the `external` repository. Let's proceed as if we had initialized the cluster with: `gitops install --config-repo ssh://git@github.com/example/microservices-demo.git`.
 
 ```console
 > gitops add app --url ssh://git@github.com/example/microservices-demo.git --path ./deploy/kubernetes/manifests --auto-merge
