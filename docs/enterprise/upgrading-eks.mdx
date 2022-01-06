@@ -5,6 +5,13 @@ sidebar_position: 1
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import TierLabel from "../_components/TierLabel";
+import CodeBlock from "@theme/CodeBlock";
+import BrowserOnly from "@docusaurus/BrowserOnly";
+
+<h1>
+  {frontMatter.title} <TierLabel tiers="enterprise" />
+</h1>
 
 ## How to: Upgrade to Weave GitOps Enterprise
 
@@ -13,6 +20,7 @@ import TabItem from "@theme/TabItem";
 Make sure the following software is installed before continuing with these instructions:
 
 - `gitops` >= 0.5.0-rc2. Use `gitops version` to check the currently installed version. If needed, download a newer version of Weave GitOps from the [releases page](https://github.com/weaveworks/weave-gitops/releases).
+- `github cli` >= 2.3.0 [(source)](https://cli.github.com/)
 - `kubectl` [(source)](https://kubernetes.io/docs/tasks/tools/#kubectl) 
 - `eksctl` [(source)](https://github.com/weaveworks/eksctl/releases)
 - `aws cli` [(source)](https://aws.amazon.com/cli/)
@@ -94,7 +102,7 @@ git push -u origin main
 #### 1.5 Install Weave Gitops
 
 ```bash
-gitops install --config-repo https://github.com/my-org/my-repo
+gitops install --config-repo https://github.com/my-org/my-management-cluster
 ```
 
 ### 2. Apply the entitlements secret
@@ -147,4 +155,4 @@ clusterctl init --infrastructure aws
 
 _Connecting a cluster_ installs the agent which is responsible for detecting new clusters and reporting their status to the UI. We need to install the agent on our newly created management cluster. Check out [How to: Connect a cluster](../cluster-management/managing-existing-clusters.mdx#how-to-connect-a-cluster). The agent should be loaded onto our new management cluster, give it a name like **Management** and leave the Ingress URL blank.
 
-Head over to [Getting started](../cluster-management/getting-started.mdx) to create your first CAPI Cluster.
+Head over to [Getting started](../enterprise/deploying-capa.mdx) to create your first CAPI Cluster.
