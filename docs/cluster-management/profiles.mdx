@@ -39,6 +39,48 @@ version: 1.0.0
 
 The annotation value is not important and can be left blank i.e. `""`. Helm charts with the `weave.works/profile` annotation are called _Profiles_.
 
+Annotations can also be used to determine the order in which profiles will be installed. 
+
+```
+annotations:
+  weave.works/profile: observability-profile
+  weave.works/layer: layer-0
+```
+
+```
+annotations:
+  weave.works/profile: podinfo-profile
+  weave.works/layer: layer-1
+```
+
+The profiles will be sorted by their layer and those at a higher layer will only be installed after lower layers have successfully installed and started. 
+
+In this example, `observability-profile` will be installed prior to `podinfo-profile`. In the corresponding HelmReleases, the dependencies can be observed under the `dependsOn` field.
+
+```
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  labels:
+    weave.works/applied-layer: layer-0
+  name: cluster-name-observability
+  namespace: wego-system
+...
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  labels:
+    weave.works/applied-layer: layer-1
+  name: cluster-name-podinfo
+  namespace: wego-system
+spec:
+...
+  dependsOn:
+  - name: cluster-name-observability
+...
+```
+
 ### 2. Select which profiles you want installed when creating a cluster
 
 Currenly WGE inspects the current namespace that it is deployed in (in the management cluster) for a `HelmRepository` object named `weaveworks-charts`. This Kubernetes object should be pointing to a Helm chart repository that includes the profiles that are available for installation.
