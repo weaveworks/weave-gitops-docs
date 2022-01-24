@@ -53,7 +53,7 @@ annotations:
   weave.works/layer: layer-1
 ```
 
-The profiles will be sorted by their layer and those at a higher layer will only be installed after lower layers have successfully installed and started. 
+The profiles will be sorted lexicographically by their layer and those at a higher layer will only be installed after lower layers have been successfully installed and started. 
 
 In this example, `observability-profile` will be installed prior to `podinfo-profile`. In the corresponding HelmReleases, the dependencies can be observed under the `dependsOn` field.
 
