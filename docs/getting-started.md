@@ -201,6 +201,7 @@ Click **add application** in the top right of the screen to bring up the followi
 Next fill out the form with the required values:
 
 - Name: **podinfo-deploy**
+  - The name must be unique within the config repo, up to 63 lowercase alphanumeric and "-" characters, and start and end with an alphanumeric character. This follows the [Kubernetes DNS label names](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names) restrictions.
 - Kubernetes Namespace: **wego-system**
   - **Leave as default**, this is where the GitOps Automation objects for the application will be deployed.
 - Source Repo URL: (**\*git@github.com:\<username\>/podinfo-deploy**)
