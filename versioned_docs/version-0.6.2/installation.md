@@ -26,14 +26,6 @@ sudo mv /tmp/gitops /usr/local/bin
 gitops version
 ```
 
-Alternatively, macOS users can use Homebrew to install the latest version:
-
-```console
-brew tap weaveworks/tap
-brew install weaveworks/tap/gitops
-gitops version
-```
-
 You should see:
 
 ```console

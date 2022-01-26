@@ -48,13 +48,6 @@ sudo mv /tmp/gitops /usr/local/bin
 gitops version
 ```
 
-Alternatively, macOS users can use Homebrew:
-
-```console
-brew tap weaveworks/tap
-brew install weaveworks/tap/gitops
-```
-
 For complete installation instructions and general pre-requisites, see the [Installation page](installation.md).
 
 ## Create your GitHub Repositories
