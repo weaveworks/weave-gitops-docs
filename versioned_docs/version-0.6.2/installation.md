@@ -21,7 +21,7 @@ Weave GitOps currently supports SaaS versions of GitHub and GitLab.
 To install the `Gitops` CLI, please follow the following steps:
 
 ```console
-curl --silent --location "https://github.com/weaveworks/weave-gitops/releases/download/v0.6.2/tmp
+curl --silent --location "https://github.com/weaveworks/weave-gitops/releases/download/v0.6.2/gitops-$(uname)-$(uname -m).tar.gz" | tar xz -C /tmp
 sudo mv /tmp/gitops /usr/local/bin
 gitops version
 ```
