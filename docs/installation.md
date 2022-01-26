@@ -1,6 +1,6 @@
 ---
 title: Installation
-sidebar_position: 1
+sidebar_position: 10
 hide_title: true
 ---
 

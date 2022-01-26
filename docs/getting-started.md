@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-sidebar_position: 2
+sidebar_position: 20
 hide_title: true
 ---
 
