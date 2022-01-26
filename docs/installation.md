@@ -29,7 +29,7 @@ gitops version
 You should see:
 
 ```console
-Current Version: v0.6.1-rc1-2-gcf7b11b8
+Current Version: v0.6.2
 GitCommit: cf7b11b8
 BuildTime: 2022-01-20_20:15:15
 Branch: HEAD
