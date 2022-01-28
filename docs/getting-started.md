@@ -197,11 +197,10 @@ Next fill out the form with the required values:
   - The name must be unique within the config repo, up to 63 lowercase alphanumeric and "-" characters, and start and end with an alphanumeric character. This follows the [Kubernetes DNS label names](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names) restrictions.
 - Kubernetes Namespace: **wego-system**
   - **Leave as default**, this is where the GitOps Automation objects for the application will be deployed.
-- Source Repo URL: (**git@github.com:\<username\>/podinfo-deploy**)
-  - URL references can be in either the HTTPS `https://github.com/sympatheticmoose/podinfo-deploy` or SSH `git@github.com:sympatheticmoose/podinfo-deploy` format.
-- Config Repo URL: (**git@github.com:\<username\>/gitops-config**)
-  - Specify the same configuration repository from steps 1 and 4 (install).
-- Path: **./**
+- Source Repo URL: (**`git@github.com:<username>/podinfo-deploy.git`**)
+  - URL references can be in either the HTTPS `https://github.com/<org or user>/podinfo-deploy` or SSH `git@github.com:<org or user>/podinfo-deploy.git` format.
+- Config Repo URL: (**`git@github.com:<username>/gitops-config.git`**)
+  - Specify the same configuration repository from steps 1 and 4 (install).- Path: **./**
   - **Leave as default**, this allows you to specify a particular folder with a repository, should the repo contain more than a single application's deployment manifests.
 - Branch: (**should not require changing**)
 
