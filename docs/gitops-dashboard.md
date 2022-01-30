@@ -49,8 +49,8 @@ After enabling the feature, `gitops ui run` will require the following additiona
 | Parameter                     | Type | Description                                                           | Default   |
 | ----------------------------- | - |--------------------------------------------------------------------- | --------- |
 | `--oidc-issuer-url`           | string | The URL of the issuer, typically the discovery URL without a path     |           |
-| `--oidc-issuer-client-id`     | string | The client ID that has been setup for Weave GitOps in the issuer      |           |
-| `--oidc-issuer-client-secret` | string | The client secret that has been setup for Weave GitOps in the issuer  |           |
+| `--oidc-client-id`     | string | The client ID that has been setup for Weave GitOps in the issuer      |           |
+| `--oidc-client-secret` | string | The client secret that has been setup for Weave GitOps in the issuer  |           |
 | `--oidc-redirect-url`         | string | The redirect URL that has been setup for Weave GitOps in the issuer, typically the dashboard URL followed by `/oauth2/callback ` |         |
 | `--oidc-cookie-duration`      | duration | The time duration that the ID Token HTTP cookie will remain valid, after successful authentication | "1h0m0s" |
 
